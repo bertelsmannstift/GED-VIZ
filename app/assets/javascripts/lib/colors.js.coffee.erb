@@ -1,0 +1,5 @@
+define ->
+  'use strict'
+  Colors = <%= YAML.load_file(File.join(Rails.root, 'config/colors.yml')).to_json %>
+  Object.freeze? Colors
+  Colors

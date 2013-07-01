@@ -1,0 +1,11 @@
+%h2= @t 'editor', 'relations'
+%ul
+  - for key, data_type of @TypeData.data_types
+    - for unit in data_type.units
+      %li
+        %input{ type: 'radio', name: "data-type-with-unit", id: "radio-data-#{data_type.key}-#{unit.key}", data: { type: data_type.key, unit: unit.key } }
+        %label{ for: "radio-data-#{data_type.key}-#{unit.key}" }
+          = @t('data_type', data_type.key)
+
+%p.unit
+  -# Filled by JavaScript

@@ -1,0 +1,63 @@
+.bubble
+  position: absolute
+  z-index: 400
+  display: none
+  padding: 6px
+  border-radius: 3px
+  +bg-gradient(lighten($bubble-background-color, 5%), $bubble-background-color)
+  color: white
+  font-size: 14px
+  line-height: 1.2
+  font-weight: 300
+
+  .text
+    text-shadow: 1px 1px 1px #777
+
+.bubble-arrow
+  position: absolute
+  z-index: 400
+  display: none
+  overflow: hidden
+
+  svg
+    display: block
+
+.bubble .close
+  float: right
+  margin-left: 4px
+  margin-top: -3px
+  font-size: 14px
+  color: #6992a2
+  text-decoration:  none
+  cursor: pointer
+
+// Custom styles
+
+.bubble-capture
+  margin-right: 10px
+
+.bubble-sharing
+  width: 140px
+
+.bubble-group
+  width: 150px
+
+.bubble-invisible
+  width: 150px
+
+.bubble-indicator
+  width: 150px
+
+  .bubble-acronym
+    display: block
+    font-weight: 600
+
+  .bubble-description, .bubble-unit
+    display: block
+    font-size: 80%
+
+.bubble-country-select
+  width: 120px
+
+.bubble-year-list
+  width: 200px

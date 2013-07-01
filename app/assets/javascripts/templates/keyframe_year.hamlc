@@ -1,0 +1,16 @@
+%hgroup
+  %h2= @t 'year_list', 'year'
+  %h3= @t 'data_type', @data_type_with_unit[0]
+
+.nav
+  %a.prev(href='')
+  %a.next(href='')
+
+%ul
+  - for year, value of @yearlyTotals
+    %li{ class: (if year is @year then 'current' else ''), data: { year: year } }
+      .arrow
+      .fullbar
+        .bar(style="height: #{@heights[year]}%")
+      .year
+        = year

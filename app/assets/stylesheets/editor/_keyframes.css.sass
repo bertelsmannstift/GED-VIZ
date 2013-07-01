@@ -1,0 +1,139 @@
+// The keyframe list on the right side
+.editor .keyframes
+  margin-bottom: 20px
+  min-height: 100px
+  background-color: white
+
+  a
+    text-decoration: none
+
+  h2
+    @extend %heading
+    border-bottom: 1px solid #b2b2b2
+    height: 24px
+
+  .capture
+    @extend %blue-button
+    position: absolute
+    top: -3px
+    right: 0
+    +svg-bg-with-fallback('capture')
+    +background-size(16px)
+    background-repeat: no-repeat
+    background-position: 5px
+    padding-left: 26px
+    padding-right: 6px
+
+  ul
+    width: 100%
+    max-height: 400px
+    // Start outside of the column for the arrow marker
+    position: relative
+    left: -15px
+    // Reserve padding for the arrow
+    padding-left: 15px
+    // This will trigger overflow-x: auto
+    // http://dev.w3.org/csswg/css3-box/#overflow
+    // “some combinations with ‘visible’ are not possible:
+    // if one is specified as ‘visible’ and the other is
+    // ‘scroll’ or ‘auto’, then ‘visible’ is set to ‘auto’.”
+    overflow-y: auto
+
+  li
+    position: relative
+    padding: 7px 0 0 10px
+    height: 42px
+    color: #808080
+    border-bottom: 1px solid #b2b2b2
+    background-color: white
+    font-size: 12px
+    cursor: pointer
+
+    &:before
+      content: ''
+      display: none
+      position: absolute
+      top: -1px
+      left: 0
+      width: 100%
+      height: 1px
+      background-color: black
+      z-index: 210
+
+    &:hover, &:focus, &.active
+      color: #333
+      border-bottom-color: #333
+
+      &:before
+        display: block
+
+  .new
+    cursor: auto
+
+  .current
+    background-color: #f2f2f2
+
+  // Number
+  .index
+    position: absolute
+    top: 5px
+    right: 5px
+    font-weight: 300
+    font-size: 20px
+    color: #d4d4d4
+
+  li:hover .index
+    color: #808080
+
+  // Editable title (input field)
+  .title
+    display: block
+    margin: 0 0 0 -3px
+    border: 1px solid transparent
+    padding: 0 2px
+    width: 115px
+    background-color: transparent
+    font-family: inherit
+    font-size: 14px
+    line-height: 1.2
+    font-weight: 300
+    color: inherit
+
+    &:hover, &:focus
+      background-color: white
+
+    &:hover
+      border-color: white
+
+    &:focus
+      outline: none
+      border-color: black
+
+  .new .title
+    border: 1px dotted #d6d6d6
+
+  // Subtitle
+  .subtitle
+    margin-top: 2px
+
+  // Remove button
+  .remove
+    position: absolute
+    right: 5px
+    bottom: 5px
+    color: #808080
+    font-size: 18px
+
+    &:hover
+      color: black
+
+    span
+      @extend %off-left
+
+  // Container for the SVG arrow
+  .arrow
+    position: absolute
+    top: 0
+    left: -15px
+    svg
+      display: block

@@ -1,0 +1,4 @@
+%a(href='')
+  = @title or @t('country_names', @iso3)
+  .number
+    = @countries.length

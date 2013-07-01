@@ -1,0 +1,14 @@
+%h2= @t 'editor', 'countries'
+
+%ul.countries-controls
+
+  %li.country-context-container
+
+  -# As opposed to .sort-countries-container in the Country Picker
+  %li.sort-used-countries
+
+  %li
+    %a.add-countries-button(href='')= @t 'editor', 'add_countries'
+    .country-picker-container
+
+.used-countries-container

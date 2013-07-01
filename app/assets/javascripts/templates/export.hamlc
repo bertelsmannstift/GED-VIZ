@@ -1,0 +1,53 @@
+%form.window.export-form(method='GET' action='/presentations/#{@id}/export')
+
+  %h2= @t 'export_dialog', 'title'
+
+  %a.close{ href: '', title: @t('editor', 'close_dialog') }
+    &times;
+
+  %section.keyframes
+    %h3= @t 'export_dialog', 'keyframes'
+    .radiobuttons
+      %label
+        %input(type='radio' name='subset' value='all' checked='checked' class='subset')
+        = @t 'export_dialog', 'all_keyframes'
+      %label
+        %input(type='radio' name='subset' value='some' class='subset')
+        = @t 'export_dialog', 'specific_keyframes'
+        .description= @t 'export_dialog', 'select_keyframes'
+    .keyframe-select
+      - keyframes = @keyframes
+      - createKeyframeEntry = (keyframe, index) ->
+        %label
+          %input(type='checkbox' name='keyframes[]' disabled='disabled' value=index)
+          = @t 'export_dialog', 'keyframe'
+          #{index + 1}: #{keyframe.title}
+      .left-col
+        - for keyframe, index in keyframes when index <= keyframes.length / 2
+          = createKeyframeEntry.call this, keyframe, index
+      .right-col
+        - for keyframe, index in keyframes when index > keyframes.length / 2
+          = createKeyframeEntry.call this, keyframe, index
+    .options
+      %label
+        %input(type='checkbox' name='show_titles' checked='checked' value='1')
+        = @t 'export_dialog', 'show_titles'
+      %label
+        %input(type='checkbox' name='show_legend' checked='checked' value='1')
+        = @t 'export_dialog', 'show_legend'
+
+  %section.format
+    %h3= @t 'export_dialog', 'file_format'
+    .radiobuttons
+      %label
+        %input(type='radio' name='file_format' value='image' checked='checked')
+        \.png
+        .description= @t 'export_dialog', 'png_description'
+      %label
+        %input(type='radio' name='file_format' value='csv')
+        \.csv
+        .description= @t 'export_dialog', 'csv_description'
+
+  %p
+    %input(type='hidden' name='lang' value=@locale)
+    %a.button.download-button.right(href='')= @t 'export_dialog', 'download'

@@ -1,0 +1,24 @@
+Global z-indices (z-index)
+--------------------------
+
+1-100
+Relative to local stacking context
+Typically only 1-3 are necessary
+
+100-199
+Chart
+Chart indicators
+Legend
+
+200-299
+Editor and Player controls
+200 Editor bottom bar
+200 Player tooltips
+201 Editor bottom right bar
+202 Editor dropdown menus
+
+300-399
+Modal dialogs
+
+400-499
+Notification and rollover bubbles

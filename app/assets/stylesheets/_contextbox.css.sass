@@ -1,0 +1,32 @@
+.contextbox
+  display: none
+  position: absolute
+  top: 5px
+  right: 5px
+  border-radius: 4px
+  padding: 6px
+  width: 200px
+  background-color: #f2f2f2
+  font-size: 12px
+  line-height: 1.2
+  font-weight: 300
+  color: gray
+
+  &.visible
+    display: block
+
+    // Stay hidden when viewport is too small
+    @media screen and (max-width: 300px)
+      display: none
+
+  ul
+    list-style: circle
+    margin-left: 20px
+
+  // In editor, the contextbox is not inside the chart container.
+  // Move to the right so it doesn’t overlap with keyframe list.
+  .editor &
+    right: 205px
+
+    @media screen and (max-width: 1024px)
+      right: 195px

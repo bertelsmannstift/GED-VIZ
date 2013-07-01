@@ -1,0 +1,2 @@
+.index= @index
+%input.title{ type: 'text', placeholder: @t('editor', 'untitled_keyframe') }

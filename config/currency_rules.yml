@@ -1,0 +1,66 @@
+info:
+  default: usd
+  alternatives:
+    - eur
+
+display:
+  usd:
+    - bln_real_dollars
+    - bln_current_dollars
+    - mln_current_dollars
+    - real_dollars_per_capita
+  eur:
+    - bln_real_euros
+    - bln_current_euros
+    - mln_current_euros
+    - real_euros_per_capita
+  always:
+    - percent_of_gdp
+    - percent
+    - tsd_persons
+    - mln_persons
+
+conversions:
+  - rule:
+    from:
+      - bln_real_dollars
+      - real_dollars_per_capita
+    to:
+      - bln_real_euros
+      - real_euros_per_capita
+    years:
+      2000: 0.8038
+      2001: 0.8038
+      2002: 0.8038
+      2003: 0.8038
+      2004: 0.8038
+      2005: 0.8038
+      2006: 0.8038
+      2007: 0.8038
+      2008: 0.8038
+      2009: 0.8038
+      2010: 0.8038
+      2011: 0.8038
+      2012: 0.8038
+
+  - rule:
+    from:
+      - bln_current_dollars
+      - mln_current_dollars
+    to:
+      - bln_current_euros
+      - mln_current_euros
+    years:
+      2000: 1.0827
+      2001: 1.1165
+      2002: 1.0576
+      2003: 0.8840
+      2004: 0.8039
+      2005: 0.8038
+      2006: 0.7964
+      2007: 0.7297
+      2008: 0.6799
+      2009: 0.7170
+      2010: 0.7543
+      2011: 0.7184
+      #2012: 0.778488

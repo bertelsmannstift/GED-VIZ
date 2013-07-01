@@ -1,0 +1,9 @@
+%hgroup
+  %h2= @t 'currency_select', 'currency'
+
+%ul
+  - for key, currency of @currencies
+    %li{ class: (if @currency is currency then 'active' else ''), data: { currency: currency } }
+      %label
+        %input{ type: 'radio', name: 'currency', value: currency, checked: @currency is currency }
+        = @t 'currency_select', 'currencies', currency

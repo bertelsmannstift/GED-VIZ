@@ -1,0 +1,2 @@
+%p.fallback= @t 'editor', 'no_countries_available'
+%ul

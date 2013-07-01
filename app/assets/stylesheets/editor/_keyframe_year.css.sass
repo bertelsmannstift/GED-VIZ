@@ -1,0 +1,79 @@
+// Year selection bar on the bottom
+.keyframe-year
+  @extend %editor-bottom-bar
+  left: 170px
+  right: 0
+
+  @media screen and (max-height: 1024px)
+    left: 150px
+
+  hgroup
+    float: left
+    padding-right: 45px
+
+    @media screen and (max-height: 1024px)
+      padding-right: 25px
+
+  .nav
+    float: left
+    padding: 10px 5px 0 5px
+    a
+      display: inline-block
+      padding: 4px
+      &:hover
+        background-color: #999
+      &.disabled
+        opacity: 0.5
+        cursor: not-allowed
+      &.disabled:hover
+        background-color: inherit
+
+  ul
+    float: left
+
+  li
+    position: relative
+    float: left
+    width: 30px
+    height: 50px
+    padding: 0 5px
+    color: black
+    cursor: pointer
+
+    @media screen and (max-height: 768px)
+      height: 45px
+
+    &.current
+      background-color: #2e2e2e
+      .bar
+        background-color: white
+      .year
+        color: white
+
+  .arrow
+    position: absolute
+    top: -10px
+    left: 0
+
+    svg
+      display: block
+
+  .fullbar
+    position: absolute
+    left: 5px
+    right: 5px
+    top: 5px
+    bottom: 20px
+
+  .bar
+    position: absolute
+    bottom: 0
+    width: 100%
+    background-color: #ababab
+
+  .year
+    position: absolute
+    left: 0
+    bottom: 3px
+    width: 100%
+    text-align: center

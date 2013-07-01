@@ -1,0 +1,5 @@
+.bubble-arrow
+.bubble
+  - if @type is 'notification'
+    %a.close(href='') &times;
+  %p.text!= @text

@@ -1,0 +1,7 @@
+%h2= @t 'editor', 'keyframes_title'
+
+%a.capture(href='')= @t 'editor', 'capture_keyframe'
+
+%ul
+
+.arrow

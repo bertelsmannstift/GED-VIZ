@@ -1,0 +1,124 @@
+%a.info-button(href='' title='Info')
+%a.close-button(href='')
+%a.toggle-button.closed(href='')= @t 'legend', 'toggle_open'
+
+- if @staticChart
+  %h2.ged-logo
+    != @t 'legend', 'generator'
+
+- [type, unit] = @data_type_with_unit
+
+- describeIndicator = (indicator) ->
+  %p
+    - twu = indicator.twu
+    - [typeKey, unitKey] = twu
+    %strong>= @t 'indicators', typeKey, 'short'
+    :
+    #{@t 'indicators', typeKey, 'full'}, in #{@t 'units', unitKey, 'full'}
+  %p
+    = @t 'legend', 'maximum_size'
+    != indicator.maxValue
+
+- describeIndicators = (indicators) ->
+  %ul.indicator-descriptions
+    - for indicator in indicators
+      %li= describeIndicator.call this, indicator
+
+.content
+
+  .sources
+    %h3= @t 'legend', 'sources'
+
+    .short
+      = @allSources.join ', '
+
+    .long
+      %ul
+        -# Data source
+        %li
+          = @t('data_type', type) + ':'
+          %a.source{ href: @dataSource.url, target: '_blank' }
+            = @dataSource.name
+
+        -# Indicator sources
+        - for source in @indicatorSources
+          %li
+            = source.indicators.join(', ') + ':'
+            %a.source{ href: source.url, target: '_blank' }
+              = source.name
+
+        - if @currency is 'eur'
+          %li
+            = @t('legend', 'exchange_rate') + ':'
+            %a.source{ href: @exchangeRateSource.url, target: '_blank' }
+              = @exchangeRateSource.name
+
+  .explanations
+    %h3= @t 'legend', 'legend'
+
+    .short
+      %p
+        %span.outgoing-label= @t 'flow', type, 'outgoing'
+        %span.magnet-outgoing-part(style="background-color: #{@magnetOutgoingColor}")
+        %span.relation-arrow
+        %span.magnet-incoming-part(style="background-color: #{@magnetIncomingColor}")
+        %span.incoming-label= @t 'flow', type, 'incoming'
+      %p
+        %span.source= @year
+        in
+        = @t('units', unit, 'full')
+
+    %table.long
+
+      -# Magnet bars
+      %tr
+        %td.icon
+          .magnet-outgoing-part(style="background-color: #{@magnetOutgoingColor}")
+          .magnet-incoming-part(style="background-color: #{@magnetIncomingColor}")
+        %td
+          = @template ['legend', 'data', type, 'short'], year: @year, unit: @t('units', unit, 'full')
+          = @t 'legend', 'data', type, 'long'
+
+      -# Relations splines
+      %tr
+        %td.icon
+          %span.relation-arrow
+        %td
+          = @template ['legend', 'data', type, 'flow'], unit: @t('units', unit, 'full')
+
+      -# Indicator visualization
+      - if @indicators.absolute
+        %tr
+          %td.icon
+            %img(src='/assets/legend-indicator-absolute.png' width='20' height='20' alt='')
+          %td
+            %p= @t 'legend', 'indicator-icon', 'absolute'
+            = describeIndicators.call this, @indicators.absolute
+
+      - if @indicators.percent
+        %tr
+          %td.icon
+            %img(src='/assets/legend-indicator-percent.png' width='20' height='20' alt='')
+          %td
+            %p= @t 'legend', 'indicator-icon', 'percent'
+            = describeIndicators.call this, @indicators.percent
+
+      - if @indicators.ranking
+        %tr
+          %td.icon
+            %img(src='/assets/legend-indicator-ranking.png' width='20' height='20' alt='')
+          %td= @t 'legend', 'indicator-icon', 'ranking'
+
+      -# Indicator tendency arrows
+      - if @indicator_types_with_unit.length > 0
+        %tr
+          %td.icon
+            %img(src='/assets/legend-indicator-tendency.png' width='10' height='10' alt='')
+          %td= @t 'legend', 'tendency'
+
+      -# Currency conversion USD -> EUR
+      - if @currency is 'eur'
+        %tr
+          %td.icon €
+          %td
+            != @template ['legend', 'eur_currency'], year: @year, usd_in_eur_current: @usd_in_eur_current, usd_in_eur_constant: @usd_in_eur_constant

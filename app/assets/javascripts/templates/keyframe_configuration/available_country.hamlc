@@ -1,0 +1,4 @@
+%a(href='')
+  %strong= @title or @t('country_names', @iso3)
+  –
+  = @iso3.toUpperCase()

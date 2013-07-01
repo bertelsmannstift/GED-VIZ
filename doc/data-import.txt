@@ -1,0 +1,108 @@
+Database setup
+--------------
+
+There are three models for the available types and units:
+
+- Data types (bilateral relations)
+- Indicator types (unilateral data)
+- Units
+
+These models correspond to the database tables data_types, indicator_types and
+units.
+
+A type has many units. For example, the data type “claims” has the unit
+“bln_current_dollars”. There are additional cross-reference tables for the
+has-many relationship between types and units.
+
+The values are stored in two tables:
+
+- Data values (data_values)
+- Indicator values (indicator_values)
+
+They basically have the columns data_type_id/indicator_type, unit_id and value.
+So each data point has a specific relation/indicator type, a unit and a value.
+
+Adding/removing countries
+-------------------------
+
+The countries and the country group membership are stored in the Ruby file
+app/importers/country_importer.rb. There is a inline CSV file with all country
+codes and group membership.
+
+New countries need to be added to this file before import.
+
+Adding/removing data types and units
+------------------------------------
+
+The data types (relation types) are stored in the Ruby file
+app/importers/data_type_importer.rb. There are hashes which translate the
+identifiers used in Prognos CSV file to internal keys. For example, “Inflows
+of foreign population by nationality” becomes “migration”.
+
+New data types and units need to be added to this file before import.
+
+Adding/removing indicator types and units
+-----------------------------------------
+
+The indicator types and units are stored in the Ruby file
+app/importers/indicator_type_importer.rb. There is a inline CSV file with all
+known indicator types and their units. This also contains formulas for
+calculating derived values.
+
+New indicator types and units need to be added to this file before import.
+
+Importers
+---------
+
+There are two Ruby classes that read CSV files from Prognos and create database
+records:
+
+app/importers/data_value_importer.rb
+app/importers/indicator_value_importer.rb
+
+Both contain the filename of the Prognos source CSV. The source CSV files are
+located in ./import/. Change these filenames to import new files.
+
+Import data/indicator values
+----------------------------
+
+The database seed (db/seeds.rb) creates all countries, type and units in the
+database and starts importing the values.
+
+This can be started from the command line:
+
+$ RAILS_ENV=staging rake db:seed
+
+Use RAILS_ENV=production for the production environment. Omit the RAILS_ENV=
+part for the default development environment (e.g. on a developer machine).
+
+To call individual importer methods, use the Rails console. For example:
+
+$ RAILS_ENV=staging rails console
+Loading development environment (Rails 3.2.12)
+irb(main):001:0> IndicatorValueImporter.new.import
+
+This will just re-import and calculate all indicator values and their
+tendencies.
+
+irb(main):001:0> DataValueImporter.new.import
+
+This will re-import all relation values.
+
+Country, type and unit names
+----------------------------
+
+To identify the countries, type and units, MySQL uses their database IDs. The
+names stores in the importers aren’t used eventually.
+
+All names in the user interface come from the locale files
+(config/locales/gedviz_*.yml). These strings are retreived by the country/type/unit
+key. Examples:
+
+- Country key (ISO): “aus” for Australia
+- Data type key: “claims” for Bank claims
+- Indicator type key: “gdp” for Gross Domestic Product
+- Unit key: “bln_current_dollars” for Billion US Dollars
+
+Apart from the database foreign keys, the keys instead of the IDs are used to
+identify countries, types and units.

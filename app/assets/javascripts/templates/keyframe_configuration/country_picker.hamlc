@@ -1,0 +1,24 @@
+.query-part
+
+  %p.search
+    %input.search-field{ type: 'text', placeholder: @t('editor', 'search_countries') }
+
+  .available-country-groups-container
+
+.result-part
+
+  -# As opposed to .sort-used-countries for the used countries
+  .sort-countries-container
+
+  .available-countries-container
+
+  %ul.actions
+    %li
+      %a.action.add-all-countries(href='')
+        = @t 'editor', 'add_all_countries'
+    %li
+      %a.action.add-as-group(href='')
+        != @t 'editor', 'add_as_group'
+    %li
+      %a.action.add-remaining-as-group(href='')
+        = @t 'editor', 'add_remaining_as_group'

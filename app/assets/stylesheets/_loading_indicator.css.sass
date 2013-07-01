@@ -1,0 +1,21 @@
++keyframes(pulsate)
+  from
+    background-color: #f2f2f2
+  to
+    background-color: #dadada
+
+.loading-indicator
+  position: absolute
+  display: none
+  top: 5px
+  left: 5px
+  border-radius: 4px
+  padding: 6px 10px
+  background-color: #f2f2f2
+  font-size: 12px
+  line-height: 1.2
+  font-weight: 300
+  color: black
+  +animation(pulsate 1s linear 0s infinite alternate)
+  //+single-transition(opacity, 1s)
+

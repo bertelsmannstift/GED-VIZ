@@ -1,0 +1,22 @@
+.indicator{ data: { type: @type } }
+  %a.remove{ href: '', title: @t('editor', 'remove_indicator') } &times;
+
+  %span.abbreviation-and-description
+    %span.abbreviation
+      = @t 'indicators', @type, 'short'
+    %span.description
+      \-
+      = @t 'indicators', @type, 'full'
+
+  - if @units.length > 1
+    %a.unit-label.unit-selector(href='')
+      = @t 'units', @unit, 'short'
+  - else
+    %a.unit-label.only-unit
+      = @t 'units', @unit, 'short'
+
+  %ul.unit-selector-menu
+    - for unit in @units
+      %li.unit{ data: { unit-key: unit.key }}
+        %a.unit
+          = @t 'units', unit.key, 'full'

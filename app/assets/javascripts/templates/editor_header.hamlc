@@ -1,0 +1,28 @@
+%h1(title='Global Economic Dynamics (GED) Visualizer')
+  Global Economic Dynamics (GED) Visualizer
+
+%h2(title='Bertelsmann Stiftung')
+  Bertelsmann Stiftung
+
+%nav
+
+  %ul.navigation
+    - for item in @items
+      %li{ class: (if item.selected then 'selected' else false) }
+        - href = @t('navigation', item.key, 'href') or false
+        %a{ href: href, class: (if item.prefix then 'prefixed' else null) }
+          - if item.prefix
+            %span.prefix GED
+          %span.main= @t 'navigation', item.key, 'name'
+
+  %ul.language-switch
+    - for locale in @locales
+      %li<
+        - if locale is @locale
+          %strong= locale
+        - else
+          %a{ href: "?lang=#{locale}", title: @t('language_name'), class: 'noscript' }<
+            = locale
+
+  %p.open-introduction{ title: @t('introduction_dialog', 'introduction') }
+    %a(href='') ?

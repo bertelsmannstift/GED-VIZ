@@ -1,0 +1,2 @@
+%span.country{ data: { iso3: @iso3 }}>= @title or @t('country_names', @iso3)
+%span.remove &times;

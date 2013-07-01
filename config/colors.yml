@@ -1,0 +1,25 @@
+white: '#fff'
+black: '#000'
+
+#green: "#37573a"
+red: "#730a12"
+
+gray: "#999"
+lightGray: "#ccc"
+backgroundGray: "#828385"
+
+lightBlue: "#12859c"
+
+magnets:
+  claims:
+    # Green
+    #outgoing: "#0b4d21"
+    #incoming: "#29a653"
+    outgoing: "#592626"
+    incoming: "#CD857E"
+  import:
+    outgoing: "#0966ad"
+    incoming: "#67afe5"
+  migration:
+    outgoing: "#6b4b21"
+    incoming: "#cca047"

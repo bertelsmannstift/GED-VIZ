@@ -1,0 +1,15 @@
+<%# encoding: utf-8 %>
+define 'translations', ->
+  'use strict'
+  <%
+    # This is necessary so the translation files are loaded
+    I18n.t('trade')
+    locales = I18n.backend.send(:translations)
+    translations = {}
+    locales.each do |locale, all|
+      translations[locale] = all[:gedviz]
+    end
+  %>
+  translations = <%= translations.to_json %>
+  Object.freeze? translations
+  translations

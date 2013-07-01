@@ -1,0 +1,29 @@
+development:
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  database: gedviz
+  pool: 5
+  username: ENTER_USERNAME_HERE
+  password: ENTER_PASSWORD_HERE
+  host: localhost
+
+production:
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  database: gedviz
+  pool: 5
+  username: ENTER_USERNAME_HERE
+  password: ENTER_PASSWORD_HERE
+  host: localhost
+
+staging:
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  database: gedviz
+  pool: 5
+  username: ENTER_USERNAME_HERE
+  password: ENTER_PASSWORD_HERE
+  host: localhost

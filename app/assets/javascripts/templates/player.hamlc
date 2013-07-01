@@ -1,0 +1,62 @@
+.header
+  .title
+  .relation
+  .unit
+
+.chart
+
+.footer
+
+  .footer-left
+
+    %a.nav-play(href='')= @t 'player', 'play'
+
+    %a.nav-left(href='')
+      &#x02039;
+      .tooltip
+        %table.nav
+          %tr
+            %td.destination= @t 'player', 'previous_keyframe'
+            %td.thumbnail
+              %img(alt='')
+            %td
+              %span.maintitle Placeholder
+              %span.subtitle Placeholder
+
+    %a.nav-right(href='')
+      &#x0203A;
+      .tooltip
+        %table.nav
+          %tr
+            %td.destination= @t 'player', 'next_keyframe'
+            %td.thumbnail
+              %img(alt='')
+            %td
+              %span.maintitle Placeholder
+              %span.subtitle Placeholder
+
+    .keyframe-number
+      %span.current-index
+      \/
+      %span.num-keyframes
+
+    .dots
+      .tooltip
+        %table.nav
+          %tr
+            %td.thumbnail
+              %img
+            %td.frametitle
+              %span.maintitle Placeholder
+              %span.subtitle Placeholder
+    .title
+
+  .footer-right
+
+    %a.logo(href=@editorUrl target='_blank')
+      .logo-fallback GED Viz
+      .tooltip= @t 'player', 'visit_ged_viz'
+
+    .fullscreen
+      %a.toggle-fullscreen(href='')
+        .tooltip= @t 'player', 'fullscreen'

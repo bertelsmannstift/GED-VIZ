@@ -1,0 +1,21 @@
+%h2= @t 'editor', 'country_indicators'
+
+%a.add-indicator{ href: '', title: @t('editor', 'add_indicator') }
+  %span= @t 'editor', 'add_indicator'
+
+.add-indicator-menu
+  - indicatorItem = (indicator) ->
+    %li.type{ data: { type: indicator.key } }
+      %a{ href: '', data: { type: indicator.key } }
+        = @t 'indicators', indicator.key, 'full'
+
+  %ul
+    - for group, indicators of @indicator_type_groups
+      - if indicators.length is 1
+        = indicatorItem.call(this, indicators[0])
+      - else
+        %li.group
+          %a(href='')= @t 'indicator_groups', group
+          %ul
+            - for indicator in indicators
+              = indicatorItem.call(this, indicator)

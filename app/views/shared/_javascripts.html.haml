@@ -1,0 +1,29 @@
+-# Early player redirect for browsers without pushState support
+:javascript
+  (function(){
+    var w = window, d = w.document, l = w.location, p = l.pathname;
+    if (!w.history.pushState && /^\/\d+$/.test(l.pathname)) {
+      f = l.pathname + (l.search || '');
+      l.replace('/#' + f.replace(/^\//, ''));
+    }
+  })();
+
+-# Bootstrap JavaScript application
+- if Rails.env.development?
+  :javascript
+    var require = #{YAML.load_file('config/requirejs.yml').to_json.html_safe};
+    require.baseUrl = '/assets/';
+    require.urlArgs = 'bust=' + String(new Date().getTime()).substring(0, 10);
+    require.paths.translations = '/translations';
+  = javascript_include_tag 'require-2.1.6', 'application'
+- else
+  = requirejs_include_tag 'application'
+
+-# Pass configuration to JavaScript app
+:javascript
+  define('configuration', { locale: '#{I18n.locale}' });
+
+-# Additional scripts
+= javascript_include_tag 'exception_notifier'
+/[if lt IE 8]
+  = javascript_include_tag 'json2-2012-10-08'

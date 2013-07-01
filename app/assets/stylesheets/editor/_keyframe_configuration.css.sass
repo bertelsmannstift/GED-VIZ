@@ -1,0 +1,452 @@
+.keyframe-configuration
+  @extend %pie-clearfix
+  @extend %dark-background-gradient
+  padding: 10px 0
+  font-size: 13px
+  font-weight: 300
+
+  @media screen and (max-height: 768px)
+    padding: 10px 0 5px
+
+  a
+    text-decoration: none
+
+  // All columns
+  // -----------
+
+  section
+    // Change box model so padding doesn’t add up to the width/height
+    +box-sizing(border-box)
+    float: left
+    width: 33.333%
+
+    h2
+      @extend %underlined-heading
+      margin: 0 0 10px
+
+    label
+      display: block
+
+  // Bilateral data column
+  // ---------------------
+
+  section.data
+    width: 25%
+    padding: 0 10px 0 20px
+
+    ul
+      @extend %pie-clearfix
+
+    li
+      float: left
+      margin: 0 4px 4px 0
+      line-height: 1.5
+
+    input
+      @extend %off-left
+
+    label
+      display: inline-block
+      border-radius: 3px
+      padding: 0 5px
+      cursor: pointer
+      color: white
+
+      &:hover, &:focus
+        background-color: #999
+
+    li.active label
+      color: black
+      +bg-gradient(white, $dialog-background-color)
+
+    .unit
+      margin-top: 4px
+      color: $inverted-text-color
+      font-size: 13px
+
+  // Unilateral indicators column
+  // ----------------------------
+
+  section.indicators
+    position: relative
+    padding: 0 10px
+    width: 25%
+
+  // Add indicator button
+  // --------------------
+
+  .add-indicator
+    @extend %add-button
+    position: absolute
+    top: -1px
+    right: 10px
+
+    span
+      @extend %off-left
+
+    &.disabled
+      opacity: 0.5
+      cursor: not-allowed
+
+  // Add indicators tree menu
+  // ------------------------
+
+  .add-indicator-menu
+    @extend %dialog
+    display: none
+    position: absolute
+    top: 20px
+    right: 10px
+    z-index: 202
+    padding: 5px 0
+    line-height: 1.6
+
+    a
+      display: block
+      padding: 0 10px
+      color: #444
+
+    li
+      position: relative
+
+      &:hover > a, &:focus > a
+        color: white
+        background-color: #444
+
+    // Sub-menus
+    .group
+      ul
+        @extend %dialog
+        display: none
+        position: absolute
+        top: -1px
+        left: 100%
+        z-index: 1
+        width: 90%
+        padding: 5px 0
+
+      &:hover > ul, &:focus > ul
+        display: block
+
+      & > a:after
+        content: '\203A'
+        position: absolute
+        top: -2px
+        right: 3px
+        font-weight: 700
+
+      & > a:hover:after
+        color: white
+
+    // From %menu mixin
+    .disabled a
+      cursor: not-allowed
+      color: #b0b0b0
+
+      &:hover, &:focus
+        color: #b0b0b0
+        background-color: transparent
+
+  // List of currently used indicators
+  // ---------------------------------
+
+  $used-indicator-height: 21px
+
+  // .used-indicators
+
+  .used-indicator, .used-indicators .sortable-placeholder
+    display: block
+    margin-bottom: 4px
+    +single-transition(opacity, linear, 1s)
+    height: $used-indicator-height
+    line-height: $used-indicator-height
+    +user-select(none)
+
+  .sortable-placeholder
+    @extend %button-base
+    color: black
+    background-color: #ccc
+    opacity: 0.3
+
+  .used-indicator
+    position: relative
+
+    &.invisible
+      .indicator
+        background-color: #8a8a8a
+
+      .abbreviation-and-description, .unit-label
+        opacity: 0.4
+
+      .unit-selector.open
+        opacity: 1
+
+    .indicator
+      position: relative
+      display: block
+      +box-sizing(border-box)
+      border-radius: 3px
+      width: 100%
+      min-width: 230px
+      height: $used-indicator-height
+      padding: 1px 20px 0 5px
+      background-color: #999
+      line-height: $used-indicator-height - 2px
+      cursor: move
+      color: white
+
+    .abbreviation-and-description
+      float: left
+      width: 55%
+      text-shadow: 1px 1px 1px #5c5c5c
+      white-space: nowrap
+      text-overflow: ellipsis
+      overflow: hidden
+
+    .abbreviation
+      font-weight: 600
+
+    .unit-label
+      @extend %button-base
+      float: right
+      width: 30%
+      position: relative
+      box-shadow: 1px 1px 1px #6f6f6f
+      margin-top: 1px
+      border: 1px solid #ccc
+      padding: 0 20px 0 6px
+      line-height: 15px
+      background-color: #ccc
+      white-space: nowrap
+      text-overflow: ellipsis
+      overflow: hidden
+      color: #131313
+
+    .only-unit
+      @extend %button-base
+      background-color: #ccc
+      color: #131313
+
+    .unit-selector
+
+      &:after
+        position: absolute
+        right: 5px
+        color: #5a5a5a
+        top: 0
+        content: '\25BE'
+        font-family: Arial, Helvetica, sans-serif
+
+      &.open
+        z-index: 203
+        border: 1px solid #666
+        border-bottom: none
+        border-radius: 2px 2px 0 0
+        box-shadow: none
+        background-color: $dialog-background-color
+        color: #666
+
+    .remove
+      position: absolute
+      right: 0
+      top: 0
+      display: block
+      width: 19px
+      padding-right: 1px
+      color: #666
+      font-size: 16px
+      line-height: 1.2
+      text-align: center
+
+      &:hover, &:focus
+        color: black
+        font-weight: 600
+
+    // Unit selection menu
+    // -------------------
+
+    .unit-selector-menu
+      @extend %dialog
+      @extend %menu
+      position: absolute
+      top: 16px
+      right: 20px
+      z-index: 202
+      display: none
+      min-width: 50%
+      padding-top: 6px
+
+    li
+      cursor: pointer
+      color: #666
+
+      a
+        position: relative
+
+      &.active
+        a:before
+          position: absolute
+          top: 0
+          left: 5px
+          content: "\2713"
+
+  // Countries column
+  // ----------------
+
+  section.countries
+    position: relative
+    overflow: visible
+    padding: 0 20px 0 10px
+    width: 50%
+
+  .countries-controls
+    position: absolute
+    top: -1px
+    right: 20px
+
+    > li
+      display: inline-block
+      position: relative
+      // All dropdown menus need to be on top of the keyframe list (.bottom-right)
+      z-index: 202
+      margin-left: 15px
+      &:first-child
+        margin-left: 0
+
+  // Country context menu
+  // --------------------
+
+  .country-context-container
+
+  .country-context
+
+    .toggle-button
+      @extend %dropdown-button
+      z-index: 4
+
+    &.open .toggle-button
+      @extend %dropdown-button-open
+
+    .options
+      @extend %dialog
+      @extend %menu
+      display: none
+      position: absolute
+      left: 0
+      top: 17px
+      z-index: 3
+      width: 165px
+
+    &.open .options
+      border-radius: 0 2px 2px 2px
+
+  // Generic style for the sort country view
+  // (on top and in the country picker)
+  // ----------------------------------
+
+  .sort-countries
+
+    .active
+      position: relative
+
+      a:before
+        position: absolute
+        top: 0
+        left: 5px
+        content: "\2713"
+
+  .current-sorting
+    margin-left: 2px
+    padding: 2px 6px
+
+  .sort-options
+    // Hide options initially
+    display: none
+
+  // Sort used countries dropdown menu
+  // ---------------------------------
+
+  .sort-used-countries
+
+    .change-sorting a
+      color: $inverted-text-color
+
+    .current-sorting
+      @extend %dropdown-button
+      z-index: 2
+
+    &.open .current-sorting
+      @extend %dropdown-button-open
+
+    .sort-options
+      @extend %dialog
+      @extend %menu
+      position: absolute
+      left: 42px
+      top: 17px
+      z-index: 1
+      width: 165px
+
+    &.open .sort-options
+      border-radius: 0 2px 2px 2px
+
+  // Add countries button
+  // --------------------
+
+  .add-countries-button
+    @extend %add-button
+    display: inline-block
+    color: $inverted-text-color
+
+  // Used countries
+  // --------------
+
+  .used-country
+    display: inline-block
+    margin: 0 4px 4px 0
+    border-radius: 3px
+    padding-left: 6px
+    vertical-align: top
+    +bg-gradient(white, $dialog-background-color)
+    line-height: 1.5
+    color: #383838
+    cursor: move
+    +user-select(none)
+
+    a
+      display: block
+      color: inherit
+
+    &.selected
+      +bg-gradient(#222, #444)
+      color: #eee
+
+    &.country-group
+      background-repeat: no-repeat
+      background-position: 6px 5px
+      +svg-bg-with-fallback('country-group')
+      +background-size(10px 10px)
+      padding-left: 19px
+
+      &.selected
+        +svg-bg-with-fallback('country-group-white')
+
+    .remove
+      display: inline-block
+      padding: 0 7px 0 5px
+      color: silver
+      cursor: pointer
+      font-weight: 700
+
+      &:hover, &:focus
+        color: black
+
+    &.selected .remove:hover, &.selected .remove:focus
+      color: white
+
+  .used-countries .sortable-placeholder
+    display: inline-block
+    margin-right: 4px
+    width: 18px
+    height: 18px
+    background-color: $dialog-background-color

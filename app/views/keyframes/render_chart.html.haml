@@ -1,0 +1,6 @@
+:javascript
+  window.presentation  = #{raw @presentation_json};
+  window.keyframeIndex = #{@keyframe_index.to_json};
+
+#page-container.render
+  .chart

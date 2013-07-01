@@ -1,0 +1,37 @@
+%section.window
+  %h2= @t 'embed_dialog', 'title'
+
+  %a.close{ href: '', title: @t('editor', 'close_dialog') }
+    &times;
+
+  %section.size
+    %p.description= @t 'embed_dialog', 'width_recommendation'
+    %h3= @t 'embed_dialog', 'width'
+    %input(type='text' value='800')
+    %label px
+
+  %section.keyframes
+    %h3= @t 'embed_dialog', 'keyframes'
+    .radiobuttons
+      %label
+        %input.animate(type='radio' name='animate' value='0' checked='checked')
+        = @t 'embed_dialog', 'frame_by_frame'
+      %label
+        %input.animate(type='radio' name='animate' value='1')
+        = @t 'embed_dialog', 'animation'
+        .description= @t 'embed_dialog', 'play_button'
+    .options
+      %label
+        %input.show-titles(type='checkbox' name='show_titles' checked='checked')
+        = @t 'embed_dialog', 'show_titles'
+
+  %section.code
+    %a.button.preview.right(href='')= @t 'embed_dialog', 'show_preview'
+
+    %h3
+      %label(for='embed-code')= @t 'embed_dialog', 'code_label'
+
+    %textarea#embed-code{ readonly: true }
+
+  %p
+    %a.button.close-button.right(href='')= @t 'editor', 'close_dialog'

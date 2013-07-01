@@ -1,0 +1,6 @@
+.index= @visibleIndex
+%input.title(type='text' value=@title)
+.subtitle= @subtitle
+%a.remove(href='')
+  &times;
+  %span= @t 'editor', 'remove_keyframe'

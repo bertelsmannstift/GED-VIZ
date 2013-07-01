@@ -1,0 +1,513 @@
+de:
+  gedviz:
+    language_name: Deutsch
+
+    decimal_mark: ","
+    # Don’t try to use unicode narrow spaces:
+    thousands_separator: "<span class='narrow-space'>&nbsp;</span>"
+    not_available: "n/v"
+
+    country_names:
+      aus: Australien
+      aut: Österreich
+      bel: Belgien
+      bgr: Bulgarien
+      can: Kanada
+      cyp: Zypern
+      cze: Tschechische Republik
+      dnk: Dänemark
+      est: Estland
+      fin: Finnland
+      fra: Frankreich
+      deu: Deutschland
+      grc: Griechenland
+      hun: Ungarn
+      isl: Island
+      irl: Irland
+      ita: Italien
+      jpn: Japan
+      kor: Korea
+      lva: Lettland
+      ltu: Litauen
+      lux: Luxemburg
+      mlt: Malta
+      nld: Niederlande
+      nzl: Neuseeland
+      nor: Norwegen
+      pol: Polen
+      prt: Portugal
+      rom: Rumänien
+      svk: Slowakei
+      svn: Slowenien
+      esp: Spanien
+      swe: Schweden
+      che: Schweiz
+      gbr: Vereinigtes Königreich
+      usa: Vereinigte Staaten
+      arg: Argentinien
+      bra: Brasilien
+      chl: Chile
+      chn: China
+      ind: Indien
+      isr: Israel
+      mex: Mexiko
+      rus: Russland
+      zaf: Südafrika
+      tur: Türkei
+
+    data_type:
+      import: Warenhandel
+      migration: Migration
+      claims: Schulden
+
+    relation:
+      import: exportierte %{from} nach %{to}
+      claims: schuldete %{to} an %{from}
+      migration: migrierten von %{from} nach %{to}
+
+    flow:
+      import:
+        incoming: Importe
+        outgoing: Exporte
+      claims:
+        incoming: Schulden
+        outgoing: Forderungen
+      migration:
+        incoming: Einwanderer
+        outgoing: Auswanderer
+
+    legend:
+      generator: Generiert mit GED VIZ (<a href="http://viz.ged-project.de">viz.ged-project.de</a>)
+      sources: Quellen
+      legend: Legende
+      toggle_open: mehr
+      toggle_close: weniger
+      data:
+        import:
+          short: "%{year} Warenexporte/-importe aus/in alle(n) verfügbaren Länder(n) in %{unit}"
+          long: gemäß Importstatistiken der Länder. Balkenlänge relativ zur größten Summe von Importen und Exporten (unter den dargestellten Ländern, über alle Jahre).
+          flow: "Warenexporte/-importe in %{unit}"
+        migration:
+          short: "%{year} Aus-/Einwanderung aus/in all(n) verfügbaren Länder(n) in %{unit}"
+          long: gemäß Einwanderungsstatistiken der Länder. Balkenlänge relativ zur größten Summe von Einwanderung und Auswanderung (unter den dargestellten Ländern, über alle Jahre).
+          flow: "Aus-/Einwanderung in %{unit}"
+        claims:
+          short: "%{year} Forderungen/Schulden an/bei alle(n) verfügbaren Länder(n) in %{unit}"
+          long: gemäß der Berichte der kreditgebenden Banken. Balkenlänge relativ zur größten Summe von Schulden und Forderungen (unter den dargestellten Ländern, über alle Jahre).
+          flow: "Forderungen/Schulden in %{unit}"
+      indicator-icon:
+        absolute: Kreisgröße relativ zum größten Indikatorwert.
+        percent: Ringsegment zeigt Prozentzahl.
+        ranking: Kreis zeigt Rang unter allen Ländern der Welt.
+      tendency: "Tendenzpfeile zeigen Veränderung gegenüber Vorjahr (i) für absolute Werte: relative Veränderung; (ii) für Prozentwerte: Differenz in Prozentpunkten."
+      maximum_size: Maximalgröße
+      exchange_rate: Wechselkurs
+      eur_currency: "Ursprungsdaten liegen in US-$ vor. Gemittelter Wechselkurs in %{year}: $1 = €%{usd_in_eur_current}. Bei konstanten Preisen (Basis 2005): $1 = €%{usd_in_eur_constant}."
+
+    sources:
+      # Bilateral data
+      data:
+        import: UN Comtrade;http://comtrade.un.org/
+        migration: OECD Migration Database;http://www.oecd.org/els/mig/keystat.htm
+        claims: Bank for International Settlements (BIS);http://www.bis.org/
+      # Unilateral data
+      indicator:
+        cons_pvt: OECD/European Commission;http://www.oecd.org/statistics/
+        cons_gvt: OECD/European Commission;http://www.oecd.org/statistics/
+        cap_form: OECD/European Commission;http://www.oecd.org/statistics/
+        export: OECD/European Commission;http://www.oecd.org/statistics/
+        import: OECD/European Commission;http://www.oecd.org/statistics/
+        gdp: OECD/European Commission;http://www.oecd.org/statistics/
+        budget_balance: OECD/European Commission;http://www.oecd.org/statistics/
+        gross_debt_gvt: OECD/European Commission;http://www.oecd.org/statistics/
+        gross_savings_total: OECD/European Commission;http://www.oecd.org/statistics/
+        account: OECD/European Commission;http://www.oecd.org/statistics/
+        capital_stock_total: OECD/European Commission;http://www.oecd.org/statistics/
+        population: OECD/European Commission;http://www.oecd.org/statistics/
+        labor_force: OECD/European Commission;http://www.oecd.org/statistics/
+        employment: OECD/European Commission;http://www.oecd.org/statistics/
+        unemployment: OECD/European Commission;http://www.oecd.org/statistics/
+        inflation: OECD/European Commission;http://www.oecd.org/statistics/
+        stir: OECD/European Commission;http://www.oecd.org/statistics/
+        unemp_rate: OECD/European Commission;http://www.oecd.org/statistics/
+        oadr: OECD/European Commission;http://www.oecd.org/statistics/
+      exchange_rate:
+        usd_eur: OECD/European Commission;http://www.oecd.org/statistics/
+
+    indicator_groups:
+      consumption: Konsum
+      capital: Kapital
+      trade: Handel
+      debt_gvt: Staatshaushalt
+      labor: Arbeitsmarkt
+
+    indicators:
+      cons_pvt:
+        short: KONS_PRV
+        full: Privatkonsum
+      cons_gvt:
+        short: KONS_STAAT
+        full: Staatskonsum
+      cap_form:
+        short: INV
+        full: Bruttoinvestitionen
+      export:
+        short: EXP
+        full: Gesamtexporte
+      import:
+        short: IMP
+        full: Gesamtimporte
+      gdp:
+        short: BIP
+        full: Bruttoinlandsprodukt
+      budget_balance:
+        short: SALDO
+        full: Haushaltssaldo
+      gross_debt_gvt:
+        short: SV
+        full: Staatsverschuldung
+      gross_savings_total:
+        short: SPAR
+        full: Ersparnisse
+      account:
+        short: LB
+        full: Leistungsbilanz
+      capital_stock_total:
+        short: KAP
+        full: Kapitalstock
+      population:
+        short: BEV
+        full: Bevölkerung
+      labor_force:
+        short: EPP
+        full: Erwerbspersonenpotenzial
+      employment:
+        short: ERW
+        full: Erwerbstätige
+      unemployment:
+        short: ERW_LOS
+        full: Erwerbslose
+      inflation:
+        short: VPI
+        full: Inflationsrate (Verbraucherpreise)
+      stir:
+        short: ZINS
+        full: Zinssatz (kurzfristig)
+      unemp_rate:
+        short: ELQ
+        full: Erwerbslosenquote
+      oadr:
+        short: AAQ
+        full: Altersabhängigkeitsquotient
+
+    units:
+      # short: Used in current indicators list
+      # full: Shown on indicator mouseover and in the legends
+      # with_value: Used for magnets
+      # with_value_html: Used for indicators and relations labels in the chart
+
+      bln_current_dollars:
+        short: Mrd. $
+        full: Milliarden US-$ (laufende Preise)
+        with_value: $ %{number} Mrd.
+        with_value_html: <span class='unit'>$</span><span class='value'>%{number}</span> <span class='suffix'>Mrd.</span>
+      mln_current_dollars:
+        short: Mio. $
+        full: Millionen US-$ (laufende Preise)
+        with_value: $ %{number} Mio.
+        with_value_html: <span class='unit'>$</span><span class='value'>%{number}</span> <span class='suffix'>Mio.</span>
+      bln_real_dollars:
+        short: Mrd. $
+        full: Milliarden US-$ (konstante Preise, Basis 2005)
+        with_value: $ %{number} Mrd.
+        with_value_html: <span class='unit'>$</span><span class='value'>%{number}</span> <span class='suffix'>Mrd.</span>
+      real_dollars_per_capita:
+        short: $ p.K.
+        full: US-$ pro Kopf (konstante Preise, Basis 2005)
+        with_value: "$ %{number} p.K."
+        with_value_html: <span class='unit'>$</span><span class='value'>%{number}</span> <span class='suffix'>p.c.</span>
+
+      bln_current_euros:
+        short: Mrd. €
+        full: Milliarden EUR (laufende Preise)
+        with_value: € %{number} Mrd.
+        with_value_html: <span class='unit'>€</span><span class='value'>%{number}</span> <span class='suffix'>Mrd.</span>
+      mln_current_euros:
+        short: Mio. €
+        full: Millionen EUR (laufende Preise)
+        with_value: € %{number} Mio.
+        with_value_html: <span class='unit'>€</span><span class='value'>%{number}</span> <span class='suffix'>Mio.</span>
+      bln_real_euros:
+        short: Mrd. €
+        full: Milliarden EUR (konstante Preise, Basis 2005)
+        with_value: € %{number} Mrd.
+        with_value_html: <span class='unit'>€</span><span class='value'>%{number}</span> <span class='suffix'>Mrd.</span>
+      real_euros_per_capita:
+        short: € p.K.
+        full: EUR pro Kopf (konstante Preise, Basis 2005)
+        with_value: "€ %{number} p.K."
+        with_value_html: <span class='unit'>€</span><span class='value'>%{number}</span> <span class='suffix'>p.K.</span>
+
+      tsd_persons:
+        short: Tsd.
+        full: Tausend Personen
+        with_value: "%{number} Tsd."
+        with_value_html: <span class='value'>%{number}</span> <span class='suffix'>Tsd.</span>
+      mln_persons:
+        short: Mio.
+        full: Millionen Personen
+        with_value: "%{number} Mio."
+        with_value_html: <span class='value'>%{number}</span> <span class='suffix'>Mio.</span>
+
+      percent:
+        short: "%"
+        full: Prozent
+        with_value: "%{number} %"
+        with_value_html: <span class='value'>%{number}</span> <span class='suffix'>%</span>
+      percent_of_gdp:
+        short: "% BIP"
+        full: Prozent des BIP
+        with_value: "%{number} % des BIP"
+        with_value_html: <span class='value'>%{number}</span> <span class='suffix'>% des BIP</span>
+
+    # Context box
+    contextbox:
+      relation:
+        import: "%{year} exportierte %{from} Waren im Wert von %{amount} %{unit} nach %{to}. Dies waren %{percentFrom} der Exporte von %{from} in alle verfügbaren Länder und %{percentTo} der Importe nach %{to} aus allen verfügbaren Ländern."
+        claims: "%{year} schuldete %{to} an Banken in %{from} %{amount} %{unit}. Dies waren %{percentFrom} der Forderungen von %{from} gegenüber allen verfügbaren Ländern und %{percentTo} der Schulden von %{to} bei allen verfügbaren Ländern."
+        migration: "%{year} migrierten %{amount} %{unit} von %{from} nach %{to}. Dies waren %{percentFrom} der Auswanderer aus %{from} in alle verfügbaren Länder und %{percentTo} der Einwanderer nach %{to} aus allen verfügbaren Ländern."
+        missing:
+          intro: "Einige Datensätze sind nicht vorhanden:"
+          entry: Von %{source} nach %{targets}
+          enumSeparator: ", "
+          enumSeparatorLast: " und "
+      magnet:
+        import: "%{year} importierte %{name} aus allen verfügbaren Ländern Waren im Wert von %{amountIn} %{unit} und exportierte %{name} in alle verfügbaren Länder Waren im Wert von %{amountOut} %{unit}."
+        claims: "%{year} betrugen die Forderungen von Banken in %{name} gegenüber allen verfügbaren Ländern %{amountOut} %{unit}, die Schulden bei Banken in allen verfügbaren Ländern betrugen %{amountIn} %{unit}."
+        migration: "%{year} wanderten %{amountOut} %{unit} von %{name} in alle verfügbaren Länder aus, %{amountIn} %{unit} wanderten aus allen verfügbaren Ländern nach %{name} ein."
+        missing:
+          outgoing:
+            import: Keine Daten über Warenexporte aus %{list} vorhanden.
+            claims: Keine Daten über Forderungen von %{list} vorhanden.
+            migration: Keine Daten über Auswanderung aus %{list} vorhanden.
+          incoming:
+            import: Keine Daten über Warenimporte nach %{list} vorhanden.
+            claims: Keine Daten über Schulden von %{list} vorhanden.
+            migration: Keine Daten über Einwanderung nach %{list} vorhanden.
+          enumSeparator: ", "
+          enumSeparatorLast: " und "
+
+    # Bubbles (Rollovers and Notifications)
+    bubbles:
+      rollover:
+        default: Kontextinfo
+        country_sort_by: Länderliste umsortieren (im Uhrzeigersinn, auf 12 Uhr startend).
+        capture: Aktuelle Visualisierung zur Slideshow hinzufügen.
+        rename_slide: Zur Umbenennung in die Beschriftung klicken.
+        indicator_exp: <span class='bubble-acronym'>%{acronym}</span><span class='bubble-description'>%{description}</span><span class='bubble-unit'>in %{unit}</span>
+        country_select: "%{name} selektieren per Klick, Reihenfolge ändern per Drag and Drop."
+        country_unselect: "%{name} deselektieren per Klick, Reihenfolge ändern per Drag and Drop."
+        country_remove: "%{name} aus der Liste entfernen."
+        picker_add_all: Alle angezeigten Länder befinden sich bereits in der Länderliste.
+        picker_as_group: Manche der angezeigten Länder befinden sich bereits in der Länderliste.
+        picker_remaining: Alle angezeigten Länder befinden sich bereits in der Länderliste.
+        country_context:
+          group: Zum Gruppieren bitte mindestens zwei Länder selektieren.
+          ungroup: Bitte eine einzelne Gruppe selektieren, um sie aufzulösen.
+          rename_group: Bitte eine einzelne Gruppe selektieren, um sie umzubennen.
+          top5: Bitte ein einzelnes Land oder eine einzelne Gruppe selektieren, um Partnerländer hinzuzufügen.
+        year_list:
+          previous_year: Vorheriges Jahr
+          next_year: Nächstes Jahr
+          import: "Summe aller Warenhandelsströme der angezeigten Länder in %{year}:<br>%{number}"
+          migration: "Summe aller Migrationsströme der angezeigten Länder in %{year}:<br>%{number}"
+          claims: "Summe aller ausländischen Bankforderungen der angezeigten Länder in %{year}:<br>%{number}"
+        currency:
+           usd: US-Dollar
+           eur: Euro
+      notification:
+        default: Infoblase
+        capture_slide_1: Halte eine erste Slide fest, um eine Slideshow zum teilen, einbetten und exportieren zu erzeugen.
+        capture_slide_2: Füge eine zweite Slide hinzu, um eine animierte Slideshow zu erzeugen.
+        capture_slide_3: Auf diese Slideshow verlinken, Slideshow in eine Webseite einbetten oder Bilder/Daten exportieren.
+        group_countries: Wähle »Auswahl gruppieren« in diesem Menü, um die selektierten Länder zu einer Gruppe zusammenzufügen.
+        hidden_country: Dieser Indikator erscheint aus Platzgründen nicht in der Visualisierung.
+        currency_usd: US-Dollar
+        currency_eur: Euro
+
+    # Player
+    player:
+      title:
+        import:
+          year: Importe/Exporte in %{year}
+          unit: in %{unit}
+        migration:
+          year: Einwanderung/Auswanderung in %{year}
+          unit: in %{unit}
+        claims:
+          year: Schulden/Forderungen in %{year}
+          unit: in %{unit}
+      play: play
+      previous_keyframe: Zurück
+      next_keyframe: Vor
+      fullscreen: Vollbild
+      visit_ged_viz: In GED VIZ öffnen
+
+    # Editor
+    editor:
+
+      loading_indicator: Daten werden geladen, bitte einen Moment gedulden…
+      element_count_error: Füge ein Land oder eine Ländergruppe hinzu.
+
+      # Keyframe configuration, relations
+      relations: Beziehungen
+      shown_in: "in %{unit}"
+
+      # Keyframe configuration, indicators
+      country_indicators: Länderindikatoren
+      add_indicator: Indikator hinzufügen
+      remove_indicator: Indikator löschen
+
+      # Keyframe configuration, countries
+      countries: Länder
+      add_countries: Länder hinzufügen
+      enter_group_title: "Gruppenname:"
+      enter_new_group_title: "Neuer Gruppenname:"
+      default_group_title: Unbenannt
+      all_countries_group: Alle Länder
+      rest_of_group: Restliche %{title}
+      search_countries: Suchen
+      add_all_countries: Alle Länder hinzufügen
+      add_as_group: <span class='group-name'></span> als Gruppe hinzufügen
+      add_remaining_as_group: Restliche als Gruppe hinzufügen
+      remove_country: Land löschen
+      no_countries_available: Keine Länder verfügbar.
+
+      # Keyframe configuration, country context menu
+      country_options: Aktionen
+      country_selection: Selektieren
+      select_all_countries: Alle selektieren
+      unselect_all_countries: Alle deselektieren
+      country_group: Ländergruppen
+      group_selected_countries: Auswahl gruppieren
+      ungroup_selected_countries: Gruppierung auflösen
+      rename_group: Gruppe umbenennen
+      delete_countries: Löschen
+      delete_selected_countries: Selektierte Länder löschen
+      delete_all_countries: Alle Länder löschen
+      add_related: 5 Partnerländer hinzufügen
+
+      # Keyframe configuration, sort countries menu
+      sort_countries_by: "Reihenfolge:"
+      alphabetical_sorting: A-Z
+      custom_sorting: benutzerdefiniert
+      sort_by_relation: "nach Beziehung:"
+      sort_by_indicator: "nach Länderindikator:"
+
+      # Keyframe list
+      keyframes_title: Slideshow
+      capture_keyframe: Hinzufügen
+      remove_keyframe: Entfernen
+      keyframe: Visualisierung
+      untitled_keyframe: ohne Titel
+
+      # Sharing
+      sharing_title: Teilen, Einbetten, Exportieren
+      save: Teilen
+      get_url: Link zur Slideshow
+      social_sharing: Teilen auf
+      share_via_mail: Per Mail teilen
+      share_via_facebook: Auf Facebook teilen
+      share_via_twitter: Auf Twitter teilen
+      embed: Einbetten
+      get_embed_code: Code zum Einbetten
+      export: Exportieren
+
+      # All Modal Dialogs
+      close_dialog: Schließen
+
+    # Main Editor Navigation
+    navigation:
+      home:
+        name: Home
+        description: Global Economic Dynamics
+        href: http://www.ged-project.de/de/home/
+      shorts:
+        name: Shorts
+        description: Hintergründe, Videos, Bilder
+        href: http://www.ged-project.de/de/artikel/
+      studies:
+        name: Studies
+        description: Übersichten und Downloads
+        href: http://www.ged-project.de/de/studien/
+      viz:
+        name: VIZ
+        description: Visualisierungen erstellen
+        href: ""
+      about:
+        name: Über GED
+        description: ""
+        href: http://www.ged-project.de/de/ueber-ged/
+
+    # Editor introduction dialog
+    introduction_dialog:
+      introduction: Introduction
+      video_id: 2gU7pFoSslc
+      welcome_heading: Willkommen bei GED VIZ
+      welcome_p1: Mit GED VIZ lassen sich Visualisierungen globaler Wirtschaftsbeziehungen erzeugen und teilen - zum Einsatz in Forschung und Lehre oder zur Unterstützung beim Storytelling.
+      welcome_p2: Das Video zeigt, wie das funktioniert. Fragen oder Anregungen? Wir freuen uns über Feedback!
+      watch_tutorial: Tutorial ansehen
+      faq: Häufige Fragen
+      faq_url: http://www.ged-project.de/de/viz/faq/
+      feedback: Feedback
+      feedback_url: http://www.ged-project.de/contact/
+      start_tool: Loslegen
+
+    # Keyframe year list
+    year_list:
+      year: Jahr
+
+    # Keyframe currency select
+    currency_select:
+      currency: Währung
+      currencies:
+        usd: $
+        eur: €
+
+    # Editor embed dialog
+    embed_dialog:
+      title: Slideshow einbetten
+      width: "Breite:"
+      width_recommendation: Für eine Darstellung mit allen Details wird eine Breite von 800 Pixeln oder mehr empfohlen.
+      keyframes: "Übergänge zwischen Slides:"
+      frame_by_frame: Vor- und Zurück-Schalter
+      animation: Animation
+      play_button: Playbutton
+      show_titles: Slidetitel anzeigen
+      show_preview: Vorschau
+      code_label: "Code zum Einbetten:"
+
+    # Editor export dialog
+    export_dialog:
+      title: Exportieren
+      keyframes: "Slides-Auswahl:"
+      all_keyframes: alle Slides
+      specific_keyframes: ausgewählte Slides
+      select_keyframes: Bitte Slides für den Export markieren.
+      keyframe: Slide
+      show_titles: Slidetitel einfügen
+      show_legend: Ausführliche Quellenangaben und Legende einfügen
+      file_format: "Dateiformat:"
+      png_description: "Breite: 800px"
+      csv_description: alle Daten zu dieser Slideshow
+      download: Download
+      please_wait: Bitte warten…
+
+    # Editor save dialog
+    save_dialog:
+      title: Link zu dieser Slideshow
+      url: "URL:"
+
+    # Magnet
+    magnet:
+      one_to_one_others: andere

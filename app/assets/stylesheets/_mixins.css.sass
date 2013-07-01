@@ -1,0 +1,130 @@
+// Compass doesn’t generate gradients conforming to
+// the latest CSS3 Backgrounds specification
+@mixin bg-gradient($stop-1, $stop-2: false, $stop-3: false, $stop-4: false, $stop-5: false, $stop-6: false, $stop-7: false, $stop-8: false, $stop-9: false, $stop-10: false)
+  $stops: compact($stop-1, $stop-2, $stop-3, $stop-4, $stop-5, $stop-6, $stop-7, $stop-8, $stop-9, $stop-10)
+  $last_stop: nth($stops, length($stops) - 1)
+  background-color: $last_stop
+  background-image: -webkit(linear-gradient(top, $stops))
+  background-image: -moz(linear-gradient(top, $stops))
+  background-image: -o(linear-gradient(top, $stops))
+  background-image: linear-gradient(to bottom, $stops)
+
+@mixin svg-bg-with-fallback($name)
+  background-image: image-url('#{$name}.png')
+  background-image: none, image-url('#{$name}.svg')
+
+@mixin keyframes($name)
+  @-webkit-keyframes #{$name}
+    @content
+  @-moz-keyframes #{$name}
+    @content
+  @-ms-keyframes  #{$name}
+    @content
+  @keyframes #{$name}
+    @content
+
+@mixin animation($value)
+  +experimental(animation, $value, $moz: true, $webkit: true, $o: false, $ms: true, $khtml: false, $official: true)
+
+// Layout abstract classes
+
+%pie-clearfix
+  +pie-clearfix
+
+@mixin off-left()
+  position: absolute
+  left: -10000px
+  top: 0
+  width: 0
+  height: 0
+  overflow: hidden
+
+%off-left
+  +off-left
+
+// Content abstract classes
+
+%dark-background-gradient
+  +bg-gradient(lighten($dark-background-gradient-color, 7%), $dark-background-gradient-color)
+
+%heading
+  font-weight: 300
+  font-size: 17px
+  line-height: 1
+  color: $heading-color
+  text-transform: uppercase
+
+%underlined-heading
+  @extend %heading
+  border-bottom: 1px solid $heading-color
+  padding-bottom: 4px
+  text-shadow: 1px 1px 1px #595959
+
+%dialog
+  border: 1px solid #666
+  background-color: $dialog-background-color
+  font-size: 13px
+  border-radius: 2px
+  box-shadow: 1px 1px 3px #888
+
+%menu
+  padding: 5px 0
+  line-height: 1.7
+
+  h3
+    border-top: 1px dotted #c0c0c0
+    margin: 0 10px
+    // Don’t use line-height but padding so the text is positioned correctly
+    padding: 7px 0 3px
+    line-height: 1
+    font-weight: 400
+    color: #444
+
+  h3:first-child
+    border: 0
+
+  ul
+    margin-bottom: 5px
+    &:last-child
+      margin-bottom: 0
+
+  a
+    display: block
+    padding: 0 10px 0 20px
+    color: #444
+
+    &:hover, &:focus
+      color: white
+      background-color: #444
+
+  .disabled a
+    cursor: not-allowed
+    color: #b0b0b0
+
+    &:hover
+      color: #b0b0b0
+      background-color: transparent
+
+%editor-bottom-bar
+  @extend %dark-background-gradient
+  position: absolute
+  bottom: 0
+  z-index: 200
+  height: 50px
+  font-weight: 300
+  font-size: 13px
+  color: white
+
+  @media screen and (max-height: 768px)
+    height: 45px
+
+  hgroup
+    width: 100px
+
+  h2
+    @extend %underlined-heading
+    margin: 4px 0
+
+    @media screen and (max-height: 768px)
+      margin: 3px 0 4px
+      padding-bottom: 2px

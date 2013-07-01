@@ -1,0 +1,5 @@
+define ->
+  'use strict'
+  CurrencyRules = <%= CURRENCY_RULES.to_json %>
+  Object.freeze? CurrencyRules
+  CurrencyRules

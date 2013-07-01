@@ -1,0 +1,73 @@
+define [
+  'models/country'
+  'models/country_group'
+], (Country, CountryGroup) ->
+  'use strict'
+
+  # Provide the necessary type, unit and country data to the client side
+
+  rawUnits = <%= Unit.all.as_json(only: [:key, :representation]).to_json %>
+  rawDataTypes = <%= DataType.all.as_json(only: [:key], include: {units: {only: [:key]}}).to_json %>
+  rawIndicatorTypes = <%= IndicatorType.external.as_json(only: [:key, :group], include: {units: {only: [:key]}}).to_json %>
+  rawCountries = <%= Country.all.as_json(only: [:iso3]).to_json %>
+  rawCountryGroups = <%= CountryImporter.predefined_country_groups.to_json %>
+
+  TypeData =
+    units: {}
+    data_types: {}
+    indicator_types: {}
+    countries: {}
+    country_groups: []
+
+  freeze = Object.freeze or ->
+
+  # Create units
+  for unit in rawUnits
+    TypeData.units[unit.key] = unit
+    freeze unit
+  freeze TypeData.units
+
+  # Create data types
+  for dataType in rawDataTypes
+    # Add units
+    dataType.units = _(dataType.units).map (rawUnit) ->
+      TypeData.units[rawUnit.key]
+    # Save
+    TypeData.data_types[dataType.key] = dataType
+    freeze dataType
+  freeze TypeData.data_types
+
+  # Create indicator types
+  for indicatorType in rawIndicatorTypes
+    # Add units
+    indicatorType.units = _(indicatorType.units).map (raw_unit) ->
+      TypeData.units[raw_unit.key]
+    # Save
+    TypeData.indicator_types[indicatorType.key] = indicatorType
+    freeze indicatorType
+  freeze TypeData.indicator_types
+
+  # Create countries
+  for rawCountry in rawCountries
+    country = new Country rawCountry
+    TypeData.countries[rawCountry.iso3] = country
+    # We can’t freeze the countries since they will be added to collections
+  freeze TypeData.countries
+
+  # Create country groups
+  # ---------------------
+
+  for rawCountryGroup in rawCountryGroups
+    rawCountryGroup.countries = _(rawCountryGroup.countries).map (iso3) ->
+      { iso3: iso3 }
+    countryGroup = new CountryGroup rawCountryGroup, parse: true
+    TypeData.country_groups.push countryGroup
+  freeze TypeData.country_groups
+
+  # Cleanup
+  # -------
+  rawUnits = rawDataTypes = rawIndicatorTypes =
+    rawCountries = rawCountryGroups = null
+
+  freeze TypeData
+  TypeData

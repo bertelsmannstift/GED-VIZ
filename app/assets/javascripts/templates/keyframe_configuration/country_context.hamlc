@@ -1,0 +1,41 @@
+%p
+  %a.toggle-button(href='')= @t 'editor', 'country_options'
+
+.options
+
+  %h3= @t 'editor', 'country_selection'
+  %ul
+    %li.select-all
+      %a(href='')= @t 'editor', 'select_all_countries'
+    %li.unselect-all
+      %a(href='')= @t 'editor', 'unselect_all_countries'
+
+  %h3= @t 'editor', 'country_group'
+  %ul
+    %li.group
+      %a(href='')= @t 'editor', 'group_selected_countries'
+    %li.ungroup
+      %a(href='')= @t 'editor', 'ungroup_selected_countries'
+    %li.rename-group
+      %a(href='')= @t 'editor', 'rename_group'
+
+  %h3= @t 'editor', 'delete_countries'
+  %ul
+    %li.remove
+      %a(href='')= @t 'editor', 'delete_selected_countries'
+    %li.clear
+      %a(href='')= @t 'editor', 'delete_all_countries'
+
+  %h3= @t 'editor', 'add_related'
+  %ul
+    %li.related
+      %a{ href: '', data: { direction: 'both' } }
+        = @t 'flow', @data_type_with_unit[0], 'outgoing'
+        \+
+        = @t 'flow', @data_type_with_unit[0], 'incoming'
+    %li.related
+      %a{ href: '', data: { direction: 'out' } }
+        = @t 'flow', @data_type_with_unit[0], 'outgoing'
+    %li.related
+      %a{ href: '', data: { direction: 'in' } }
+        = @t 'flow', @data_type_with_unit[0], 'incoming'

@@ -1,0 +1,36 @@
+%p.change-sorting
+  %a(href='')
+    = @t 'editor', 'sort_countries_by'
+    %span.current-sorting
+
+.sort-options
+  %ul
+    %li.disabled
+      %a.custom(href='')
+        = @t 'editor', 'custom_sorting'
+    %li
+      %a.alphabetical(href='')
+        = @t 'editor', 'alphabetical_sorting'
+
+  %h3= @t 'editor', 'sort_by_relation'
+
+  - type = @data_type_with_unit[0]
+  %ul.data
+    %li
+      %a.data-both(href='')
+        = @t 'data_type', type
+    %li
+      %a.data-out(href='')
+        = @t 'flow', type, 'outgoing'
+    %li
+      %a.data-in(href='')
+        = @t 'flow', type, 'incoming'
+
+  - if @indicator_types_with_unit?.length > 0
+    %h3= @t 'editor', 'sort_by_indicator'
+
+    %ul.indicators
+      - for twu in @indicator_types_with_unit
+        %li
+          %a.indicator{ href: '', data: { type: twu[0], unit: twu[1] } }
+            = @t 'indicators', twu[0], 'full'
