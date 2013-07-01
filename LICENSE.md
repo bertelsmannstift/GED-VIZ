@@ -58,13 +58,13 @@ Also replace these logos:
 
 # Fonts
 
-# Icon font
+## Icon font
 
 The icon font is using glyphs from several icons sets licensed under the
 SIL Open Font License (OFL, http://scripts.sil.org/OFL). See
 `app/assets/fonts/LICENSE.txt` for details.
 
-# Camingo Dos
+## Camingo Dos
 
 The online version of GED VIZ – [viz.ged-project.de](http://viz.ged-project.de) –
 uses the
