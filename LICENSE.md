@@ -2,11 +2,12 @@
 
 Unless stated otherwise, the MIT license applies to the files in this repository.
 
-Copyright (C) 2013 The Bertelsmann Stiftung
-Carl-Bertelsmann-Str. 256
-33311 Gütersloh, Germany
-Project: Global Economic Dynamics (GED)
-http://www.bertelsmann-stiftung.de/
+Copyright (C) 2013 The Bertelsmann Stiftung<br>
+Global Economic Dynamics (GED)<br>
+Carl-Bertelsmann-Str. 256<br>
+33311 Gütersloh<br>
+Germany<br>
+http://www.bertelsmann-stiftung.de
 
 The Bertelsmann Stiftung is an independent foundation under civil law, governed
 by Sec. 1 of the Foundation Act of the state of North Rhine-Westphalia.
@@ -31,29 +32,29 @@ SOFTWARE.
 
 # Data files
 
-The data files in import/*.csv are compiled by Prognos AG (http://www.prognos.com/)
+The data files in `import/*.csv` were compiled by [Prognos AG](http://www.prognos.com/)
 for the Bertelsmann Foundation. The data originate from several sources:
 
-OECD: http://www.oecd.org/statistics/
-OECD Migration Database: http://www.oecd.org/els/mig/keystat.htm
-AMECO: http://ec.europa.eu/economy_finance/db_indicators/ameco/
-UN Comtrade: http://comtrade.un.org/
+- OECD: http://www.oecd.org/statistics/
+- OECD Migration Database: http://www.oecd.org/els/mig/keystat.htm
+- AMECO: http://ec.europa.eu/economy_finance/db_indicators/ameco/
+- UN Comtrade: http://comtrade.un.org/
 
 # Trademarks
 
-“Bertelsmann Stiftung” and “GED Viz” as well as the logos are trademarks of
+“Bertelsmann Stiftung” and “GED VIZ” as well as the logos are trademarks of
 the Bertelsmann Stiftung. If you install this software on an Internet or
 Intranet web server, please replace these trademarks and logo in the user
 interface.
 
 To replace the trademarks in the source code, search for the strings
-“Bertelsmann Stiftung” and “GED Viz” in *.haml and *.hamlc files.
+“Bertelsmann Stiftung” and “GED VIZ” in `*.haml` and `*.hamlc` files.
 Also replace these logos:
 
-app/assets/images/stiftung-logo.svg
-app/assets/images/stiftung-logo.png
-app/assets/images/ged-logo*.svg
-app/assets/images/ged-logo*.png
+- `app/assets/images/stiftung-logo.svg`
+- `app/assets/images/stiftung-logo.png`
+- `app/assets/images/ged-logo*.svg`
+- `app/assets/images/ged-logo*.png`
 
 # Fonts
 
@@ -61,18 +62,19 @@ app/assets/images/ged-logo*.png
 
 The icon font is using glyphs from several icons sets licensed under the
 SIL Open Font License (OFL, http://scripts.sil.org/OFL). See
-app/assets/fonts/LICENSE.txt for details.
+`app/assets/fonts/LICENSE.txt` for details.
 
 # Camingo Dos
 
-The online version of GED Viz (http://viz.ged-project.de) uses the Camingo Dos
-font family, copyrighted by Jan Fromm. It is not open source and not
-free of charge, therefore it’s not part of this repository. If you would like
-to use the original font, please obtain a license:
+The online version of GED VIZ – [viz.ged-project.de](http://viz.ged-project.de) –
+uses the
+[Camingo Dos font family](http://www.janfromm.de/typefaces/camingodos/std/),
+copyrighted by [Jan Fromm](http://www.janfromm.de/). It is not open source
+and not free of charge, therefore it’s not part of this repository.
 
-http://www.janfromm.de/
-http://www.janfromm.de/typefaces/camingodos/std/
-http://www.janfromm.de/typefaces/camingodos/buy/
+If you would like to use the original font, please
+[obtain a license](http://www.janfromm.de/typefaces/camingodos/buy/)
+to support the type designer.
 
-You need to place the fonts files in app/assets/fonts/ and enable them in
-app/assets/stylesheets/_typography.css.sass.
+You need to place the fonts files in `app/assets/fonts/` and enable them in
+`app/assets/stylesheets/_typography.css.sass`.
