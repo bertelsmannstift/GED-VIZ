@@ -22,12 +22,12 @@ part is written in JavaScript/[CoffeeScript](http://coffeescript.org/) using
 [Backbone.js](http://backbonejs.org/), [Chaplin.js](http://chaplinjs.org) and
 [Raphael.js](http://raphaeljs.com).
 
-# Dependencies
+### Dependencies
 
 - Ruby 1.9.3 (MRI) with RubyGems
 - MySQL 5.1 or newer
 
-# Installation
+### Installation
 
 - `gem install bundler`
 - `bundle install`
