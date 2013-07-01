@@ -40,7 +40,7 @@ part is written in JavaScript/[CoffeeScript](http://coffeescript.org/) using
 
 If you deploy the software on an Internet or Intranet server, please replace the
 term “GED VIZ” and trademarked logos which aren’t covered by the MIT license.
-See LICENSE for further instructions.
+See LICENSE.md for further instructions.
 
 ## About
 
@@ -53,4 +53,6 @@ Contact to the GED team: http://www.ged-project.de/contact/
 
 Software Development: [9elements](http://9elements.com)
 
-Technical and security contact: Mathias Schäfer, [mathias.schaefer@9elements.com](mailto:mathias.schaefer@9elements.com), [github.com/molily](https://github.com/molily)
+Technical and security contact: Mathias Schäfer,
+[mathias.schaefer@9elements.com](mailto:mathias.schaefer@9elements.com),
+[github.com/molily](https://github.com/molily)
