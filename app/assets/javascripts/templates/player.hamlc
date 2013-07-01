@@ -54,7 +54,7 @@
   .footer-right
 
     %a.logo(href=@editorUrl target='_blank')
-      .logo-fallback GED Viz
+      .logo-fallback GED VIZ
       .tooltip= @t 'player', 'visit_ged_viz'
 
     .fullscreen
