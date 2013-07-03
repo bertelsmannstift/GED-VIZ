@@ -44,7 +44,7 @@ for the Bertelsmann Foundation. The data originate from several sources:
 
 “Bertelsmann Stiftung” and “GED VIZ” as well as the logos are trademarks of
 the Bertelsmann Stiftung. If you install this software on an Internet or
-Intranet web server, please replace these trademarks and logo in the user
+Intranet web server, you have to replace these trademarks and logo in the user
 interface.
 
 To replace the trademarks in the source code, search for the strings
