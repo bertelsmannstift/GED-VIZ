@@ -33,12 +33,14 @@ SOFTWARE.
 # Data files
 
 The data files in `import/*.csv` were compiled by [Prognos AG](http://www.prognos.com/)
-for the Bertelsmann Foundation. The data originate from several sources:
+for the Bertelsmann Foundation. You must delete these data files after download. 
+The data originate from several sources:
 
 - OECD: http://www.oecd.org/statistics/
 - OECD Migration Database: http://www.oecd.org/els/mig/keystat.htm
 - AMECO: http://ec.europa.eu/economy_finance/db_indicators/ameco/
 - UN Comtrade: http://comtrade.un.org/
+- Bank for International Settlements (BIS): http://www.bis.org/statistics/consstats.htm
 
 # Trademarks
 
