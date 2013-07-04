@@ -51,7 +51,7 @@ developments.
 
 Contact to the GED team: http://www.ged-project.de/contact/
 
-Software Development: 9elements
+Software Development: [9elements](http://9elements.com)
 
 Technical and security contact: Mathias Schäfer,
 [mathias.schaefer@9elements.com](mailto:mathias.schaefer@9elements.com),
