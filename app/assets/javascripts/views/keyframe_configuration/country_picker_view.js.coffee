@@ -62,7 +62,6 @@ define [
 
     initialize: ->
       super
-      #console.log 'CountryPickerView#initialize'
       @listenTo @model, 'change:countries', @refilter
 
       # Array with all countries ordered by name
@@ -86,7 +85,6 @@ define [
 
     render: ->
       super
-      #console.log 'CountryPickerView#render'
 
       # Available country groups
       # ------------------------
@@ -138,7 +136,6 @@ define [
       return
 
     renderSortCountriesView: ->
-      #console.log 'CountryPickerView#renderSortCountriesView'
       @subview('sortCountries').render()
       return
 
@@ -231,8 +228,6 @@ define [
     # --------------
 
     groupSelected: (countryGroup, view) ->
-      #console.log 'CoutryPickerView#groupSelected', countryGroup
-
       @selectedGroup = countryGroup
 
       # Update results
@@ -295,7 +290,6 @@ define [
     sortCountries: (options) ->
       options.countries = @availableCountries.toArray()
       options.year = @model.get 'year'
-      #console.log 'CountryPickerView#sortCountries', options
       promise = SortCountriesRequest.send options
       promise.then (sortedCountries) =>
         @availableCountries.reset sortedCountries, sorting: true

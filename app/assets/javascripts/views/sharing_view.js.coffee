@@ -30,7 +30,6 @@ define [
 
     initialize: ->
       super
-      #console.log 'SharingView#initialize', @model
 
       @wrapSaveMethods()
 

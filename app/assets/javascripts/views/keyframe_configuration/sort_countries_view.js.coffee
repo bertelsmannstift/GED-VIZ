@@ -29,7 +29,6 @@ define [
 
     render: ->
       super
-      #console.log 'SortCountriesView#render'
       sorting = @options.defaultSorting
       element = @$(".#{sorting}")
       @updateCurrentSorting element, type: sorting
@@ -81,14 +80,11 @@ define [
         ]
 
     sort: (element, options) ->
-      #console.log 'SortCountriesView#sort', element, options
       @updateCurrentSorting element, options
       @trigger 'sort', options
       return
 
     updateCurrentSorting: (element, options) ->
-      #console.log 'SortCountriesView#updateCurrentSorting', element, options
-
       @$('li').removeClass 'active'
       $(element).closest('li').addClass 'active'
 

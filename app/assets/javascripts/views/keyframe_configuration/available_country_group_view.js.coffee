@@ -14,5 +14,4 @@ define [
 
     select: (event) ->
       event.preventDefault()
-      #console.log 'AvailableCountryGroup: select'
       @trigger 'select', @model, this

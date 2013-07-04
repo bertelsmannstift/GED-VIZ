@@ -17,7 +17,6 @@ define [
 
     render: ->
       super
-      #console.log 'KeyframeConfigurationView#render'
 
       viewOptions =
         model: @model,

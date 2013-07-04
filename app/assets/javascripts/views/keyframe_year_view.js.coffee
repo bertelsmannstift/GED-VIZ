@@ -34,7 +34,6 @@ define [
 
     initialize: ->
       super
-      #console.log 'KeyframeYearView#initialize', @model
       @listenTo @model, 'change:yearly_totals change:year change:data_type_with_unit',
         @render
 
@@ -139,7 +138,6 @@ define [
 
     render: ->
       super
-      #console.log 'KeyframeYearView#render', @el, @el.parentNode
       content = @$('.nav, ul')
       if @model.get('countries').length < 1
         content.hide()
@@ -153,7 +151,6 @@ define [
 
     # Draw the marker arrow using Raphael
     drawMarker: ->
-      #console.log 'KeyframeYearView#drawMarker', arrowContainer
       arrowContainer = @$('.current .arrow').get 0
       return unless arrowContainer
       Raphael(arrowContainer, MARKER_WIDTH, MARKER_HEIGHT)

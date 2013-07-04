@@ -14,6 +14,5 @@ define [
 
     add: (event) ->
       event.preventDefault()
-      #console.log 'AvailableCountry#add'
       return if $(event.currentTarget).hasClass('disabled')
       @trigger 'add', @model

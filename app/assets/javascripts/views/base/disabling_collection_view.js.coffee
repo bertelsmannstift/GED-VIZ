@@ -10,7 +10,6 @@ define [
   class DisablingCollectionView extends CollectionView
 
     filterCallback: (view, included) ->
-      #console.log 'filterCallback', view.model.get('iso3'), included
       view.$el
         .toggleClass('enabled', included)
         .toggleClass('disabled', not included)

@@ -18,6 +18,5 @@ define [
       view = super
       # Pass `add` events from the item views
       @listenTo view, 'add', (country) ->
-        #console.log 'AvailableCountriesView: Pass add event'
         @trigger 'add', country
       view

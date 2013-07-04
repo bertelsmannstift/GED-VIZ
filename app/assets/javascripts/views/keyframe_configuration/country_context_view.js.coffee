@@ -77,8 +77,6 @@ define [
 
     # Enable/disable buttons according to the used and selected countries
     update: (@selectedCountries, usedCountries) ->
-      #console.log 'CountryContextView#update', selectedCountries, usedCountries
-
       countriesUsed = usedCountries.length > 0
       countriesSelected = selectedCountries.length > 0
       multipleSelected = selectedCountries.length > 1
@@ -110,7 +108,6 @@ define [
     buttonClicked: (event) ->
       event.preventDefault()
       @hideRollover(event)
-      #console.log 'CountryContextView#buttonClicked'
 
       $li = $(event.currentTarget)
       return if $li.hasClass 'disabled'

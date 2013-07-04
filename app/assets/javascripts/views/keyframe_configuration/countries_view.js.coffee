@@ -133,7 +133,6 @@ define [
 
     render: ->
       super
-      #console.log 'CountriesView#render'
 
       # Country context
       # ---------------
@@ -191,7 +190,6 @@ define [
       @subview 'usedCountries', view
 
     renderSortCountriesView: (keyframe, changes, options) ->
-      #console.log 'CountriesView#renderSortCountriesView', changes, options
       # Do not re-render after sorting
       unless options.sorting
         @subview('sortCountries').render()
@@ -201,7 +199,6 @@ define [
     # ---------
 
     countryFilterer: (country) =>
-      #console.log 'countryFilterer', country.get('iso3'), country.get('iso3') not in @usedIsos()
       # Accept the country if it is not already used
       country.get('iso3') not in @usedIsos()
 
@@ -220,7 +217,6 @@ define [
           isos[countryOrGroup.get('iso3')] = true
         return
       usedIsos = _(isos).keys()
-      #console.log 'CountriesView#usedIsos', usedIsos
       @_usedIsos = usedIsos
       usedIsos
 
@@ -254,7 +250,6 @@ define [
       @refilter()
 
     addRelatedCountries: (country, direction) ->
-      #console.log 'CountriesView#addRelatedCountries', country, direction
       promise = RelatedCountriesRequest.send {
         country
         direction
@@ -272,7 +267,6 @@ define [
     sortCountries: (options) ->
       options.countries = @usedCountries.toArray()
       options.year = @model.get 'year'
-      #console.log 'CountriesView#sortCountries', options
       promise = SortCountriesRequest.send options
       promise.then (sortedCountries) =>
         @model.resetCountries sortedCountries, sorting: true

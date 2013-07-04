@@ -36,7 +36,6 @@ define [
 
     initialize: ->
       super
-      #console.log 'KeyframesView#initialize', @model
 
       # Model Bindings
       @listenTo @model, 'change:index', @highlightCurrentKeyframe
@@ -53,8 +52,6 @@ define [
     # ------------------
 
     renderKeyframeList: ->
-      #console.log 'KeyframesView#renderKeyframeList', arguments
-
       # Dispose existing subviews
       if @subviews
         for view in @subviews
@@ -83,18 +80,15 @@ define [
       @showCaptureNotification()
 
     highlightCurrentKeyframe: ->
-      #console.log 'KeyframesView#highlightCurrentKeyframe'
       index = @model.get 'index'
       index = if index? then -1 - index else 0
       $items = @$('li')
       unless $items.length
-        #console.log 'KeyframesView#highlightCurrentKeyframe: not rendered yet'
         return
       $items.removeClass 'current'
       $item = $items.eq(index).addClass('current')
 
       # Draw the marker arrow using Raphael
-      #console.log 'KeyframesView#highlightCurrentKeyframe', $items, $item
       unless @arrowContainer
         @arrowContainer = @$('.arrow')
         Raphael(@arrowContainer.get(0), 15, 50)
@@ -186,7 +180,6 @@ define [
       return
 
     captureKeyframe: ->
-      #console.log 'KeyframesView#captureKeyframe', this
       @hideCaptureRollover()
       @hideCaptureNotification()
       @model.captureKeyframe title: @$('.new .title').val()
@@ -194,7 +187,6 @@ define [
 
     # Drag and drop sorting handler
     sorted: (event, params) ->
-      #console.log 'KeyframesView#sorted', event, params
       length = @$('li').length
       # reverse order because DOM order != keyframe order
       oldIndex = length - 1 - params.oldIndex

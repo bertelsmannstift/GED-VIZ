@@ -20,5 +20,4 @@ define [
       view
 
     selectHandler: (countryGroup, view) ->
-      #console.log 'AvailableCountryGroups: Pass select event'
       @trigger 'select', countryGroup, view
