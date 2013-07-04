@@ -9,8 +9,10 @@ define [
   'display_objects/static_chart'
   'views/legend_view'
   'lib/i18n'
+  'lib/support'
 ], (View, SharingView, KeyframeConfigurationView, KeyframesView,
-    KeyframeYearView, ContextboxView, Chart, StaticChart, LegendView, I18n) ->
+    KeyframeYearView, ContextboxView, Chart, StaticChart, LegendView,
+    I18n, support) ->
   'use strict'
 
   class PlayerView extends View
@@ -30,6 +32,8 @@ define [
       'click .nav-right': 'moveToNextKeyframe'
       'click .nav-play': 'togglePlay'
       'click .fullscreen': 'toggleFullscreen'
+      'mouseenter .nav-left.enabled, .nav-right.enabled, .fullscreen, .logo': 'showTooltip'
+      'mouseleave .nav-left, .nav-right, .fullscreen, .logo': 'hideTooltip'
 
     initialize: ->
       super
@@ -260,42 +264,8 @@ define [
       data.editorUrl = @model.getEditorURL()
       data
 
-    # Dot navigation
-    # --------------
-
-    dotSettings =
-      activeRadius: 5.5
-      inactiveRadius: 4
-      activeColor: '#86dcff'
-      inactiveColor: '#fff'
-      spacing: 13
-
-    initDots: ->
-      @dots = []
-      return unless Raphael.type
-
-      dots = @$('.dots').get(0)
-      numKeyframes = @getNumKeyframes()
-      player = this
-
-      @dotPaper = Raphael dots, dotSettings.spacing * numKeyframes, 20
-      for index in [0...numKeyframes]
-
-        dot = @dotPaper
-          .circle(dotSettings.spacing/2 + (index * dotSettings.spacing), 10, dotSettings.inactiveRadius)
-          .attr(fill: dotSettings.inactiveColor, 'stroke-opacity': 0)
-        @dots.push dot
-        dot
-          .data('index', index)
-          .hover(
-            -> player.dotMouseIn(this)
-            ,
-            -> player.dotMouseOut(this)
-          )
-          .click(
-            -> player.dotClick(this)
-          )
-      return
+    # General navigation
+    # ------------------
 
     updateNavigation: ->
       header = @$('> .header')
@@ -332,13 +302,77 @@ define [
         navLeft.addClass('disabled').removeClass('enabled')
       else
         navLeft.addClass('enabled').removeClass('disabled')
-        @updateToolTip navLeft.find('.tooltip'), @getPreviousKeyframe()
+        @updateTooltip navLeft.find('.tooltip'), @getPreviousKeyframe()
 
       if @atLastKeyframe()
         navRight.addClass('disabled').removeClass('enabled')
       else
         navRight.addClass('enabled').removeClass('disabled')
-        @updateToolTip navRight.find('.tooltip'), @getNextKeyframe()
+        @updateTooltip navRight.find('.tooltip'), @getNextKeyframe()
+      return
+
+    updateTooltip: ($tooltip, keyframe) ->
+      nbsp = '\u00A0'
+      unbreakText = (text) -> text.replace(/\s+/g, nbsp)
+      title = keyframe.get('title') + ' '
+      subtitle = keyframe.getSubtitle() + ' '
+
+      $tooltip.find('.maintitle').text unbreakText(title)
+      $tooltip.find('.subtitle').text  unbreakText(subtitle)
+      $tooltip.find('img').attr src: @model.staticKeyframeImage(keyframe, 'thumb')
+      return
+
+    # We can’t use CSS :hover for this because we need to exclude Mobile Safari
+    showTooltip: (event) ->
+      # Don’t show the tooltip if it would prevent the click event
+      return unless support.mouseover
+      $(event.currentTarget).find('.tooltip').show()
+      return
+
+    hideTooltip: ->
+      # Don’t show the tooltip if it would prevent the click event
+      return unless support.mouseover
+      $(event.currentTarget).find('.tooltip').hide()
+      return
+
+    # Dot navigation
+    # --------------
+
+    dotSettings =
+      activeRadius: 5.5
+      inactiveRadius: 4
+      activeColor: '#86dcff'
+      inactiveColor: '#fff'
+      spacing: 13
+
+    initDots: ->
+      @dots = []
+      return unless Raphael.type
+
+      dots = @$('.dots').get(0)
+      numKeyframes = @getNumKeyframes()
+
+      @dotPaper = Raphael dots, dotSettings.spacing * numKeyframes, 20
+      for index in [0...numKeyframes]
+        do (index) =>
+          dot = @dotPaper
+            .circle(
+              dotSettings.spacing / 2 + (index * dotSettings.spacing),
+              10,
+              dotSettings.inactiveRadius
+            )
+            .attr(fill: dotSettings.inactiveColor, 'stroke-opacity': 0)
+            .data('index', index)
+            .hover(
+              => @dotMouseIn dot
+              ,
+              => @dotMouseOut dot
+            )
+            .click(
+              => @dotClick dot
+            )
+          @dots.push dot
+          return
       return
 
     highlightSelectedDot: ->
@@ -354,6 +388,8 @@ define [
       return
 
     dotMouseIn: (dot) ->
+      # Don’t change the DOM if it would prevent the click event
+      return unless support.mouseover
       dot.attr r: dotSettings.activeRadius
       dotIndex = dot.data 'index'
       keyframe = @getKeyframe dotIndex
@@ -361,13 +397,15 @@ define [
       return
 
     dotMouseOut: (dot) ->
+      # Don’t change the DOM if it would prevent the click event
+      return unless support.mouseover
       dotIndex = dot.data 'index'
       active = dotIndex is @currentKeyframeIndex
       if active
         dot.attr r: dotSettings.activeRadius
       else
         dot.attr r: dotSettings.inactiveRadius
-      @hideDotTooltip 0
+      @hideDotTooltip()
       return
 
     dotClick: (dot) ->
@@ -382,7 +420,7 @@ define [
       title = keyframe.get 'title'
 
       $tooltip = @$('.dots .tooltip')
-      @updateToolTip $tooltip, keyframe
+      @updateTooltip $tooltip, keyframe
       dotOffset = dotSettings.spacing / 2 + (dotIndex * dotSettings.spacing)
       tooltipWidth = $tooltip.outerWidth()
       left = dotOffset - tooltipWidth / 2
@@ -395,16 +433,8 @@ define [
       @$('.dots .tooltip').hide()
       return
 
-    updateToolTip: ($tooltip, keyframe) ->
-      nbsp = '\u00A0'
-      unbreakText = (text) -> text.replace(/\s+/g, nbsp)
-      title = keyframe.get('title') + ' '
-      subtitle = keyframe.getSubtitle() + ' '
-
-      $tooltip.find('.maintitle').text unbreakText(title)
-      $tooltip.find('.subtitle').text  unbreakText(subtitle)
-      $tooltip.find('img').attr src: @model.staticKeyframeImage(keyframe, 'thumb')
-      return
+    # Disposal
+    # --------
 
     dispose: ->
       return if @disposed

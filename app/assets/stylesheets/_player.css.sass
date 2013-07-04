@@ -291,26 +291,22 @@ $separator-style: 1px solid silver
       border-color: #333 transparent
       border-width: 8px 10px 0 10px
 
-  // Show the tooltips
+  // Tooltip positioning
 
-  .nav-left.enabled:hover .tooltip
-    display: block
+  .nav-left .tooltip
     left: 3px
     &:after
       left: 15px
 
-  .nav-right.enabled:hover .tooltip
-    display: block
+  .nav-right .tooltip
     left: 2px
     &:after
       left: 15px
 
-  .fullscreen:hover .tooltip
-    display: block
-    left: -$footer-height
+  .fullscreen .tooltip
+    left: -20px
 
-  .logo:hover .tooltip
-    display: block
+  .logo .tooltip
     left: auto
     right: 3px
     text-transform: none

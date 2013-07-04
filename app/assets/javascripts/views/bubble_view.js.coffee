@@ -48,13 +48,7 @@ define [
           active = false
         localStorage.setItem notificationKey, true
 
-      # Do not render rollovers in Mobile Safari because changing the DOM in
-      # a mouseenter handler will prevent the click event from firing. See:
-      # http://sitr.us/2011/07/28/how-mobile-safari-emulates-mouse-events.html
-      ua = navigator.userAgent
-      if type is 'rollover' and
-        /\sSafari\/[^\s]+(\s|$)/.test(ua) and
-        /\sMobile\/[^\s]+(\s|$)/.test(ua)
+      if type is 'rollover' and not support.mouseover
           active = false
 
       unless active
