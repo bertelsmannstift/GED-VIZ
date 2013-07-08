@@ -41,7 +41,8 @@ part is written in JavaScript/[CoffeeScript](http://coffeescript.org/) using
 
 If you deploy the software on an Internet or Intranet server, please replace the
 term “GED VIZ” and trademarked logos which aren’t covered by the MIT license.
-See LICENSE.md for further instructions.
+See [LICENSE.md](https://github.com/bertelsmannstift/GED-VIZ/blob/master/LICENSE.md)
+for further instructions.
 
 ## About
 
