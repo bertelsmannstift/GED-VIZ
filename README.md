@@ -26,6 +26,7 @@ part is written in JavaScript/[CoffeeScript](http://coffeescript.org/) using
 
 - Ruby 1.9.3 (MRI) with RubyGems
 - MySQL 5.1 or newer
+- PhantomJS (for generating static images for slide previews, exporting and older browsers)
 
 ### Installation
 
