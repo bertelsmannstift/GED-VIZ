@@ -242,6 +242,8 @@ define [
       return
 
     initChart: ->
+      # Check if the chart was created (weird IE6 timing bug)
+      return unless @chart
       @initNumKeyframes()
       @initDots()
       @update()
@@ -329,7 +331,7 @@ define [
       $(event.currentTarget).find('.tooltip').show()
       return
 
-    hideTooltip: ->
+    hideTooltip: (event) ->
       # Don’t show the tooltip if it would prevent the click event
       return unless support.mouseover
       $(event.currentTarget).find('.tooltip').hide()

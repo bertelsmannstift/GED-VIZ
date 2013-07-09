@@ -11,10 +11,9 @@ $separator-style: 1px solid silver
   position: absolute
   top: 0
   left: 0
-  right: 0
-  bottom: 0
+  width: 100%
+  height: 100%
   background-color: white
-  overflow: hidden
 
   // Header
   // ------
@@ -52,9 +51,11 @@ $separator-style: 1px solid silver
     position: absolute
     top: 0
     left: 0
-    right: 0
+    width: 100%
     bottom: $footer-height
-    overflow: hidden
+
+    .old-ie &
+      height: 100%
 
   // Static chart (bitmap images only)
   // ---------------------------------
@@ -96,7 +97,7 @@ $separator-style: 1px solid silver
     position: absolute
     bottom: 0
     left: 0
-    right: 0
+    width: 100%
     height: $footer-height
     font-size: 12px
     line-height: $footer-height
