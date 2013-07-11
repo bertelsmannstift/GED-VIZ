@@ -22,6 +22,8 @@ part is written in JavaScript/[CoffeeScript](http://coffeescript.org/) using
 [Backbone.js](http://backbonejs.org/), [Chaplin.js](http://chaplinjs.org) and
 [Raphael.js](http://raphaeljs.com).
 
+There is a [detailed blog post on the implementation](http://9elements.com/io/index.php/ged-viz-making-of/).
+
 ### Dependencies
 
 - Ruby 1.9.3 (MRI) with RubyGems
