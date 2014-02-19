@@ -1,12 +1,13 @@
 define [
   'jquery'
   'chaplin/mediator'
-  'lib/utils'
-  'lib/i18n'
   'display_objects/display_object'
   'lib/colors'
+  'lib/i18n'
+  'lib/number_formatter'
   'lib/scale'
-], ($, mediator, utils, I18n, DisplayObject, Colors, scale) ->
+  'lib/utils'
+], ($, mediator, DisplayObject, Colors, I18n, numberFormatter, scale, utils) ->
   'use strict'
 
   # Shortcuts
@@ -26,6 +27,7 @@ define [
   PARTS = [OUTGOING, INCOMING]
 
   EASE_OUT = 'easeOut'
+  EASE_IN = 'easeIn'
 
   class Magnet extends DisplayObject
 
@@ -34,6 +36,8 @@ define [
 
     # Marker length for charts with 1-2 elements
     MARKER_LENGTH = 10
+
+    DIMMED_OUT_OPACITY = 0.5
 
     # Property declarations
     # ---------------------
@@ -199,8 +203,12 @@ define [
       # Clear timeouts
       clearTimeout @afterTransitionHandle
       clearTimeout @fadeInHandle
+
       # Calculate delay for drawing after the chart animation
-      afterTransition = if @animationDuration > 0 then @animationDuration + 100 else 0
+      afterTransition = if @animationDuration > 0
+        @animationDuration + 100
+      else
+        0
 
       # Draw labels and markers after the chart transition
       if @chartDrawn
@@ -221,8 +229,9 @@ define [
       return
 
     fadeInBars: =>
+      @fadeInHandle = null
       # Respect dimmed-out state
-      opacity = if @state('mode') is 'dimmedOut' then 0.5 else 1
+      opacity = if @state('mode') is 'dimmedOut' then DIMMED_OUT_OPACITY else 1
       attributes = 'fill-opacity': opacity
       fadeDuration = @animationDuration / 2
       for part in PARTS
@@ -287,8 +296,8 @@ define [
       x2 = @absx2; y2 = @absy2
       x4 = @absx4; y4 = @absy4
       x5 = @absx5; y5 = @absy5
-      pathStr = "M #{x1}, #{y1}, L #{x2}, #{y2}, L #{x5}, #{y5}, L #{x4}, #{y4} Z"
-      @drawBar OUTGOING, pathStr
+      pathString = "M #{x1}, #{y1}, L #{x2}, #{y2}, L #{x5}, #{y5}, L #{x4}, #{y4} Z"
+      @drawBar OUTGOING, pathString
       return
 
     drawIncomingBar: ->
@@ -296,11 +305,11 @@ define [
       x3 = @absx3; y3 = @absy3
       x5 = @absx5; y5 = @absy5
       x6 = @absx6; y6 = @absy6
-      pathStr = "M #{x2}, #{y2}, L #{x3}, #{y3}, L #{x6}, #{y6}, L #{x5}, #{y5} Z"
-      @drawBar INCOMING, pathStr
+      pathString = "M #{x2}, #{y2}, L #{x3}, #{y3}, L #{x6}, #{y6}, L #{x5}, #{y5} Z"
+      @drawBar INCOMING, pathString
       return
 
-    drawBar: (part, pathStr) ->
+    drawBar: (part, pathString) ->
       barProperty = "#{part}Bar"
 
       # Get bar color. Gray indicates missing data.
@@ -313,13 +322,13 @@ define [
         # Animate existing path, ensure the color is correct
         @[barProperty]
           .stop()
-          .animate({fill: color, path: pathStr}, @animationDuration, EASE_OUT)
+          .animate({fill: color, path: pathString}, @animationDuration, EASE_OUT)
         return
 
       # Start hidden when the magnet was added, fade in after chart transition
       opacity = if not @drawn and @chartDrawn then 0 else 1
 
-      path = @paper.path(pathStr).attr(
+      path = @paper.path(pathString).attr(
         fill: color
         'stroke-width': 0
         'stroke-opacity': 0
@@ -358,9 +367,10 @@ define [
         text = I18n.t 'not_available'
 
       else
-        number = utils.formatValue number, @element.type, @element.unit
+        number = numberFormatter.formatValue(
+          number, @element.dataType, @element.unit, false
+        )
         text = I18n.template ['units', @element.unit, 'with_value'], {number}
-        text = text.replace I18n.t('thousands_separator'), ''
 
       scalingMap = if @elementCount < 3
         'magnetLabelSizeUpToTwo'
@@ -679,10 +689,12 @@ define [
 
     removeLabels: ->
       for part in PARTS
-        @["#{part}Label"]?.remove()
-        delete @["#{part}Label"]
-        @["#{part}DescriptionLabel"]?.remove()
-        delete @["#{part}DescriptionLabel"]
+        for suffix in ['Label', 'DescriptionLabel']
+          prop = "#{part}#{suffix}"
+          label = @[prop]
+          if label
+            @removeChild label
+            delete @[prop]
       return
 
     # Change label visibility
@@ -812,12 +824,12 @@ define [
 
       # Draw the marker line
       unless position is 0
-        pathStr = Raphael.format(
+        pathString = Raphael.format(
           'M{0},{1} L{2},{3}',
           x, y1,
           x + (if isLeft then -1 else 1) * MARKER_LENGTH, y1
         )
-        path = @paper.path(pathStr).attr(
+        path = @paper.path(pathString).attr(
           stroke: 'white'
           'stroke-opacity': 1
         )
@@ -963,24 +975,38 @@ define [
     dimOut: ->
       # No opacity changes while waiting to fade in
       return if @fadeInHandle
-      @animateBarLook { 'fill-opacity': 0.4 }, @animationDuration / 4
+      @animateBarLook(
+        { 'fill-opacity': DIMMED_OUT_OPACITY },
+        @animationDuration / 4,
+        EASE_OUT
+      )
       return
 
     removeDim: ->
       # No opacity changes while waiting to fade in
       return if @fadeInHandle
-      @animateBarLook { 'fill-opacity': 1 }, @animationDuration / 4
+      @animateBarLook(
+        { 'fill-opacity': 1 },
+        @animationDuration / 4,
+        EASE_IN
+      )
       return
 
     # Helper for the bar look animation (not the position).
     # Ensures that only one look animation is running.
-    animateBarLook: (attributes, duration) ->
+    animateBarLook: (attributes, duration, easing) ->
       if @lookAnimation
         @outgoingBar.stop @lookAnimation
         @incomingBar.stop @lookAnimation
-      @lookAnimation = Raphael.animation attributes, duration, EASE_OUT
+      @lookAnimation = Raphael.animation attributes, duration, easing
       @outgoingBar.animate @lookAnimation
       @incomingBar.animate @lookAnimation
+      return
+
+    # Fade out before disposal
+    fadeOut: ->
+      for child in @displayObjects when child.stop and child.animate
+        child.stop().animate { opacity: 0 }, @animationDuration / 2
       return
 
     # Disposal

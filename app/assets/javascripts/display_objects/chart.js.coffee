@@ -1,17 +1,17 @@
 define [
-  'raphael'
   'underscore'
-  'lib/utils'
+  'raphael'
   'display_objects/display_object'
   'display_objects/chart_states'
   'display_objects/chart_drawing'
   'display_objects/chart_elements'
   'display_objects/chart_relations'
+  'lib/utils'
 ], (
-  Raphael, _, utils,
-  DisplayObject,
+  _, Raphael, DisplayObject,
   # Submodules
-  ChartStates, ChartDrawing, ChartElements, ChartRelations
+  ChartStates, ChartDrawing, ChartElements, ChartRelations,
+  utils
 ) ->
   'use strict'
 
@@ -105,11 +105,12 @@ define [
       return
 
     # Limit calls to resize
-    resize: _.debounce(@prototype.resize, 600)
+    @prototype.resize = _.debounce @prototype.resize, 300
 
     # Update the chart to represent a keyframe
     update: (options) ->
       return if @updateDisabled
+      clearTimeout @initLockingHandle
 
       keyframe = options.keyframe
       @keyframe = keyframe
@@ -122,7 +123,7 @@ define [
       oldDataTypeWithUnit = @dataTypeWithUnit
       @dataTypeWithUnit = keyframe.get 'data_type_with_unit'
 
-      # Just show an error message if no elements
+      # Show an error message if there are no elements
       if @getElementCount() is 0
         @clear()
         @showElementCountError()
@@ -130,10 +131,23 @@ define [
       else
         @hideElementCountError()
 
-      # Draw chart from scratch if the data type changed
       if @elements and not _(@dataTypeWithUnit).isEqual(oldDataTypeWithUnit)
-        @clear()
+        @fadeOutAndRedraw()
+      else
+        @updateAndDraw()
 
+      return
+
+    # If the data type has changed, fade out existing chart and
+    # draw a new chart from scratch.
+    fadeOutAndRedraw: ->
+      element.fadeOut() for element in @elements
+      utils.after @animationDuration / 2 + 15, =>
+        @clear()
+        @updateAndDraw()
+      return
+
+    updateAndDraw: ->
       # Set up or update display objects
       unless @elements
         update = false

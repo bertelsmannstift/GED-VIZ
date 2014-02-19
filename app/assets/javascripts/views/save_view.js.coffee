@@ -9,9 +9,7 @@ define [
 
     className: 'modal-dialog save-dialog'
 
-    container: '#page-container'
-
-    autoRender: true
+    autoFocus: false
 
     getTemplateData: ->
       data = super
@@ -19,5 +17,7 @@ define [
       data
 
     addedToDOM: ->
+      super
       # Set focus to the URL field
       @$('.url').focus().select()
+      return

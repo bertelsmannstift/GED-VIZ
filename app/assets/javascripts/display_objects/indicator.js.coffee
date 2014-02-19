@@ -2,13 +2,17 @@ define [
   'underscore'
   'jquery'
   'raphael'
-  'lib/utils'
   'display_objects/display_object'
+  'display_objects/indicator_visualization'
   'lib/colors'
   'lib/i18n'
+  'lib/number_formatter'
   'lib/scale'
-  'display_objects/indicator_visualization'
-], (_, $, Raphael, utils, DisplayObject, Colors, I18n, scale, IndicatorVisualization) ->
+  'lib/type_data'
+], (
+  _, $, Raphael, DisplayObject, IndicatorVisualization,
+  Colors, I18n, numberFormatter, scale, TypeData
+) ->
   'use strict'
 
   class Indicator extends DisplayObject
@@ -103,7 +107,7 @@ define [
       align = if @side is 'left' then 'left' else 'right'
       fontSize = scale 'indicatorFontSize', @smallestSide
       @el = $('<div>')
-        .addClass("indicator align-#{align}")
+        .addClass("indicator side-#{align}")
         .css('font-size', "#{fontSize}px")
       @addChild @el
 
@@ -127,7 +131,12 @@ define [
       # Create a new paper, append it to the element
       @visualizationContainer or= $('<div>')
         .addClass('indicator-visualization')
-        .prependTo(@el)
+
+      # Insert before or after label depending on the side
+      if @side is 'left'
+        @labels.after @visualizationContainer
+      else # top, right, bottom
+        @labels.before @visualizationContainer
 
       width = scale 'visualizationSize', @smallestSide
       height = width
@@ -153,7 +162,9 @@ define [
 
     drawValue: ->
       if @data.missing is false
-        number = utils.formatValue @data.value, @data.type, @data.unit
+        number = numberFormatter.formatValue(
+          @data.value, @data.type, @data.unit, true
+        )
         value = I18n.template ['units', @data.unit, 'with_value_html'], {number}
       else
         value = I18n.t 'not_available'
@@ -286,10 +297,10 @@ define [
       # Build string “(+ 12.34 %)”
       narrowSpace = '<span class="narrow-space">&nbsp;</span>'
       sign = if percent >= 0 then "+#{narrowSpace}" else ''
-      isAbsolute = @data.representation is utils.UNIT_ABSOLUTE
+      isAbsolute = @data.representation is TypeData.UNIT_ABSOLUTE
       unit = if isAbsolute then "#{narrowSpace}%" else ''
       percent *= 100 if isAbsolute
-      percent = utils.formatNumber percent
+      percent = numberFormatter.formatNumber percent, 2, false, true
       html = "(#{sign}#{percent}#{unit})"
 
       # Fill element

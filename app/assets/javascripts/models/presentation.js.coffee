@@ -1,14 +1,13 @@
 define [
-  'configuration'
   'underscore'
   'jquery'
+  'configuration'
+  'chaplin/lib/sync_machine'
   'models/base/model'
   'models/keyframe'
   'models/keyframes'
   'lib/local_storage'
-  'chaplin/lib/sync_machine'
-], (configuration, _, $, Model, Keyframe, Keyframes, LocalStorage,
-  SyncMachine) ->
+], (_, $, configuration, SyncMachine, Model, Keyframe, Keyframes, LocalStorage) ->
   'use strict'
 
   class Presentation extends Model
@@ -84,6 +83,13 @@ define [
       @triggerReset()
       @finishSync()
       true
+
+    # Model was prefilled with data, just fire the sync events
+    setSynced: ->
+      @beginSync()
+      @triggerReset()
+      @finishSync()
+      return
 
     # Deserialization
 

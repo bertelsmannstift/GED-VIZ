@@ -1,0 +1,19 @@
+%section.window
+
+  %a.close{ href: '', title: @t('editor', 'close_dialog') }
+    &times;
+
+  %h2= @t 'outdated_browser', 'heading'
+
+  %p= @t 'outdated_browser', 'message'
+
+  %ul.list
+    %li= @t 'outdated_browser', 'msie'
+    %li= @t 'outdated_browser', 'safari'
+    %li
+      %a(href="http://getfirefox.com" target="_blank")= @t 'outdated_browser', 'firefox'
+    %li= @t 'outdated_browser', 'chrome'
+    %li= @t 'outdated_browser', 'opera'
+
+  %p
+    %a.button.close-button.right(href='')= @t 'editor', 'close_dialog'

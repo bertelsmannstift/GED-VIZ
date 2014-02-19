@@ -5,23 +5,28 @@ class TypeWithUnit
   # Don’t initialize type and unit in the constructor
   # to allow for serialization
 
+  # initialize accepts objects or keys for data_type, indicator_type and unit
   def initialize(options = nil)
     if options
-      if options[:data_type].is_a? DataType
-        @type = options[:data_type]
-      elsif options[:data_type]
-        @type = DataType.where(key: options[:data_type]).first
+      data_type = options[:data_type]
+      indicator_type = options[:indicator_type]
+      unit = options[:unit]
 
-      elsif options[:indicator_type].is_a? IndicatorType
-        @type = options[:indicator_type]
-      elsif options[:indicator_type]
-        @type = IndicatorType.where(key: options[:indicator_type]).first
+      if data_type.is_a? DataType
+        @type = data_type
+      elsif data_type
+        @type = DataType.where(key: data_type).first
+
+      elsif indicator_type.is_a? IndicatorType
+        @type = indicator_type
+      elsif indicator_type
+        @type = IndicatorType.where(key: indicator_type).first
       end
 
-      if options[:unit].is_a? Unit
-        @unit = options[:unit]
-      elsif options[:unit]
-        @unit = Unit.where(key: options[:unit]).first
+      if unit.is_a? Unit
+        @unit = unit
+      elsif unit
+        @unit = Unit.where(key: unit).first
       end
 
     end
@@ -45,16 +50,10 @@ class TypeWithUnit
     @unit = Unit.where(key: twu[1]).first
   end
 
-  def hash
-    [type, unit].hash
+  def ==(other)
+    self.class == other.class &&
+      self.type == other.type &&
+      self.unit == other.unit
   end
-
-  def eql?(other)
-    if other.class == self.class
-      self.hash.eql?(other.hash)
-    else
-      false
-    end
-  end
-
+  alias_method :eql?, :==
 end

@@ -15,12 +15,12 @@ class Presentation < ActiveRecord::Base
 
   def self.cached_json(id)
     json = Rails.cache.read("presentation_#{id}")
-    if !json
+    unless json
       presentation = Presentation.find(id)
       json = presentation.to_json
       Rails.cache.write "presentation_#{id}", json
     end
-    return json
+    json
   end
 
   def self.from_json(json_hash, id=nil)
@@ -37,6 +37,7 @@ class Presentation < ActiveRecord::Base
   def serialize_keyframes
     keyframe_json = keyframes.map do |keyframe|
       keyframe.as_json.tap do |j|
+        # Remove all calculated data, retain the meta-data
         j.delete :elements
         j.delete :yearly_totals
       end

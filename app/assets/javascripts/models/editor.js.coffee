@@ -1,7 +1,8 @@
 define [
+  'underscore'
   'models/base/model'
   'models/presentation'
-], (Model, Presentation) ->
+], (_, Model, Presentation) ->
   'use strict'
 
   class Editor extends Model
@@ -18,12 +19,9 @@ define [
     #
     # _moveIndex: Number
 
-    initialize: (attributes) ->
-      # If no ID was given, set the special ID “new"
-      attributes.id ?= 'new'
-
-      # Create a presentation
-      presentation = new Presentation attributes
+    initialize: (attributes, options) ->
+      # Create the presentation
+      presentation = new Presentation options.presentationData, parse: true
       @set {presentation}
 
       # Listen for keyframe collection changes
@@ -53,16 +51,21 @@ define [
     # Start fetching the presentation
     # -------------------------------
 
-    fetchPresentation: ->
+    fetchPresentation: (fetchFromRemote) ->
       presentation = @getPresentation()
 
-      # Try to load the latest working draft from localStorage
-      fetchedLocally = false
-      if presentation.id is 'new'
-        fetchedLocally = presentation.fetchLocally()
+      if fetchFromRemote
+        presentation.fetch()
+        return
 
-      # Fetch from remote
-      presentation.fetch() unless fetchedLocally
+      # If the editor is started without a specific presentation ID,
+      # try to load the latest working draft from localStorage
+      if presentation.id is 'new'
+        fetched = presentation.fetchLocally()
+        return if fetched
+
+      # Model was prefilled with data
+      presentation.setSynced()
 
       return
 
@@ -83,7 +86,8 @@ define [
       draft.saveLocally()
       return
 
-    saveDraft: _.debounce(@prototype.saveDraft, 250)
+    # Limit calls to saveDraft
+    @prototype.saveDraft = _.debounce @prototype.saveDraft, 250
 
     # Locking handler
     # ---------------
@@ -142,7 +146,7 @@ define [
       presentation = @getPresentation()
       keyframes = @getKeyframes()
 
-      if presentation.id is null and keyframes.length is 1
+      if presentation.id is 'new'
         @showNewPresentation()
 
       else if presentation.id is 'draft'

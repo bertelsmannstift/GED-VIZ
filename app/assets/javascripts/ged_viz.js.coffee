@@ -7,6 +7,8 @@ define [
   'controllers/editor_controller'
   'controllers/player_controller'
   'controllers/static_controller'
+  # Require dummy console
+  'lib/dummy_console'
 ], ($, Chaplin, routes) ->
   'use strict'
 

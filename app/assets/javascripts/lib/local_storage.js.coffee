@@ -4,6 +4,8 @@ define [
 ], (_, support)->
   'use strict'
 
+  # Store JavaScript objects in localStorage as JSON
+
   falseFunc = -> false
 
   supported = Boolean support.localStorage and

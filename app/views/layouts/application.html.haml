@@ -1,40 +1,47 @@
 !!! 5
-%html(lang='en')
+%html{lang: 'en'}
   %head
-    %meta(charset='utf-8')
-    %title GED Viz
+    %meta{charset: 'utf-8'}
+    %title= t 'gedviz.site_title'
+
     = stylesheet_link_tag 'application', media: 'all'
 
     %link{rel: 'shortcut icon', type: 'image/png', href: image_path('favicons/favicon32.png')}
 
-    %meta(property='og:title' content='GED VIZ – Visualize economic relations')
-    %meta(property='og:site_name' content='GED VIZ – Visualize economic relations')
-    %meta(property='og:url' content='http://viz.ged-project.de/')
+    %meta{property: 'og:title', content: t('gedviz.site_title')}
+    %meta{property: 'og:site_name', content: t('gedviz.site_title')}
+    %meta{property: 'og:url', content: 'http://viz.ged-project.de/'}
     %meta{property: 'og:image', content: image_path('ged-facebook-thumb.jpg')}
-    - description = 'Create interactive visualizations of economic relations between countries and entities.'
-    %meta(property='og:description' content=description)
-    %meta(name='description' content=description)
+    %meta{property: 'og:description', content: t('gedviz.site_description')}
+    %meta{name: 'description', content: t('gedviz.site_description')}
 
-    %meta(name='apple-mobile-web-app-capable' content='yes')
-    %meta(name='apple-mobile-web-app-status-bar-style' content='black')
+    %meta{name: 'apple-mobile-web-app-capable', content: 'yes'}
+    %meta{name: 'apple-mobile-web-app-status-bar-style', content: 'black'}
     %link{rel: 'apple-touch-icon', sizes: '57x57', href: image_path('favicons/touch-icon57.png')}
     %link{rel: 'apple-touch-icon', sizes: '72x72', href: image_path('favicons/touch-icon72.png')}
     %link{rel: 'apple-touch-icon', sizes: '114x114', href: image_path('favicons/touch-icon114.png')}
     %link{rel: 'apple-touch-icon', sizes: '144x144', href: image_path('favicons/touch-icon144.png')}
 
-    %meta(name='viewport' content='width=1024, initial-scale=1.0')
+    %meta{name: 'viewport', content: 'width=1024, initial-scale=1.0'}
 
     = csrf_meta_tags
 
     /[if lt IE 9]
       %script
-        document.documentElement.className += ' old-ie';
         'abbr article aside audio canvas details figcaption figure footer header main mark meter nav output progress section summary time video'.replace(/\w+/g,function(n){document.createElement(n)})
+    /[if IE 7]
+      %script
+        document.documentElement.className += ' ie7';
+    /[if IE 8]
+      %script
+        document.documentElement.className += ' ie8';
 
   %body
 
     %noscript
-      %h1 Bertelsmann Stiftung Global Economic Dynamics (GED) Visualizer
+      %h1 GED VIZ Data Visualization Tool
+      %p GED VIZ is a free online tool for visualizing complex economic relations between countries like trade, migration and bank claims. Create interactive presentation and share them on social media or embed it on your blog or news site. GED VIZ is made for research, education and storytelling.
+      %p GED VIZ is a service by the Bertelsmann Foundation. The “Global Economic Dynamics” (GED) project contributes to a better understanding of the growing complexity of economic developments.
 
     = yield
 

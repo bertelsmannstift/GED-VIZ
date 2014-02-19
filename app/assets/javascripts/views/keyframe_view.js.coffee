@@ -42,8 +42,6 @@ define [
     getTemplateData: ->
       data = super
       data.visibleIndex = @editor.getKeyframes().indexOf(@model) + 1
-      data.title = @model.get('title') or
-        "#{I18n.t('editor', 'keyframe')} #{data.visibleIndex}"
       data.subtitle = @model.getSubtitle()
       data
 
@@ -70,7 +68,7 @@ define [
       @hideRollover()
       return
 
-    titleBlurred: ->
+    titleBlurred: (event) ->
       # Re-enable drag and drop
       @$el.attr 'draggable', true
       @saveTitle event.target.value

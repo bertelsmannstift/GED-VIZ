@@ -33,14 +33,16 @@ SOFTWARE.
 # Data files
 
 The data files in `import/*.csv` were compiled by [Prognos AG](http://www.prognos.com/)
-for the Bertelsmann Foundation. You must delete these data files after download. 
-The data originate from several sources:
+for the Bertelsmann Foundation. The data originate from several sources:
 
 - OECD: http://www.oecd.org/statistics/
 - OECD Migration Database: http://www.oecd.org/els/mig/keystat.htm
 - AMECO: http://ec.europa.eu/economy_finance/db_indicators/ameco/
 - UN Comtrade: http://comtrade.un.org/
 - Bank for International Settlements (BIS): http://www.bis.org/statistics/consstats.htm
+
+These files may only be used to import the data in order to install and run
+the GED VIZ software. You must not publish or redistribute these files.
 
 # Trademarks
 
@@ -50,13 +52,11 @@ Intranet web server, you have to replace these trademarks and logo in the user
 interface.
 
 To replace the trademarks in the source code, search for the strings
-“Bertelsmann Stiftung” and “GED VIZ” in `*.haml` and `*.hamlc` files.
+“Bertelsmann Stiftung” and “GED VIZ” in `*.haml`, `*.hamlc` and `*.yml` files.
 Also replace these logos:
 
-- `app/assets/images/stiftung-logo.svg`
-- `app/assets/images/stiftung-logo.png`
-- `app/assets/images/ged-logo*.svg`
-- `app/assets/images/ged-logo*.png`
+- `app/assets/images/bertelsmann-foundation-logo*.*`
+- `app/assets/images/ged-logo*.*`
 
 # Fonts
 
@@ -76,7 +76,7 @@ and not free of charge, therefore it’s not part of this repository.
 
 If you would like to use the original font, please
 [obtain a license](http://www.janfromm.de/typefaces/camingodos/buy/)
-to support the type designer.
+and support the type designer.
 
 You need to place the fonts files in `app/assets/fonts/` and enable them in
 `app/assets/stylesheets/_typography.css.sass`.

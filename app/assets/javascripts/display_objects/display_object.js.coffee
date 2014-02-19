@@ -1,10 +1,11 @@
 define [
+  'underscore'
   'backbone'
   'lib/states'
-], (Backbone, States) ->
+], (_, Backbone, States) ->
   'use strict'
 
-  # Constants
+  # Shortcuts
   # ---------
 
   FUNCTION = 'function'

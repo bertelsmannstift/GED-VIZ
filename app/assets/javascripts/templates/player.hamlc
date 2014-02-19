@@ -1,7 +1,10 @@
 .header
-  .title
-  .relation
-  .unit
+  %h1
+    %span.title
+  %p
+    %span.relation
+
+.current-year
 
 .chart
 
@@ -54,9 +57,14 @@
   .footer-right
 
     %a.logo(href=@editorUrl target='_blank')
-      .logo-fallback GED VIZ
+      .fallback= @t 'player', 'visit_ged_viz'
       .tooltip= @t 'player', 'visit_ged_viz'
 
-    .fullscreen
-      %a.toggle-fullscreen(href='')
-        .tooltip= @t 'player', 'fullscreen'
+    %a.toggle-fullscreen(href='')
+      .fallback= @t 'player', 'fullscreen'
+      .tooltip= @t 'player', 'fullscreen'
+
+    %a.toggle-legend(href='')
+      .fallback= @t 'legend', 'legend'
+      .tooltip= @t 'legend', 'legend'
+

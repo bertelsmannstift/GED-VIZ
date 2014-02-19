@@ -3,10 +3,11 @@ define [
   'raphael'
   'chaplin/mediator'
   'display_objects/display_object'
-  'lib/utils'
   'lib/colors'
   'lib/i18n'
-], ($, Raphael, mediator, DisplayObject, utils, Colors, I18n) ->
+  'lib/number_formatter'
+  'lib/utils'
+], ($, Raphael, mediator, DisplayObject, Colors, I18n, numberFormatter, utils) ->
   'use strict'
 
   # Shortcuts
@@ -18,6 +19,7 @@ define [
   sin = Math.sin
   cos = Math.cos
 
+  EASE_IN = 'easeIn'
   EASE_OUT = 'easeOut'
 
   # Constants
@@ -27,6 +29,7 @@ define [
   STROKE_OPACITY = 0.1
   ARROW_SIZE = 10
   PERCENT_LABEL_DISTANCE = 20
+  ACTIVE_OPACITY = 0.9
 
   class Relation extends DisplayObject
 
@@ -34,7 +37,7 @@ define [
     # ---------------------
 
     # id: String
-    #   from and to ID connected with a “>”, like gbr>deu
+    #   from and to ID connected with a “>”, like fr>us
     # from: Element
     # fromId: String
     # to: Element
@@ -141,8 +144,8 @@ define [
         from: @from.sumOut - @stackedAmountFrom
         to: @to.sumIn - @stackedAmountTo
 
-      # get faces of start and destination magnets
-      startFace =
+      # get faces of source and destination magnets
+      sourceFace =
         start:
           x: unless drawInverseFrom then fromMagnet.x1 else fromMagnet.x2
           y: unless drawInverseFrom then fromMagnet.y1 else fromMagnet.y2
@@ -157,16 +160,16 @@ define [
           x: unless drawInverseTo then toMagnet.x3 else toMagnet.x2
           y: unless drawInverseTo then toMagnet.y3 else toMagnet.y2
 
-      startFace.length = Math.sqrt(
-        Math.pow(startFace.end.x - startFace.start.x, 2) +
-        Math.pow(startFace.end.y - startFace.start.y, 2)
+      sourceFace.length = Math.sqrt(
+        Math.pow(sourceFace.end.x - sourceFace.start.x, 2) +
+        Math.pow(sourceFace.end.y - sourceFace.start.y, 2)
       )
 
       # get relation line start and end point
       relationLine =
         start:
-          x: relationLinePointFromFace.x(startFace, @from.sumOut, stackedAmounts.from)
-          y: relationLinePointFromFace.y(startFace, @from.sumOut, stackedAmounts.from)
+          x: relationLinePointFromFace.x(sourceFace, @from.sumOut, stackedAmounts.from)
+          y: relationLinePointFromFace.y(sourceFace, @from.sumOut, stackedAmounts.from)
         end:
           x: relationLinePointFromFace.x(destinationFace, @to.sumIn, stackedAmounts.to)
           y: relationLinePointFromFace.y(destinationFace, @to.sumIn, stackedAmounts.to)
@@ -180,27 +183,24 @@ define [
       controlPointDistance = distance * 0.4
 
       # some trigonometry for control points
-      if drawInverseFrom
-        degrees =
-          start:
-            deg: Math.atan2(startFace.start.y - startFace.end.y, startFace.start.x - startFace.end.x) - HALF_PI
+      degrees = {}
+      degrees.start = {}
+      degrees.start.deg = if drawInverseFrom
+        Math.atan2(sourceFace.start.y - sourceFace.end.y, sourceFace.start.x - sourceFace.end.x) - HALF_PI
       else
-        degrees =
-          start:
-            deg: Math.atan2(startFace.end.y - startFace.start.y, startFace.end.x - startFace.start.x) - HALF_PI
-      degrees.start.cos = Math.cos(degrees.start.deg)
-      degrees.start.sin = Math.sin(degrees.start.deg)
+        Math.atan2(sourceFace.end.y - sourceFace.start.y, sourceFace.end.x - sourceFace.start.x) - HALF_PI
+      degrees.start.cos = Math.cos degrees.start.deg
+      degrees.start.sin = Math.sin degrees.start.deg
       degrees.start.distCos = degrees.start.cos * controlPointDistance
       degrees.start.distSin = degrees.start.sin * controlPointDistance
 
-      if drawInverseTo
-        degrees.end =
-          deg: Math.atan2(destinationFace.start.y - destinationFace.end.y, destinationFace.start.x - destinationFace.end.x) - HALF_PI
+      degrees.end = {}
+      degrees.end.deg = if drawInverseTo
+        Math.atan2(destinationFace.start.y - destinationFace.end.y, destinationFace.start.x - destinationFace.end.x) - HALF_PI
       else
-        degrees.end =
-          deg: Math.atan2(destinationFace.end.y - destinationFace.start.y, destinationFace.end.x - destinationFace.start.x) - HALF_PI
-      degrees.end.cos = Math.cos(degrees.end.deg)
-      degrees.end.sin = Math.sin(degrees.end.deg)
+        Math.atan2(destinationFace.end.y - destinationFace.start.y, destinationFace.end.x - destinationFace.start.x) - HALF_PI
+      degrees.end.cos = Math.cos degrees.end.deg
+      degrees.end.sin = Math.sin degrees.end.deg
       degrees.end.distCos = degrees.end.cos * controlPointDistance
       degrees.end.distSin = degrees.end.sin * controlPointDistance
 
@@ -213,14 +213,17 @@ define [
           x: relationLine.end.x - degrees.end.distCos
           y: relationLine.end.y - degrees.end.distSin
 
-      relationLine.pathStr =
+      @debugPoint controlPoint.start.x,controlPoint.start.y
+      @debugPoint controlPoint.end.x,controlPoint.end.y
+
+      relationLine.pathString =
         # Curve from start through both control points to end
         'M' + relationLine.start.x + ',' + relationLine.start.y +
         'C' + controlPoint.start.x + ',' + controlPoint.start.y +
         ' ' + controlPoint.end.x + ',' + controlPoint.end.y +
         ' ' + relationLine.end.x + ',' + relationLine.end.y
 
-      strokeWidth = (startFace.length / @from.sumOut) * @amount
+      strokeWidth = (sourceFace.length / @from.sumOut) * @amount
       strokeWidth = Math.max(strokeWidth, 0.8)
 
       # Finally draw the paths
@@ -232,7 +235,7 @@ define [
 
       # Curry the drawArrows function to use it as an animation callback
       drawArrows = _.bind @drawArrows, @,
-        paper, startFace, destinationFace, stackedAmounts, degrees, offset
+        paper, sourceFace, destinationFace, stackedAmounts, degrees, offset
 
       if @drawn
         # Hide the arrows during the animation
@@ -240,7 +243,7 @@ define [
 
         # Animate existing path, stop all running animations
         @path.stop().animate(
-          { path: relationLine.pathStr, 'stroke-width': strokeWidth },
+          { path: relationLine.pathString, 'stroke-width': strokeWidth },
           @animationDuration,
           EASE_OUT,
           # Move arrows after animation
@@ -251,7 +254,7 @@ define [
         return
 
       # Path hasn’t been drawn before, create it from scratch
-      @path = paper.path(relationLine.pathStr).attr(
+      @path = paper.path(relationLine.pathString).attr(
         stroke: NORMAL_COLOR
         'stroke-opacity': if @chartDrawn then 0 else STROKE_OPACITY
         'stroke-width': strokeWidth
@@ -259,10 +262,13 @@ define [
       )
       @addChild @path
 
-      # If the relation belongs to a country which was added,
-      # fade in the path
-      afterTransition = if @animationDuration > 0 then @animationDuration + 100 else 0
+      # If the relation belongs to a country which was recently added
+      # to the chart, fade in the path
       if @chartDrawn
+        afterTransition = if @animationDuration > 0
+          @animationDuration + 100
+        else
+          0
         animation = Raphael.animation(
           { 'stroke-opacity': STROKE_OPACITY },
           @fadeDuration,
@@ -284,62 +290,93 @@ define [
     # Drawing the arrows
     # ------------------
 
-    drawArrows: (paper, startFace, destinationFace, stackedAmounts, degrees, offset) =>
+    drawArrows: (paper, sourceFace, destinationFace, stackedAmounts, degrees, offset) =>
       delta =
-        start:
-          x: startFace.end.x - startFace.start.x
-          y: startFace.end.y - startFace.start.y
-        dest:
+        source:
+          x: sourceFace.end.x - sourceFace.start.x
+          y: sourceFace.end.y - sourceFace.start.y
+        destination:
           x: destinationFace.end.x - destinationFace.start.x
           y: destinationFace.end.y - destinationFace.start.y
 
       deltaAmountFraction =
-        startXFrom: delta.start.x / @from.sumOut
-        startYFrom: delta.start.y / @from.sumOut
-        destXTo:   delta.dest.x / @to.sumIn
-        destYTo:   delta.dest.y / @to.sumIn
+        sourceXFrom: delta.source.x / @from.sumOut
+        sourceYFrom: delta.source.y / @from.sumOut
+        destinationXTo: delta.destination.x / @to.sumIn
+        destinationYTo: delta.destination.y / @to.sumIn
 
-      base =
-        start:
-          one:
-            x: startFace.start.x + (deltaAmountFraction.startXFrom * stackedAmounts.from) + offset.x
-            y: startFace.start.y + (deltaAmountFraction.startYFrom * stackedAmounts.from) + offset.y
-          two:
-            x: startFace.start.x + (deltaAmountFraction.startXFrom * (stackedAmounts.from - @amount)) + offset.x
-            y: startFace.start.y + (deltaAmountFraction.startYFrom * (stackedAmounts.from - @amount)) + offset.y
-        dest:
-          one:
-            x: destinationFace.start.x + (deltaAmountFraction.destXTo * stackedAmounts.to) + offset.x
-            y: destinationFace.start.y + (deltaAmountFraction.destYTo * stackedAmounts.to) + offset.y
-          two:
-            x: destinationFace.start.x + (deltaAmountFraction.destXTo * (stackedAmounts.to - @amount)) + offset.x
-            y: destinationFace.start.y + (deltaAmountFraction.destYTo * (stackedAmounts.to - @amount)) + offset.y
+      # Source points
 
-      startArrowPathStr = 'M' + (base.start.one.x + degrees.start.cos) + ',' + (base.start.one.y + degrees.start.sin) +
-        'L' + (base.start.two.x + degrees.start.cos) + ',' + (base.start.two.y + degrees.start.sin) +
-        'L' + (base.start.one.x + (base.start.two.x - base.start.one.x) / 2 - degrees.start.cos * ARROW_SIZE) + ',' +
-              (base.start.one.y + (base.start.two.y - base.start.one.y) / 2 - degrees.start.sin * ARROW_SIZE)
+      sourcePoints =
+        one:
+          x: sourceFace.start.x + (deltaAmountFraction.sourceXFrom * stackedAmounts.from) + offset.x
+          y: sourceFace.start.y + (deltaAmountFraction.sourceYFrom * stackedAmounts.from) + offset.y
+        two:
+          x: sourceFace.start.x + (deltaAmountFraction.sourceXFrom * (stackedAmounts.from - @amount)) + offset.x
+          y: sourceFace.start.y + (deltaAmountFraction.sourceYFrom * (stackedAmounts.from - @amount)) + offset.y
 
-      destinationArrowPathStr = 'M' + (base.dest.one.x - degrees.end.cos) + ',' + (base.dest.one.y - degrees.end.sin) +
-        'L' + (base.dest.two.x - degrees.end.cos) + ',' + (base.dest.two.y - degrees.end.sin) +
-        'L' + (base.dest.one.x + (base.dest.two.x - base.dest.one.x) / 2 + degrees.end.cos * ARROW_SIZE) + ',' +
-              (base.dest.one.y + (base.dest.two.y - base.dest.one.y) / 2 + degrees.end.sin * ARROW_SIZE)
+      sourcePoints.one.finalX = sourcePoints.one.x + degrees.start.cos
+      sourcePoints.one.finalY = sourcePoints.one.y + degrees.start.sin
+      sourcePoints.two.finalX = sourcePoints.two.x + degrees.start.cos
+      sourcePoints.two.finalY = sourcePoints.two.y + degrees.start.sin
+
+      sourcePoints.three =
+        finalX: sourcePoints.one.x + (sourcePoints.two.x - sourcePoints.one.x) / 2 - degrees.start.cos * ARROW_SIZE
+        finalY: sourcePoints.one.y + (sourcePoints.two.y - sourcePoints.one.y) / 2 - degrees.start.sin * ARROW_SIZE
+
+      # Destination points
+
+      destinationPoints =
+        one:
+          x: destinationFace.start.x + (deltaAmountFraction.destinationXTo * stackedAmounts.to) + offset.x
+          y: destinationFace.start.y + (deltaAmountFraction.destinationYTo * stackedAmounts.to) + offset.y
+        two:
+          x: destinationFace.start.x + (deltaAmountFraction.destinationXTo * (stackedAmounts.to - @amount)) + offset.x
+          y: destinationFace.start.y + (deltaAmountFraction.destinationYTo * (stackedAmounts.to - @amount)) + offset.y
+
+      destinationPoints.one.finalX = destinationPoints.one.x - degrees.end.cos
+      destinationPoints.one.finalY = destinationPoints.one.y - degrees.end.sin
+      destinationPoints.two.x - degrees.end.cos
+      destinationPoints.two.y - degrees.end.sin
+
+      destinationPoints.three =
+        finalX: destinationPoints.one.x + (destinationPoints.two.x - destinationPoints.one.x) / 2 + degrees.end.cos * ARROW_SIZE
+        finalY: destinationPoints.one.y + (destinationPoints.two.y - destinationPoints.one.y) / 2 + degrees.end.sin * ARROW_SIZE
+
+      # Path strings
+
+      sourcePathString =
+        'M' + sourcePoints.one.finalX + ',' + sourcePoints.one.finalY +
+        'L' + sourcePoints.two.finalX + ',' + sourcePoints.two.finalY +
+        'L' + sourcePoints.three.finalX + ',' + sourcePoints.three.finalY
+
+      destinationArrowPathString =
+        'M' + destinationPoints.one.finalX + ',' + destinationPoints.one.finalY +
+        'L' + destinationPoints.two.finalX + ',' + destinationPoints.two.finalY +
+        'L' + destinationPoints.three.finalX + ',' + destinationPoints.three.finalY
 
       if @sourceArrow and @destinationArrow
         # Just move the existing arrows
-        @sourceArrow.attr path: startArrowPathStr
-        @destinationArrow.attr path: destinationArrowPathStr
+        @sourceArrow.attr path: sourcePathString
+        @destinationArrow.attr path: destinationArrowPathString
         @animationDeferred.resolve()
         return
 
       # Draw arrows from scratch
       color = Colors.magnets[@from.dataType].outgoing
-      @sourceArrow = paper.path(startArrowPathStr)
+      @sourceArrow = paper.path(sourcePathString)
         .hide() # Start hidden
         .attr(fill: color, 'stroke-opacity': 0)
       @addChild @sourceArrow
 
-      @destinationArrow = paper.path(destinationArrowPathStr)
+      # Testing a glow
+      #sourceStrokePath =
+      #  'M' + sourcePoints.one.finalX + ',' + sourcePoints.one.finalY +
+      #  'L' + sourcePoints.three.finalX + ',' + sourcePoints.three.finalY  +
+      #  'L' + sourcePoints.two.finalX + ',' + sourcePoints.two.finalY
+      #paper.path(sourceStrokePath).attr(stroke: 'white', 'stroke-width': 2, 'stroke-linecap': 'butt')
+
+      @destinationArrow = paper.path(destinationArrowPathString)
         .hide() # Start hidden
         .attr(fill: Colors.gray, 'stroke-opacity': 0)
       @addChild @destinationArrow
@@ -462,7 +499,8 @@ define [
     setNormalLook: ->
       @animatePathLook(
         { stroke: NORMAL_COLOR, 'stroke-opacity': STROKE_OPACITY },
-        @fadeDuration
+        @fadeDuration,
+        EASE_IN
       )
       @hideArrows()
       return
@@ -472,13 +510,16 @@ define [
     setHighlightLook: ->
       # Wait for animation to complete
       @animationDeferred.done =>
+        color = Colors.gray
+        @path.toFront()
         @animatePathLook(
-          { stroke: Colors.gray, 'stroke-opacity': 1 },
-          @fadeDuration
+          { stroke: color, 'stroke-opacity': 1 },
+          @fadeDuration,
+          EASE_OUT
         )
-        @sourceArrow.toFront().show()
+        @sourceArrow.stop().attr('fill-opacity': 1).toFront().show()
         @destinationArrow.stop().toFront().show().animate(
-          { fill: Colors.gray, 'fill-opacity': 1 },
+          { fill: color, 'fill-opacity': 1 },
           @fadeDuration,
           EASE_OUT
         )
@@ -490,10 +531,15 @@ define [
       @animationDeferred.done =>
         color = Colors.magnets[@from.dataType].incoming
         @animatePathLook(
-          { stroke: color, 'stroke-opacity': 0.85 },
-          @fadeDuration
+          { stroke: color, 'stroke-opacity': ACTIVE_OPACITY },
+          @fadeDuration,
+          EASE_OUT
         )
-        @sourceArrow.toFront().show()
+        @sourceArrow.stop().toFront().show().animate(
+          { 'fill-opacity': 0.25 },
+          @fadeDuration,
+          EASE_OUT
+        )
         @destinationArrow.stop().hide()
         return
       return
@@ -504,12 +550,17 @@ define [
       @animationDeferred.done =>
         color = Colors.magnets[@from.dataType].outgoing
         @animatePathLook(
-          { stroke: color, 'stroke-opacity': 0.85 },
-          @fadeDuration
+          { stroke: color, 'stroke-opacity': ACTIVE_OPACITY },
+          @fadeDuration,
+          EASE_OUT
         )
-        @sourceArrow.toFront().show()
+        @sourceArrow.stop().toFront().show().animate(
+          { 'fill-opacity': 1 },
+          @fadeDuration,
+          EASE_OUT
+        )
         @destinationArrow.stop().toFront().show().animate(
-          { fill: color, 'fill-opacity': 0.85 },
+          { fill: color, 'fill-opacity': ACTIVE_OPACITY },
           @fadeDuration,
           EASE_OUT
         )
@@ -552,9 +603,12 @@ define [
       # Create the value label
       # ----------------------
 
+      number = numberFormatter.formatValue(
+        @amount, @from.dataType, @from.unit, true
+      )
       text = I18n.template(
         ['units', @from.unit, 'with_value_html']
-        number: utils.formatValue(@amount, @from.dataType, @from.unit)
+        number: number
       )
 
       value = $('<div>')
@@ -684,11 +738,19 @@ define [
       @removeChild @labelContainer
       delete @labelContainer
 
+    # Fade out before disposal
+    fadeOut: ->
+      for child in @displayObjects when child.stop and child.animate
+        child.stop().animate { opacity: 0 }, @animationDuration / 2
+      return
+
     # Disposal
     # --------
 
     dispose: ->
-      return if @disposed
+      if @disposed
+        console.log "Relation#dispose #{@id} already disposed"
+        return
 
       # Remove references from elements
       @from.removeRelationOut this if @from

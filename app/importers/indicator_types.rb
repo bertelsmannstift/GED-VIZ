@@ -1,38 +1,58 @@
 module IndicatorTypes
 
-  def self.definitions
-    DEFINITIONS
+  def self.type_definitions
+    TYPE_DEFINITIONS
   end
 
-  # Derived IndicatorTypes in mln_persons converted from tsd_persons
+  def self.unit_definitions
+    UNIT_DEFINITIONS
+  end
 
-  def self.mln_persons_types
-    @mln_persons_types ||= definitions.each_with_object({}) do |type_definition, hash|
-      source_type = type_definition[:convert_from_tsd]
-      next if source_type.blank?
+  # Parse 'type_key(unit_key)' to a TypeWithUnit instance
+  def self.parse_type_with_unit(string)
+    type_key, unit_key = string.split(/[()]/)
+    TypeWithUnit.new(
+      indicator_type: type_key,
+      unit: unit_key
+    )
+  end
 
-      source = TypeWithUnit.new(
-        indicator_type: source_type,
-        unit: 'tsd_persons'
-      )
+  # Simple derived IndicatorTypes
+  # Returns an array with hashes { twu: TypeWithUnit, source: TypeWithUnit, converter: Proc }
 
-      derived = TypeWithUnit.new(
+  def self.derived_types
+    @derived_types ||= type_definitions.each_with_object([]) do |type_definition, types|
+      source = type_definition[:source]
+      next if source.nil?
+
+      twu = TypeWithUnit.new(
         indicator_type: type_definition[:type],
         unit: type_definition[:unit]
       )
+      source = parse_type_with_unit(source)
 
-      hash[derived] = source
+      types << {
+        twu: twu,
+        source: source,
+        converter: type_definition[:converter]
+      }
     end
   end
 
   # Derived IndicatorTypes that are quotient of two other types
+  # Returns an array with hashes { twu: TypeWithUnit, dividend: TypeWithUnit, divisor: Proc }
 
   def self.quotient_types
-    @quotient_types ||= definitions.each_with_object({}) do |type_definition, hash|
+    @quotient_types ||= type_definitions.each_with_object([]) do |type_definition, types|
       formula = type_definition[:formula]
       next if formula.blank?
 
-      parts = formula.split(/[\/\(\)]+/)
+      twu = TypeWithUnit.new(
+        indicator_type: type_definition[:type],
+        unit: type_definition[:unit]
+      )
+
+      parts = formula.split(/[\/()]+/)
       dividend_type, dividend_unit, divisor_type, divisor_unit = parts
 
       dividend = TypeWithUnit.new(
@@ -45,57 +65,95 @@ module IndicatorTypes
         unit: divisor_unit
       )
 
-      derived = TypeWithUnit.new(
-        indicator_type: type_definition[:type],
-        unit: type_definition[:unit]
-      )
-
-      hash[derived] = [dividend, divisor]
+      types << {
+        twu: twu,
+        dividend: dividend,
+        divisor: divisor,
+        converter: type_definition[:converter]
+      }
     end
   end
 
-  # Derived IndicatorTypes in (current|real)_dollars_per_capita converted by
-  # x(y) / population_src(tsd_persons) * 1000
+  # Types with values that are addable when calculating
+  # the sum for a country group
 
-  def self.per_capita_types
-    @per_capita_types ||= Hash.new.tap do |hash|
+  def self.addable_types
+    @addable_types ||= type_definitions.each_with_object([]) do |type_definition, types|
+      addable =
+        # Total import/export are not addable because
+        # they include the trade between the countries
+        type_definition[:type] != 'import' &&
+        type_definition[:type] != 'export' &&
+        # Percent values are only addable if they are quotient values
+        (type_definition[:unit] != 'percent' || type_definition[:formula].present?)
 
-      # The divisor twu is always population in thousands
-      divisor = TypeWithUnit.new(
-        indicator_type: 'population_src',
-        unit: 'tsd_persons'
-      )
-
-      definitions.each do |type_definition|
-        per_capita_from = type_definition[:per_capita_from]
-        next if per_capita_from.blank?
-
-        source_type, source_unit = per_capita_from.split(/[()]/)
-
-        dividend = TypeWithUnit.new(
-          indicator_type: source_type,
-          unit: source_unit
-        )
-
-        derived = TypeWithUnit.new(
+      if addable
+        twu = TypeWithUnit.new(
           indicator_type: type_definition[:type],
           unit: type_definition[:unit]
         )
-
-        hash[derived] = [dividend, divisor]
+        types << { twu: twu }
       end
     end
   end
 
-  DEFINITIONS = [
+  # For a given Prognos name, return an array with the corresponding type and unit keys
+
+  def self.prognos_key_to_type_and_unit
+    @prognos_key_to_type_and_unit ||= Hash.new.tap do |hash|
+      type_definitions.each do |type_definition|
+        prognos_name = type_definition[:prognos_name]
+        next if prognos_name.nil?
+        type_key = type_definition[:type]
+        unit_key = type_definition[:unit]
+        hash[prognos_name] = [type_key, unit_key]
+      end
+    end
+  end
+
+  # Converters
+  # ----------
+
+  CONVERT_FROM_TSD = lambda { |value|
+    value / 1000.0
+  }
+  CONVERT_PER_CAPITA = lambda { |dividend, divisor, dividend_twu, divisor_twu|
+    # Convert billion dollars to dollars
+    if %w(bln_real_dollars bln_current_dollars).include?(dividend_twu.unit.key)
+      dividend = dividend * 1000000000
+    end
+
+    # Convert thousand persons to persons
+    if divisor_twu.unit.key == 'tsd_persons'
+      divisor = divisor * 1000
+    end
+
+    [dividend, divisor]
+  }
+
+  CONVERT_PERCENT = lambda { |dividend, divisor, dividend_twu, divisor_twu|
+    dividend = dividend * 100
+    [dividend, divisor]
+  }
+
+  # Type definitions
+  # ----------------
+
+  TYPE_DEFINITIONS = [
     # prognos_name: Identifier used in the Prognos data CSVs
     # description: Prognos description
     # group: Group name, not present if not in a group
     # type: Type key that is created
     # unit: Unit key
     # prognos_formula: Formula for derived types, using prognos_names
+    # source: Reference type for derived units
+    #         Format: type_key(unit_key)
     # formula: Formula for derived types that are quotients of other types
     #          Format: type_key1(unit_key1)/type_key2(unit_key2)'
+    # converter: Proc
+    #            Value conversion for derived types
+    # external: Boolean. Whether to show in the UI
+    # position: Integer. Position in the UI
     # convert_from_tsd: Reference type for derived units in million that
     #                   are converted from thousands on import
 
@@ -255,15 +313,16 @@ module IndicatorTypes
     # Derived indicator types
     # -----------------------
 
-    # Thousand persons to million persons conversion
-    # ----------------------------------------------
+    # Derived person types
+    # --------------------
 
     {
       description: 'Total Population in Mln. Persons',
       type: 'population',
       unit: 'mln_persons',
-      position: 14,
-      convert_from_tsd: 'population_src'
+      source: 'population_src(tsd_persons)',
+      converter: CONVERT_FROM_TSD,
+      position: 14
     },
 
     {
@@ -271,8 +330,9 @@ module IndicatorTypes
       group: 'labor',
       type: 'labor_force',
       unit: 'mln_persons',
-      position: 11,
-      convert_from_tsd: 'labor_force_src'
+      source: 'labor_force_src(tsd_persons)',
+      converter: CONVERT_FROM_TSD,
+      position: 11
     },
 
     {
@@ -280,8 +340,9 @@ module IndicatorTypes
       group: 'labor',
       type: 'employment',
       unit: 'mln_persons',
-      position: 12,
-      convert_from_tsd: 'employment_src'
+      source: 'employment_src(tsd_persons)',
+      converter: CONVERT_FROM_TSD,
+      position: 12
     },
 
     {
@@ -289,20 +350,22 @@ module IndicatorTypes
       group: 'labor',
       type: 'unemployment',
       unit: 'mln_persons',
-      position: 13,
-      convert_from_tsd: 'unemployment_src'
+      source: 'unemployment_src(tsd_persons)',
+      converter: CONVERT_FROM_TSD,
+      position: 13
     },
 
-    # Quotient formulas
-    # -----------------
+    # Derived quotient types
+    # ----------------------
 
     # LAB
     {
       description: 'Labor force in Percent of Population',
       group: 'labor',
       type: 'labor_force',
-      unit: 'percent',
+      unit: 'percent_of_population',
       formula: 'labor_force_src(tsd_persons)/population_src(tsd_persons)',
+      converter: CONVERT_PERCENT,
       position: 11
     },
 
@@ -311,8 +374,9 @@ module IndicatorTypes
       description: 'Employment Rate in Percent',
       group: 'labor',
       type: 'employment',
-      unit: 'percent',
+      unit: 'percent_of_labor_force',
       formula: 'employment_src(tsd_persons)/labor_force_src(tsd_persons)',
+      converter: CONVERT_PERCENT,
       position: 12
     },
     {
@@ -320,18 +384,20 @@ module IndicatorTypes
       description: 'Unemployment Rate in Percent',
       group: 'labor',
       type: 'unemployment',
-      unit: 'percent',
+      unit: 'percent_of_labor_force',
       prognos_formula: 'q120=v120/lab0099',
       formula: 'unemployment_src(tsd_persons)/labor_force_src(tsd_persons)',
+      converter: CONVERT_PERCENT,
       position: 13
     },
     {
       prognos_name: 'q65ratio',
       description: 'Old Age Dependency Ratio in Percent',
       type: 'oadr',
-      unit: 'percent',
+      unit: 'percent_of_population',
       prognos_formula: 'q65ratio=pop64plus/pop1564',
       formula: 'pop64plus(tsd_persons)/pop1564(tsd_persons)',
+      converter: CONVERT_PERCENT,
       position: 15
     },
 
@@ -344,6 +410,7 @@ module IndicatorTypes
       unit: 'percent_of_gdp',
       prognos_formula: 'qr311=vr311/vr300',
       formula: 'cons_pvt(bln_real_dollars)/gdp(bln_real_dollars)',
+      converter: CONVERT_PERCENT,
       position: 1
     },
     {
@@ -354,6 +421,7 @@ module IndicatorTypes
       unit: 'percent_of_gdp',
       prognos_formula: 'qr312=vr312/vr300',
       formula: 'cons_gvt(bln_real_dollars)/gdp(bln_real_dollars)',
+      converter: CONVERT_PERCENT,
       position: 2
     },
     {
@@ -364,6 +432,7 @@ module IndicatorTypes
       unit: 'percent_of_gdp',
       prognos_formula: 'qr320=vr320/vr300',
       formula: 'cap_form(bln_real_dollars)/gdp(bln_real_dollars)',
+      converter: CONVERT_PERCENT,
       position: 3
     },
     {
@@ -374,6 +443,7 @@ module IndicatorTypes
       unit: 'percent_of_gdp',
       prognos_formula: 'qr340=vr340/vr300',
       formula: 'export(bln_real_dollars)/gdp(bln_real_dollars)',
+      converter: CONVERT_PERCENT,
       position: 5
     },
     {
@@ -384,6 +454,7 @@ module IndicatorTypes
       unit: 'percent_of_gdp',
       prognos_formula: 'qr350=vr350/vr300',
       formula: 'import(bln_real_dollars)/gdp(bln_real_dollars)',
+      converter: CONVERT_PERCENT,
       position: 4
     },
 
@@ -395,6 +466,7 @@ module IndicatorTypes
       unit: 'percent_of_gdp',
       prognos_formula: 'qn520=vn520/vn300',
       formula: 'account_src(bln_current_dollars)/gdp_src(bln_current_dollars)',
+      converter: CONVERT_PERCENT,
       position: 6
     },
     {
@@ -405,6 +477,7 @@ module IndicatorTypes
       unit: 'percent_of_gdp',
       prognos_formula: 'qn620=vn620/vn300',
       formula: 'budget_balance_src(bln_current_dollars)/gdp_src(bln_current_dollars)',
+      converter: CONVERT_PERCENT,
       position: 8
     },
     {
@@ -415,6 +488,7 @@ module IndicatorTypes
       unit: 'percent_of_gdp',
       prognos_formula: 'qn630=vn630/vn300',
       formula: 'gross_debt_gvt_src(bln_current_dollars)/gdp_src(bln_current_dollars)',
+      converter: CONVERT_PERCENT,
       position: 7
     },
 
@@ -425,8 +499,9 @@ module IndicatorTypes
       description: 'GDP in US-$ (real, Base Year=2005) per capita',
       type: 'gdp',
       unit: 'real_dollars_per_capita',
-      position: 0,
-      per_capita_from: 'gdp(bln_real_dollars)'
+      formula: 'gdp(bln_real_dollars)/population_src(tsd_persons)',
+      converter: CONVERT_PER_CAPITA,
+      position: 0
     },
 
     {
@@ -434,8 +509,9 @@ module IndicatorTypes
       group: 'consumption',
       type: 'cons_pvt',
       unit: 'real_dollars_per_capita',
-      position: 1,
-      per_capita_from: 'cons_pvt(bln_real_dollars)'
+      formula: 'cons_pvt(bln_real_dollars)/population_src(tsd_persons)',
+      converter: CONVERT_PER_CAPITA,
+      position: 1
     },
 
     {
@@ -443,8 +519,9 @@ module IndicatorTypes
       group: 'consumption',
       type: 'cons_gvt',
       unit: 'real_dollars_per_capita',
-      position: 2,
-      per_capita_from: 'cons_gvt(bln_real_dollars)'
+      formula: 'cons_gvt(bln_real_dollars)/population_src(tsd_persons)',
+      converter: CONVERT_PER_CAPITA,
+      position: 2
     },
 
     {
@@ -452,8 +529,9 @@ module IndicatorTypes
       group: 'capital',
       type: 'capital_stock_total',
       unit: 'real_dollars_per_capita',
-      position: 3,
-      per_capita_from: 'capital_stock_total(bln_real_dollars)'
+      formula: 'capital_stock_total(bln_real_dollars)/population_src(tsd_persons)',
+      converter: CONVERT_PER_CAPITA,
+      position: 3
     },
 
     {
@@ -461,8 +539,9 @@ module IndicatorTypes
       group: 'capital',
       type: 'cap_form',
       unit: 'real_dollars_per_capita',
-      position: 3,
-      per_capita_from: 'cap_form(real_dollars_per_capita)'
+      formula: 'cap_form(bln_real_dollars)/population_src(tsd_persons)',
+      converter: CONVERT_PER_CAPITA,
+      position: 3
     },
 
     {
@@ -470,8 +549,9 @@ module IndicatorTypes
       group: 'trade',
       type: 'import',
       unit: 'real_dollars_per_capita',
-      position: 4,
-      per_capita_from: 'cap_form(bln_real_dollars)'
+      formula: 'import(bln_real_dollars)/population_src(tsd_persons)',
+      converter: CONVERT_PER_CAPITA,
+      position: 4
     },
 
     {
@@ -479,9 +559,76 @@ module IndicatorTypes
       group: 'trade',
       type: 'export',
       unit: 'real_dollars_per_capita',
-      position: 5,
-      per_capita_from: 'export(bln_real_dollars)'
+      formula: 'export(bln_real_dollars)/population_src(tsd_persons)',
+      converter: CONVERT_PER_CAPITA,
+      position: 5
     }
 
   ]
+  private_constant :TYPE_DEFINITIONS
+
+  UNIT_DEFINITIONS = ActiveSupport::HashWithIndifferentAccess.new({
+
+    # US Dollar
+    bln_current_dollars: {
+      representation: Unit::ABSOLUTE,
+      position: 1
+    },
+    bln_real_dollars: {
+      representation: Unit::ABSOLUTE,
+      position: 1
+    },
+    real_dollars_per_capita: {
+      representation: Unit::ABSOLUTE,
+      position: 2
+    },
+
+    # Euro
+    bln_current_euros: {
+      representation: Unit::ABSOLUTE,
+      position: 1
+    },
+    bln_real_euros: {
+      representation: Unit::ABSOLUTE,
+      position: 1
+    },
+    real_euros_per_capita: {
+      representation: Unit::ABSOLUTE,
+      position: 2
+    },
+
+    # Persons
+    persons: {
+      representation: Unit::ABSOLUTE,
+      position: 1
+    },
+    tsd_persons: {
+      representation: Unit::ABSOLUTE,
+      position: 1
+    },
+    mln_persons: {
+      representation: Unit::ABSOLUTE,
+      position: 1
+    },
+
+    # Percent
+    percent: {
+      representation: Unit::PROPORTIONAL,
+      position: 0
+    },
+    percent_of_gdp: {
+      representation: Unit::PROPORTIONAL,
+      position: 0
+    },
+    percent_of_labor_force: {
+      representation: Unit::PROPORTIONAL,
+      position: 0
+    },
+    percent_of_population: {
+      representation: Unit::PROPORTIONAL,
+      position: 0
+    },
+  })
+  private_constant :UNIT_DEFINITIONS
+
 end

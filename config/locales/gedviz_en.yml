@@ -2,9 +2,15 @@ en:
   gedviz:
     language_name: English
 
+    site_title: GED VIZ – Visualizing Global Economic Relations
+    site_description: Create interactive visualizations of economic relations between countries and entities.
+
     decimal_mark: "."
     thousands_separator: ","
+    thousands_separator_html: ","
     not_available: "N/A"
+    enum_separator: ", "
+    enum_separator_last: " and "
 
     country_names:
       aus: Australia
@@ -68,17 +74,27 @@ en:
       import:
         incoming: Import
         outgoing: Export
+        year: Imports/exports in %{year}
+        unit: in %{unit}
       claims:
         incoming: Debt
         outgoing: Claims
+        year: Debts/claims in %{year}
+        unit: in %{unit}
       migration:
         incoming: Immigration
         outgoing: Emigration
+        year: Immigration/emigration in %{year}
+        unit: in %{unit}
 
     legend:
       generator: Generated with GED VIZ (<a href="http://viz.ged-project.de">viz.ged-project.de</a>)
       sources: Sources
       legend: Legend
+      about_heading: Made with GED VIZ
+      about_body: <p>This slideshow has been generated with <a href="http://viz.ged-project.de/" target="_blank">GED VIZ</a>, a web-tool for visualizing <a href="http://www.ged-project.de/" target="_blank">Global Economic Dynamics (GED)</a>. For more information on the tool including tutorial, FAQ, press material and contact, please visit <a href="http://www.ged-project.de/viz" target="_blank">www.ged-project.de/viz</a>.</p>
+      partners_heading: Credits
+      partners_body: "<p>Software development: 9elements<br>Visualization concept & UI design: Raureif and Prof. Boris Müller<br>Data support: Prognos</p><p>For developers: GED VIZ is open source and <a href='https://github.com/bertelsmannstift/GED-VIZ' target='_blank'>available on GitHub</a>.</p>"
       toggle_open: more
       toggle_close: less
       data:
@@ -248,6 +264,11 @@ en:
         with_value: "€ %{number} p.c."
         with_value_html: <span class='unit'>€</span><span class='value'>%{number}</span> <span class='suffix'>p.c.</span>
 
+      persons:
+        short: ""
+        full: persons
+        with_value: "%{number}"
+        with_value_html: <span class='value'>%{number} persons</span>
       tsd_persons:
         short: thousand
         full: thousand persons
@@ -269,6 +290,16 @@ en:
         full: percent of GDP
         with_value: "%{number} % of GDP"
         with_value_html: <span class='value'>%{number}</span><span class='suffix'>% of GDP</span>
+      percent_of_population:
+        short: "% POP"
+        full: percent of population
+        with_value: "%{number} % of POP"
+        with_value_html: <span class='value'>%{number}</span> <span class='suffix'>% of POP</span>
+      percent_of_labor_force:
+        short: "% LAB"
+        full: percent of labor force
+        with_value: "%{number} % of LAB"
+        with_value_html: <span class='value'>%{number}</span> <span class='suffix'>% of LAB</span>
 
     # Context box
     contextbox:
@@ -279,8 +310,6 @@ en:
         missing:
           intro: "Some data sets are not available:"
           entry: From %{source} to %{targets}
-          enumSeparator: ", "
-          enumSeparatorLast: " and "
       magnet:
         import: In %{year} %{name} imported %{amountIn} %{unit} worth of goods from all available countries and exported %{amountOut} %{unit} worth of goods to all available countries.
         claims: In %{year} banks in %{name} claimed %{amountOut} %{unit} against all available countries, total debt of %{name} to banks in all other available countries was %{amountIn} %{unit}.
@@ -294,13 +323,13 @@ en:
             import: No import data available for %{list}.
             claims: No debt data available for %{list}.
             migration: No immigration data available for %{list}.
-          enumSeparator: ", "
-          enumSeparatorLast: " and "
 
     # Bubbles (Rollovers and Notifications)
     bubbles:
       rollover:
-        default: Context info
+        show_introduction: Introduction to GED VIZ
+        switch_to_locale_en: In English
+        switch_to_locale_de: Auf Deutsch
         country_sort_by: Click to reorder countries (clockwise, starting at 12 o’clock).
         capture: Click to add the current visualization to the slideshow.
         rename_slide: Click title to rename the current slide.
@@ -335,16 +364,6 @@ en:
 
     # Player
     player:
-      title:
-        import:
-          year: Imports/exports in %{year}
-          unit: in %{unit}
-        migration:
-          year: Immigration/emigration in %{year}
-          unit: in %{unit}
-        claims:
-          year: Debts/claims in %{year}
-          unit: in %{unit}
       play: Play
       previous_keyframe: Previous
       next_keyframe: Next
@@ -406,8 +425,8 @@ en:
       keyframes_title: Slideshow
       capture_keyframe: Capture
       remove_keyframe: Remove
-      keyframe: Slide
-      untitled_keyframe: Untitled
+      untitled_keyframe: Add title…
+      keyframe_subtitle: "%{data_type} %{year}"
 
       # Sharing
       sharing_title: Share, Embed, Export
@@ -417,11 +436,14 @@ en:
       share_via_mail: Share via mail
       share_via_facebook: Share on Facebook
       share_via_twitter: Share on Twitter
+      sharing_text: "GED VIZ: Visualize global economic relations"
       embed: Embed
       get_embed_code: Get the code
       export: Export
 
       # All Modal Dialogs
+      okay_button: OK
+      cancel_button: Cancel
       close_dialog: Close
 
     # Main Editor Navigation
@@ -441,7 +463,7 @@ en:
       viz:
         name: VIZ
         description: Create visualizations
-        href: ""
+        href: http://www.ged-project.de/viz/
       about:
         name: About GED
         description: ""
@@ -452,14 +474,18 @@ en:
       introduction: Introduction
       video_id: FNUT-KwKd58
       welcome_heading: Welcome to GED VIZ
-      welcome_p1: GED VIZ lets you create and share visualizations of global economic relations - for research, teaching and storytelling.
+      welcome_p1: GED VIZ lets you create and share visualizations of global economic relations – for research, teaching and storytelling.
       welcome_p2: Watch the video to see how it works. Questions or remarks? Send us your feedback!
       watch_tutorial: Watch tutorial
-      faq: FAQ
-      faq_url: http://www.ged-project.de/
       feedback: Feedback
       feedback_url: http://www.ged-project.de/contact/
       start_tool: Start the tool
+      what_is_it_heading: The GED project
+      what_is_it_body: <p>GED VIZ is part of the <a href="http://www.ged-project.de/" target="_blank">Global Economic Dynamics (GED) project</a>. The project aims at contributing to a better understanding of the growing complexity of economic developments through analyses, visualizations, policy recommendations and tools. It focuses on relations, exchange and dependencies between countries.</p>
+      in_action_heading: Additional material
+      in_action_body: <p>Find more information including videos, press links, example articles and press material at <a href="http://www.ged-project.de/viz" target="_blank">www.ged-project.de/viz</a>.</p>
+      partners_heading: Credits
+      partners_body: "<p>Software development: 9elements<br>Visualization concept & UI design: Raureif and Prof. Boris Müller<br>Data support: Prognos</p><p>For developers: GED VIZ is open source and <a href='https://github.com/bertelsmannstift/GED-VIZ' target='_blank'>available on GitHub</a>.</p>"
 
     # Keyframe year list
     year_list:
@@ -505,6 +531,16 @@ en:
     save_dialog:
       title: Link to this slideshow
       url: "URL:"
+
+    # Editor browser warning
+    outdated_browser:
+      heading: Outdated browser
+      message: The GED VIZ editor makes use of recent web technologies like scalable vector graphics (SVG). You’re using a browser that does not support these technologies. For a better performance, please use a more recent browser.
+      msie: Upgrade Internet Explorer on Windows
+      safari: Upgrade Safari on MacOS
+      firefox: Download Mozilla Firefox
+      chrome: "Download Google Chrome: www.google.com/chrome/"
+      opera: "Download Opera: www.opera.com"
 
     # Magnet
     magnet:

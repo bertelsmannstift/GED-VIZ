@@ -5,20 +5,24 @@
 %ul.sharing-options
 
   %li.get-url
-    %span.label= @t 'editor', 'save'
-    %a.button.full(href='')= @t 'editor', 'get_url'
+    .label= @t 'editor', 'save'
+    .controls
+      %a.button.full(href='')= @t 'editor', 'get_url'
 
   %li.social-sharing
-    %span.label= @t 'editor', 'social_sharing'
-    - for service in ['mail', 'facebook', 'twitter']
-      - title = @t 'editor', "share_via_#{service}"
-      %a(href='' title=title class="button social share-via-#{service}")
-        %span= title
+    .label= @t 'editor', 'social_sharing'
+    .controls
+      - for service in ['mail', 'facebook', 'twitter']
+        - title = @t 'editor', "share_via_#{service}"
+        %a(href='' title=title class="button social share-via-#{service}")
+          %span= title
 
   %li.embed
-    %span.label= @t 'editor', 'embed'
-    %a.button.full(href='')= @t 'editor', 'get_embed_code'
+    .label= @t 'editor', 'embed'
+    .controls
+      %a.button.full(href='')= @t 'editor', 'get_embed_code'
 
   %li.export
-    %span.label= @t 'editor', 'export'
-    %a.button.full(href='') .png .csv
+    .label= @t 'editor', 'export'
+    .controls
+      %a.button.full(href='') .png .csv

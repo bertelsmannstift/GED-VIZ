@@ -1,8 +1,9 @@
 define [
   'jquery'
-  'configuration'
   'views/modal_dialog_view'
-], ($, configuration, ModalDialogView) ->
+  'lib/utils'
+  'lib/support'
+], ($, ModalDialogView, utils, support) ->
   'use strict'
 
   class EditorIntroductionView extends ModalDialogView
@@ -11,14 +12,9 @@ define [
 
     className: 'modal-dialog editor-introduction'
 
-    container: '#page-container'
-
-    autoRender: true
-
     events:
       'click .tutorial': 'play'
       'click .start': 'closeButtonClicked'
-
 
     # Property declarations
     # ---------------------
@@ -54,6 +50,24 @@ define [
 
     play: (event) ->
       event.preventDefault()
-      return unless window.postMessage and @player
-      @player.playVideo()
+      if window.postMessage and @player and @player.playVideo
+        @player.playVideo()
+      return
+
+    minimize: (event) ->
+      event.preventDefault() if event and event.type is 'click'
+      if support.cssTransitionProperty and support.cssTransformProperty
+        @player.stopVideo() if @player and @player.stopVideo
+        @$('.window').addClass 'minimized'
+        utils.after 1200, => @dispose()
+      else
+        @dispose()
+      return
+
+    closeOnEscape: @prototype.minimize
+    closeButtonClicked: @prototype.minimize
+
+    backgroundClicked: =>
+      if event.target is event.currentTarget
+        @prototype.minimize()
       return

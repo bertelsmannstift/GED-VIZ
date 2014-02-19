@@ -5,7 +5,7 @@
   %a.close{ href: '', title: @t('editor', 'close_dialog') }
     &times;
 
-  %section.keyframes
+  %section.content-section.keyframes
     %h3= @t 'export_dialog', 'keyframes'
     .radiobuttons
       %label
@@ -36,7 +36,7 @@
         %input(type='checkbox' name='show_legend' checked='checked' value='1')
         = @t 'export_dialog', 'show_legend'
 
-  %section.format
+  %section.content-section.format
     %h3= @t 'export_dialog', 'file_format'
     .radiobuttons
       %label

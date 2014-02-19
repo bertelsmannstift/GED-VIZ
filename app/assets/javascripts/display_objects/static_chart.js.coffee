@@ -1,7 +1,7 @@
 define [
-  'jquery'
   'underscore'
-], ($, _) ->
+  'jquery'
+], (_, $) ->
   'use strict'
 
   # The static chart is just an image gallery that just shows the keyframes
@@ -56,7 +56,8 @@ define [
         @showKeyframe @keyframe
       return
 
-    resize: _.debounce(@prototype.resize, 100)
+    # Limit calls to resize
+    @prototype.resize = _.debounce @prototype.resize, 100
 
     dispose: ->
       return if @disposed

@@ -1,13 +1,17 @@
-$header-color: #444
+$editor-header-color: #444
 $navigation-item-margin: 4px
 $navigation-item-height: $editor-header-height - $navigation-item-margin
 
+.editor .header-and-keyframe-configuration
+  position: relative
+  z-index: 202
+  background-color: white
+
 .editor header
   @extend %pie-clearfix
-  position: relative
-  min-height: $editor-header-height
+  height: $editor-header-height
   font-weight: 400
-  color: $header-color
+  color: $editor-header-color
 
   a
     text-decoration: none
@@ -17,7 +21,7 @@ $navigation-item-height: $editor-header-height - $navigation-item-margin
 
   h1, h2
     height: $editor-header-height
-    +background-size(auto 70%)
+    +background-size(contain)
     background-repeat: no-repeat
     +hide-text
 
@@ -32,7 +36,7 @@ $navigation-item-height: $editor-header-height - $navigation-item-margin
     float: right
     margin-right: 20px
     width: 160px
-    +svg-bg-with-fallback('stiftung-logo')
+    +svg-bg-with-fallback('bertelsmann-foundation-logo')
     background-position: right center
 
 // Main navigation
@@ -47,8 +51,8 @@ $navigation-item-height: $editor-header-height - $navigation-item-margin
     float: left
 
   a
+    @extend %border-box
     display: block
-    +box-sizing(border-box)
     border-radius: 5px 5px 0 0
     height: $navigation-item-height
     padding: 0 10px
@@ -85,7 +89,7 @@ $navigation-item-height: $editor-header-height - $navigation-item-margin
 
     &:before
       content: '|'
-      color: $header-color
+      color: $editor-header-color
 
     &:first-child:before
       content: none
@@ -97,7 +101,7 @@ $navigation-item-height: $editor-header-height - $navigation-item-margin
     font-weight: 700
 
   a:link, a:visited
-    color: $header-color
+    color: $editor-header-color
 
 // Introduction bubble / dialog
 // ----------------------------
@@ -123,46 +127,59 @@ $navigation-item-height: $editor-header-height - $navigation-item-margin
 .editor-introduction
 
   .window
-    $introduction-width: 780px
-    margin-left: -($introduction-width / 2)
-    width: $introduction-width
+    // Do not center horizontally
+    margin: 0
+    padding: 0
+    width: 800px
+    +transform(scale(1) translate3d(0, 0, 0))
+    +experimental(transform-origin, left top, $moz: false, $webkit: true, $o: false, $ms: true, $khtml: false, $official: true)
+
+    &.minimized
+      opacity: 0.1
+      +transform(scale(0.03) translate3d(0, 0, 0))
+      +transition(all 1s)
+      // Override inline styles
+      left: 630px !important
+      top: 10px !important
+
+  .content-wrapper
+    position: relative
+    margin: 20px
+
+  a
+    font-weight: 600
+    color: black
+
+  .welcome-and-video
+    position: relative
 
   iframe
-    float: right
+    position: absolute
+    right: 0
+    top: 0
     border: 0
-    width: 72%
-    height: 300px
+    width: 65%
+    height: 100%
 
   .welcome
-    float: left
-    width: 26%
+    width: 30%
 
-    p
-      margin: 10px 0
+    p, li
+      margin: 5px 0
 
   .buttons a
     @extend %blue-button
     display: block
-    margin: 5px
     padding: 6px 10px 6px 0
     font-size: 16px
 
     &:before
       display: inline-block
-      width: 30px
+      width: 35px
       text-align: center
-
-    //&:hover:before
-    //  background-color: red
 
   a.tutorial
     @extend %fonticon-play
-
-  a.faq:before
-    content: '?'
-    font-family: $monospace-font-stack
-    font-size: 18px
-    line-height: 16px
 
   a.feedback
     @extend %fonticon-feedback
@@ -174,3 +191,27 @@ $navigation-item-height: $editor-header-height - $navigation-item-margin
       content: '\203a'
       font-size: 22px
       line-height: 16px
+
+  .about
+    @extend %pie-clearfix
+    margin-top: 20px
+
+  .section
+    @extend %border-box
+    float: left
+    width: 30%
+
+    &.second
+      margin-left: 5%
+
+    &.third
+      float: right
+
+    h2
+      margin-bottom: 10px
+
+    p
+      margin: 5px 0
+
+    p:last-child
+      margin: 0

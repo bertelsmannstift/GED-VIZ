@@ -18,7 +18,10 @@ define [
     handleShowEvent: ->
       # When in editor, position below the header
       headerHeight = $('.header-and-keyframe-configuration').height()
-      @$el.css 'top', headerHeight + 5 if headerHeight?
+      if headerHeight?
+        chartYPosition = @$el.parent().offset().top
+        diff = Math.abs chartYPosition - headerHeight
+        @$el.css 'top', diff + 5
 
       @$el.stop(true, false).fadeIn()
 

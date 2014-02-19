@@ -10,7 +10,7 @@ window.onerror = (message, scriptURL, lineNumber) ->
         height: screen.height
       viewport:
         width: window.innerWidth or document.documentElement.clientWidth,
-        height: window.innerWidth or document.documentElement.clientHeight
+        height: window.innerHeight or document.documentElement.clientHeight
       message: message,
       scriptURL: scriptURL,
       lineNumber: lineNumber

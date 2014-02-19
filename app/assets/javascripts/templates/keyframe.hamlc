@@ -1,5 +1,5 @@
 .index= @visibleIndex
-%input.title(type='text' value=@title)
+%input.title{ :type => 'text', :value => @title, :placeholder => @t('editor', 'untitled_keyframe') }
 .subtitle= @subtitle
 %a.remove(href='')
   &times;

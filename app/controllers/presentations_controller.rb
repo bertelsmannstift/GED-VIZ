@@ -2,9 +2,10 @@ require 'csv'
 class PresentationsController < ApplicationController
 
   def new
+    @presentation_json = example_presentation.as_json
     respond_to do |format|
-      format.html
-      format.json { render json: example_presentation }
+      format.html { render :embedded }
+      format.json { render json: @presentation_json }
     end
   end
 
@@ -17,14 +18,14 @@ class PresentationsController < ApplicationController
   def show
     @presentation_json = Presentation.cached_json(params[:id])
     respond_to do |format|
-      format.html
+      format.html { render :embedded }
       format.json { render json: @presentation_json }
     end
   end
 
   def edit
-    # Raise errors early if presentation doesn't exist
-    Presentation.find(params[:id])
+    @presentation_json = Presentation.cached_json(params[:id])
+    render :embedded
   end
 
   def export

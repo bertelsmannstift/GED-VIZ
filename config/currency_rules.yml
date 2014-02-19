@@ -15,8 +15,11 @@ display:
     - mln_current_euros
     - real_euros_per_capita
   always:
-    - percent_of_gdp
     - percent
+    - percent_of_gdp
+    - percent_of_population
+    - percent_of_labor_force
+    - persons
     - tsd_persons
     - mln_persons
 

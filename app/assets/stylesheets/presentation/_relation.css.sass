@@ -16,8 +16,13 @@
   left: 0
   font-weight: 300
   padding: 0 4px
-  background: rgba(white, 0.9)
+  background-color: rgba(white, 0.9)
   +user-select(none)
+
+  .ie7 &,
+  .ie8 &
+    background-color: transparent
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#F0FFFFFF,endColorstr=#F0FFFFFF)
 
 .relation-value-label
   z-index: 2

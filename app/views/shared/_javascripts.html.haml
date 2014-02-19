@@ -1,8 +1,8 @@
--# Early player redirect for browsers without pushState support
+-# Early redirect for browsers without pushState support
 :javascript
   (function(){
     var w = window, d = w.document, l = w.location, p = l.pathname;
-    if (!w.history.pushState && /^\/\d+$/.test(l.pathname)) {
+    if (!w.history.pushState && /^\/(edit\/)?\d+$/.test(l.pathname)) {
       f = l.pathname + (l.search || '');
       l.replace('/#' + f.replace(/^\//, ''));
     }

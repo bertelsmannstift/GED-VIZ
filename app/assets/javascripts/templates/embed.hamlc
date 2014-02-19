@@ -4,13 +4,13 @@
   %a.close{ href: '', title: @t('editor', 'close_dialog') }
     &times;
 
-  %section.size
+  %section.content-section.size
     %p.description= @t 'embed_dialog', 'width_recommendation'
     %h3= @t 'embed_dialog', 'width'
     %input(type='text' value='800')
     %label px
 
-  %section.keyframes
+  %section.content-section.keyframes
     %h3= @t 'embed_dialog', 'keyframes'
     .radiobuttons
       %label
@@ -25,7 +25,7 @@
         %input.show-titles(type='checkbox' name='show_titles' checked='checked')
         = @t 'embed_dialog', 'show_titles'
 
-  %section.code
+  %section.content-section.code
     %a.button.preview.right(href='')= @t 'embed_dialog', 'show_preview'
 
     %h3

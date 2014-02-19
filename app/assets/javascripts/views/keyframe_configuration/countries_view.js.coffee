@@ -1,18 +1,21 @@
 define [
   'jquery'
-  'views/base/view'
-  'lib/sort_countries_request'
-  'lib/related_countries_request'
   'models/base/collection'
   'models/bubble'
+  'views/base/view'
   'views/keyframe_configuration/country_context_view'
   'views/keyframe_configuration/sort_countries_view'
   'views/keyframe_configuration/country_picker_view'
   'views/keyframe_configuration/used_countries_view'
   'views/bubble_view'
-], ($, View, SortCountriesRequest, RelatedCountriesRequest, Collection,
-    Bubble, CountryContextView, SortCountriesView, CountryPickerView,
-    UsedCountriesView, BubbleView) ->
+  'lib/sort_countries_request'
+  'lib/related_countries_request'
+], (
+  $, Collection, Bubble,
+  View, CountryContextView, SortCountriesView, CountryPickerView,
+  UsedCountriesView, BubbleView,
+  SortCountriesRequest, RelatedCountriesRequest
+) ->
   'use strict'
 
   class CountriesView extends View
@@ -86,7 +89,7 @@ define [
 
     toggleSortCountries: (event) ->
       event.preventDefault()
-      @hideSortRollover(event)
+      @hideSortRollover()
       @$('.sort-used-countries .sort-options').toggle()
       @$('.sort-used-countries').toggleClass 'open'
 

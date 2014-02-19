@@ -21,8 +21,8 @@
         - if locale is @locale
           %strong= locale
         - else
-          %a{ href: "?lang=#{locale}", title: @t('language_name'), class: 'noscript' }<
+          %a{ href: "?lang=#{locale}", class: 'noscript', data: { locale: locale } }<
             = locale
 
-  %p.open-introduction{ title: @t('introduction_dialog', 'introduction') }
+  %p.open-introduction
     %a(href='') ?

@@ -61,27 +61,31 @@ define [
 
     render: ->
       super
-      $(window).on 'resize', @positionElement
+      $(window).resize @positionElement
 
-      # Save Elements
+      # Save elements
       @bubble = @$('.bubble')
       @arrow = @$('.bubble-arrow')
 
       # Add CSS class based on notification type
-      if @model.get('type') is 'notification'
-        @bubble.addClass 'bubble-notification'
+      className = if @model.get('type') is 'notification'
+        'bubble-notification'
       else
-        @bubble.addClass 'bubble-rollover'
+        'bubble-rollover'
+      @bubble.addClass className
 
       # Add custom CSS class if set
-      if @model.get('customClass')?
-        @bubble.addClass "bubble-#{@model.get('customClass')}"
+      customClass = @model.get 'customClass'
+      if customClass
+        @bubble.addClass "bubble-#{customClass}"
 
       # Hide element and start timer if timeout is set
       if @model.get('timeout') is 0
         @showElement()
       else
         @resetTimeout()
+
+      this
 
     getTemplateData: ->
       data = super
@@ -106,6 +110,7 @@ define [
       # Clear and reset timeout
       clearTimeout @showElementHandle
       @showElementHandle = utils.after @model.get('timeout'), @showElement
+      return
 
     showElement: =>
       @positionElement()
@@ -114,10 +119,13 @@ define [
       @bubble.css 'display', 'block'
       @arrow.css 'display', 'block'
 
+      return
+
     styleRule: (modelAttribute, cssProperty, func) ->
       reference = @model.get modelAttribute
       return unless reference?
       $reference = $(reference)
+      return unless $reference.length
       cssValue = func.call this, $reference
       @bubble.css cssProperty, cssValue if cssValue?
       return
@@ -151,6 +159,7 @@ define [
 
       offset = @model.get 'offset'
       targetElement = $(@model.get('targetElement'))
+      return unless targetElement.length
       targetWidth = targetElement.width()
       targetHalfWidth = targetWidth / 2
       targetHeight = targetElement.height()

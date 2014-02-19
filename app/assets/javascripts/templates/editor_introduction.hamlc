@@ -3,24 +3,34 @@
   %a.close{ href: '', title: @t('editor', 'close_dialog') }
     &times;
 
-  - videoId = @t 'introduction_dialog', 'video_id'
-  %iframe#tutorial-video(src="https://www.youtube.com/embed/#{videoId}?enablejsapi=1&fs=1&autohide=1&modestbranding=1&rel=0&showinfo=0" webkitAllowFullScreen='' mozallowfullscreen='' allowFullScreen='')
+  .content-wrapper
 
-  .welcome
-    %h2= @t 'introduction_dialog', 'welcome_heading'
-    %p= @t 'introduction_dialog', 'welcome_p1'
-    %p= @t 'introduction_dialog', 'welcome_p2'
+    .welcome-and-video
+      - videoId = @t 'introduction_dialog', 'video_id'
+      %iframe#tutorial-video(src="https://www.youtube.com/embed/#{videoId}?enablejsapi=1&fs=1&autohide=1&modestbranding=1&rel=0&showinfo=0" webkitAllowFullScreen='' mozallowfullscreen='' allowFullScreen='')
 
-    %ul.buttons
-      %li
-        %a.tutorial(href='')= @t 'introduction_dialog', 'watch_tutorial'
-      %li
-        - href = @t 'introduction_dialog', 'faq_url'
-        %a.faq(href=href target='_blank')
-          = @t 'introduction_dialog', 'faq'
-      %li
-        - href = @t 'introduction_dialog', 'feedback_url'
-        %a.feedback(href=href target='_blank')
-          = @t 'introduction_dialog', 'feedback'
-      %li
-        %a.start(href='')= @t 'introduction_dialog', 'start_tool'
+      .welcome
+        %h2= @t 'introduction_dialog', 'welcome_heading'
+        %p!= @t 'introduction_dialog', 'welcome_p1'
+        %p!= @t 'introduction_dialog', 'welcome_p2'
+
+        %ul.buttons
+          %li
+            %a.tutorial(href='')= @t 'introduction_dialog', 'watch_tutorial'
+          %li
+            - href = @t 'introduction_dialog', 'feedback_url'
+            %a.feedback(href=href target='_blank')
+              = @t 'introduction_dialog', 'feedback'
+          %li
+            %a.start(href='')= @t 'introduction_dialog', 'start_tool'
+
+    .about
+      .section.first
+        %h2= @t 'introduction_dialog', 'what_is_it_heading'
+        %div!= @t 'introduction_dialog', 'what_is_it_body'
+      .section.second
+        %h2= @t 'introduction_dialog', 'in_action_heading'
+        %div!= @t 'introduction_dialog', 'in_action_body'
+      .section.third
+        %h2= @t 'introduction_dialog', 'partners_heading'
+        %div!= @t 'introduction_dialog', 'partners_body'

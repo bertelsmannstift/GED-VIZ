@@ -1,18 +1,21 @@
 define [
-  'views/base/view'
   'models/base/collection'
   'models/country_group'
   'models/bubble'
+  'views/base/view'
   'views/bubble_view'
   'views/keyframe_configuration/available_country_groups_view'
   'views/keyframe_configuration/available_countries_view'
   'views/keyframe_configuration/sort_countries_view'
   'lib/i18n'
-  'lib/type_data'
   'lib/sort_countries_request'
-], (View, Collection, CountryGroup, Bubble, BubbleView,
-  AvailableCountryGroupsView, AvailableCountriesView, SortCountriesView,
-  I18n, TypeData, SortCountriesRequest) ->
+  'lib/type_data'
+], (
+  Collection, CountryGroup, Bubble,
+  View, BubbleView, AvailableCountryGroupsView, AvailableCountriesView,
+  SortCountriesView,
+  I18n, SortCountriesRequest, TypeData
+) ->
   'use strict'
 
   class CountryPickerView extends View
@@ -285,7 +288,7 @@ define [
 
     toggleSortOptions: (event) ->
       event.preventDefault()
-      @$('.sort-options').slideToggle()
+      @$('.sort-options').slideToggle 300
 
     sortCountries: (options) ->
       options.countries = @availableCountries.toArray()
@@ -293,7 +296,7 @@ define [
       promise = SortCountriesRequest.send options
       promise.then (sortedCountries) =>
         @availableCountries.reset sortedCountries, sorting: true
-      @$('.sort-options').slideUp()
+      @$('.sort-options').slideUp 300
       return
 
     # Action buttons and their event handlers
@@ -318,12 +321,12 @@ define [
 
     addAllCountries: (event) ->
       event.preventDefault()
-      @hideRollover(event)
+      @hideRollover()
       @trigger 'addMultiple', @getFilteredCountries()
 
     addAllAsGroup: (event) ->
       event.preventDefault()
-      @hideRollover(event)
+      @hideRollover()
       # Create a new country group
       title = if @selectedGroup
         @selectedGroup.get 'title'
@@ -335,7 +338,7 @@ define [
 
     addRemainingAsGroup: (event) ->
       event.preventDefault()
-      @hideRollover(event)
+      @hideRollover()
       return unless @selectedGroup
       title = I18n.template(
         ['editor', 'rest_of_group']

@@ -1,7 +1,7 @@
 // Sharing widget on the bottom right
 .editor .sharing
+  @extend %border-box
   @extend %dark-background-gradient
-  +box-sizing(border-box)
   position: relative
   min-height: 50px
   padding: 10px
@@ -33,9 +33,19 @@
     @extend %pie-clearfix
     padding-bottom: 10px
 
+    .ie7 &
+      position: relative
+
   .label
     float: left
     width: 60px
+
+  .controls
+    // Trigger BFC to avoid overlapping with float box
+    overflow: hidden
+
+    .ie7 &
+      zoom: 1
 
   // All buttons
 
@@ -47,7 +57,6 @@
   // Big buttons
 
   .button.full
-    margin-left: 60px
     padding: 2px 0 2px 25px
     line-height: 15px
 

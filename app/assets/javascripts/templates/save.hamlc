@@ -4,7 +4,7 @@
   %a.close{ href: '', title: @t('editor', 'close_dialog') }
     &times;
 
-  %section
+  %section.content-section
     %h3= @t 'save_dialog', 'url'
     %p
       %input.url(type='text' value=@url readonly=true)

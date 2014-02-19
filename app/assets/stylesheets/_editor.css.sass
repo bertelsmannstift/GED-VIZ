@@ -1,39 +1,12 @@
-.editor
-  .chart
-    position: absolute
-
-    top: $keyframe-configuration-height + $editor-header-height
-    left: 0
-    right: 210px
-    bottom: 50px
-    overflow: hidden
-
-    @media screen and (max-width: 1024px)
-      right: 195px
-
-    @media screen and (max-height: 768px)
-      bottom: 45px
-
-  // Widgets in the bottom right corner, growing into the chart
-  .bottom-right
-    position: absolute
-    right: 10px
-    bottom: 0
-    z-index: 201
-    width: 200px
-    font-weight: 300
-
-    @media screen and (max-width: 1024px)
-      right: 5px
-      width: 190px
-
-  .legend
-    right: 25px
+$total-editor-height: $keyframe-configuration-height + $editor-header-height
 
 @import 'editor/editor_header'
 @import 'editor/keyframe_configuration'
 @import 'editor/country_picker'
-@import 'editor/keyframes'
-@import 'editor/sharing'
+
+@import 'editor/chart'
+
+@import 'editor/sidebar'
+
 @import 'editor/keyframe_year'
 @import 'editor/keyframe_currency'

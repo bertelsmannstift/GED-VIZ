@@ -12,7 +12,6 @@ class DataAggregator < Aggregator
       )
       .where('country_to_id NOT IN (?)', country_ids)
       .sum(:value)
-      .to_f
     end
   end
 
@@ -29,7 +28,6 @@ class DataAggregator < Aggregator
       )
       .where('country_from_id NOT IN (?)', country_ids)
       .sum(:value)
-      .to_f
     end
   end
 
@@ -118,25 +116,18 @@ class DataAggregator < Aggregator
     end
   end
 
-  private
-
-  def value(country_from_ids, country_to_ids, year, type_with_unit)
-    cached('value', country_from_ids, country_to_ids, year, type_with_unit) do
-      DataValue.where(
-        data_type_id:    type_with_unit.type.id,
-        unit_id:         type_with_unit.unit.id,
-        year: year,
-        country_from_id: country_from_ids,
-        country_to_id:   country_to_ids
-      )
-      .sum(:value)
-      .to_f
-    end
+  # Returns an array with all years in the database.
+  def all_years
+    DataValue.uniq.pluck(:year)
   end
+
+  private
 
   # Returns iso3 values for countries and country groups
   def iso3_by_group_id(group_id)
-    return Country.where(id: group_id).pluck(:iso3).first if group_id.is_a?(Fixnum)
+    if group_id.is_a?(Integer)
+      return Country.where(id: group_id).pluck(:iso3).first
+    end
 
     cached('iso3_by_group_id', group_id) do
       group_id.split('-').map do |id|

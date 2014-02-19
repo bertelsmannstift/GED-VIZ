@@ -1,12 +1,12 @@
 define [
-  'raphael'
   'jquery'
-  'lib/utils'
+  'raphael'
   'display_objects/display_object'
   'display_objects/indicator'
   'display_objects/indicator_visualization'
   'lib/scale'
-], (Raphael, $, utils, DisplayObject, Indicator, IndicatorVisualization, scale) ->
+  'lib/utils'
+], ($, Raphael, DisplayObject, Indicator, IndicatorVisualization, scale, utils) ->
   'use strict'
 
   # Shortcuts
@@ -307,6 +307,7 @@ define [
         0
       clearTimeout @afterTransitionHandle
       @afterTransitionHandle = utils.after timeout, handler
+      return
 
     # Draw indicators given there are max. 8 elements in the chart
     # ------------------------------------------------------------
@@ -381,7 +382,6 @@ define [
             'font-weight': 600
             fill: 'rgb(45, 45, 45)'
           )
-        @addChild @countryLabel
 
       # Text alignment
       textAnchor =
@@ -401,8 +401,11 @@ define [
         text: labelText
         'text-anchor': textAnchor
         'font-size': fontSize
+        opacity: 1
 
-      unless newLabel
+      if newLabel
+        @addChild @countryLabel
+      else
         # Animate existing country label
         @countryLabel
           .stop()
@@ -455,7 +458,8 @@ define [
 
         # Position the indicator’s element
         indicatorEl = indicator.el
-        eventualY = y - scale('visualizationSize', @paper.width) / 2
+        smallestSide = Math.min @paper.width, @paper.height
+        eventualY = y - scale('visualizationSize', smallestSide) / 2
         if @side is LEFT
           eventualX = @paper.width - x
           indicatorEl.css right: eventualX, top: eventualY

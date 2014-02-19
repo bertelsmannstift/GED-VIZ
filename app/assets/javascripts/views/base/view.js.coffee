@@ -1,6 +1,7 @@
 define [
   'chaplin'
-  'lib/view_helper' # Just load the view helpers, no return value
+  # Just load the view helpers, no return value
+  'lib/view_helper'
 ], (Chaplin) ->
   'use strict'
 

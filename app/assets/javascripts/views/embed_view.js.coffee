@@ -9,10 +9,7 @@ define [
 
     className: 'modal-dialog embed-dialog'
 
-    container: '#page-container'
-
-    autoRender: true
-
+    # Reference to the popup window object
     previewWindow: null
 
     events:
@@ -25,10 +22,12 @@ define [
     render: ->
       super
       @updateCode()
+      this
 
     sizeUp: ->
-      width = (Number @$('.size input').val()) or null
-      @updateCode() unless width? and width < 300
+      width = Number @$('.size input').val()
+      @updateCode() if not isNaN(width) and width >= 300
+      return
 
     previewClicked: (event) ->
       event.preventDefault()
@@ -37,17 +36,21 @@ define [
       width ?= 800
       height ?= 600
       options = "width=#{width},height=#{height},centerscreen"
-      @previewWindow?.close()
+      @previewWindow.close() if @previewWindow
       @previewWindow = window.open @getPlayerURL(), 'preview', options
+      @previewWindow.focus()
+      return
 
     sizeChanged: ->
-      width = (Number @$('.size input').val()) or null
-      @$('.size input').val('300') if width? and width < 300
+      width = Number @$('.size input').val()
+      @$('.size input').val('300') if isNaN(width) or width < 300
       @updateCode()
+      return
 
     optionsChanged: ->
       @updateCode()
       @selectCode()
+      return
 
     getPlayerURL: ->
       options =
@@ -76,14 +79,19 @@ define [
         ""
       @$('textarea').text """<iframe src="#{url}"#{widthString} style="border: 1px solid #eee" mozallowfullscreen="true" webkitallowfullscreen="true" allowfullscreen="true"><a href="#{url}" target="_blank">GED VIZ Slideshow</a></iframe>"""
 
+      return
+
     selectCode: ->
       @$('textarea').focus().select()
+      return
 
     addedToDOM: ->
+      super
       @selectCode()
+      return
 
     dispose: ->
       return if @disposed
-      @previewWindow?.close()
+      @previewWindow.close() if @previewWindow
       delete @previewWindow
       super

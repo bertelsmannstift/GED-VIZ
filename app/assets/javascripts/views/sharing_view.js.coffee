@@ -6,7 +6,8 @@ define [
   'views/embed_view'
   'views/export_view'
   'lib/colors'
-], ($, Raphael, View, SaveView, EmbedView, ExportView, Colors) ->
+  'lib/i18n'
+], ($, Raphael, View, SaveView, EmbedView, ExportView, Colors, I18n) ->
   'use strict'
 
   class SharingView extends View
@@ -21,7 +22,7 @@ define [
     className: 'sharing'
 
     events:
-      'click .get-url .button': 'getURL'
+      'click .get-url .button': 'showSaveView'
       'click .share-via-mail': 'shareViaMail'
       'click .share-via-facebook': 'shareViaFacebook'
       'click .share-via-twitter': 'shareViaTwitter'
@@ -41,7 +42,7 @@ define [
 
     # Wrap handler methods that require the model to be saved
     wrapSaveMethods: ->
-      for methodName in ['getURL', 'shareViaMail', 'embed', 'export']
+      for methodName in ['showSaveView', 'shareViaMail', 'embed', 'export']
         @wrapSaveMethod methodName
       for methodName in ['shareViaFacebook', 'shareViaTwitter']
         @wrapSaveMethod methodName, async: false
@@ -58,11 +59,14 @@ define [
             @model.saveIfChanged().then original
         return
 
-    getURL: =>
+    showSaveView: =>
       @subview 'save', new SaveView {@model}
+      return
 
     shareViaMail: =>
-      url = "mailto:?subject=GED%20VIZ&body=#{encodeURIComponent(@model.getEditorURL())}"
+      subject = encodeURIComponent I18n.t('editor', 'sharing_text')
+      body = encodeURIComponent @model.getEditorURL()
+      url = "mailto:?subject=#{subject}&body=#{body}"
       location.href = url
       return
 
@@ -73,7 +77,7 @@ define [
       return
 
     shareViaTwitter: =>
-      params = text: 'GED VIZ', url: @model.getEditorURL()
+      params = text: "#{I18n.t('editor', 'sharing_text')} #{@model.getEditorURL()}"
       url = "https://twitter.com/intent/tweet?#{$.param(params)}"
       window.open url, '_blank'
       return

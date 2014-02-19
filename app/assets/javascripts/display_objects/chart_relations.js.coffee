@@ -69,9 +69,14 @@ define [
       continue if stackedAmounts.value is 0
       to = @elementsById[toId] or null
       missingRelations = rawElement.missing_relations[toId] or null
-      @createRelation fromId, from, toId, to,
-        stackedAmounts.value, stackedAmounts.stacked_amount_from, stackedAmounts.stacked_amount_to,
+      @createRelation(
+        fromId, from,
+        toId, to,
+        stackedAmounts.value,
+        stackedAmounts.stacked_amount_from,
+        stackedAmounts.stacked_amount_to,
         missingRelations
+      )
     return
 
   updateOutgoingRelation: (relation, to, amount, stackedAmountFrom,
@@ -161,13 +166,21 @@ define [
         relation = _.find from.relationsOut, (r) -> r.toId is toId
         # Update existing or create new relation
         if relation
-          @updateOutgoingRelation relation, to, stackedAmounts.value,
-            stackedAmounts.stacked_amount_from, stackedAmounts.stacked_amount_to,
+          @updateOutgoingRelation(
+            relation, to,
+            stackedAmounts.value,
+            stackedAmounts.stacked_amount_from,
+            stackedAmounts.stacked_amount_to,
             missingRelations
+          )
         else
-          @createRelation from.id, from, toId, to, stackedAmounts.value,
-            stackedAmounts.stacked_amount_from, stackedAmounts.stacked_amount_to,
+          @createRelation(
+            from.id, from, toId, to,
+            stackedAmounts.value,
+            stackedAmounts.stacked_amount_from,
+            stackedAmounts.stacked_amount_to,
             missingRelations
+          )
 
     # Remove old outgoing relations
     for element in @elements

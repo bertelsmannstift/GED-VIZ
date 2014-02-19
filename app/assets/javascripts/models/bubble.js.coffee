@@ -7,6 +7,6 @@ define [
 
     defaults:
       type: 'notification'
-      text: 'default'
+      text: ''
       offset: 12
       timeout: 300

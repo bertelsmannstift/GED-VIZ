@@ -1,4 +1,6 @@
 define [
+  'underscore'
+  'jquery'
   'views/base/view'
   'views/sharing_view'
   'views/keyframe_configuration_view'
@@ -8,11 +10,15 @@ define [
   'display_objects/chart'
   'display_objects/static_chart'
   'views/legend_view'
+  'lib/fullscreen'
   'lib/i18n'
+  'lib/scale'
   'lib/support'
-], (View, SharingView, KeyframeConfigurationView, KeyframesView,
-    KeyframeYearView, ContextboxView, Chart, StaticChart, LegendView,
-    I18n, support) ->
+], (
+  _, $, View, SharingView, KeyframeConfigurationView, KeyframesView,
+  KeyframeYearView, ContextboxView, Chart, StaticChart, LegendView,
+  fullscreen, I18n, scale, support
+) ->
   'use strict'
 
   class PlayerView extends View
@@ -31,15 +37,18 @@ define [
       'click .nav-left':  'moveToPreviousKeyframe'
       'click .nav-right': 'moveToNextKeyframe'
       'click .nav-play': 'togglePlay'
-      'click .fullscreen': 'toggleFullscreen'
-      'mouseenter .nav-left.enabled, .nav-right.enabled, .fullscreen, .logo': 'showTooltip'
-      'mouseleave .nav-left, .nav-right, .fullscreen, .logo': 'hideTooltip'
+      'click .toggle-fullscreen': 'toggleFullscreen'
+      'click .toggle-legend': 'toggleLegend'
+      'mouseenter .nav-left.enabled, .nav-right.enabled, .toggle-legend, .toggle-fullscreen, .logo': 'showTooltip'
+      'mouseleave .nav-left, .nav-right, .toggle-legend, .toggle-fullscreen, .logo': 'hideTooltip'
 
     initialize: ->
       super
       keyframes = @getKeyframes()
       if keyframes
         @listenTo keyframes, 'reset', @keyframesReplaced
+
+      $(window).resize @resize
       return
 
     # Shortcuts
@@ -81,11 +90,36 @@ define [
     keyframesReplaced: ->
       @initChart() if @getKeyframes().length > 0
 
+    resize: =>
+      @renderLegend()
+      return
+
+    # Limit calls to resize
+    @prototype.resize = _.debounce @prototype.resize, 300
+
     # Navigation
+
+    documentKeydown: (event) =>
+      switch event.keyCode
+        when 37, 38
+          @moveToPreviousKeyframe()
+        when 39, 40, 32
+          @moveToNextKeyframe()
+        when 33, 36
+          @moveToFirstKeyframe()
+        when 34, 35
+          @moveToLastKeyframe()
+      return
 
     moveToFirstKeyframe: (event) ->
       event?.preventDefault()
       @currentKeyframeIndex = 0
+      @update()
+      return
+
+    moveToLastKeyframe: (event) ->
+      event?.preventDefault()
+      @currentKeyframeIndex = @getNumKeyframes() - 1
       @update()
       return
 
@@ -116,13 +150,16 @@ define [
     startPlay: ->
       @moveToFirstKeyframe() if @atLastKeyframe()
 
-      @playTimer = setInterval =>
-        unless @atLastKeyframe()
-          @moveToNextKeyframe()
-        if @atLastKeyframe()
-          @stopPlay()
-      , 5000
+      @playTimer = setInterval @playNext, 5000
       @$('> .footer .nav-play').addClass 'stop'
+      return
+
+    playNext: =>
+      atLastKeyframe = @atLastKeyframe()
+      if atLastKeyframe
+        @stopPlay()
+      else
+        @moveToNextKeyframe()
       return
 
     stopPlay: ->
@@ -134,43 +171,19 @@ define [
     isPlaying: ->
       @playTimer?
 
+    # Legend
+
+    toggleLegend: (event) ->
+      event.preventDefault()
+      legendView = @subview('legendAbout') or @subview('legend')
+      legendView.toggle()
+      return
+
     # Fullscreen
-
-    isFullScreen: ->
-      document.fullScreen or document.mozFullScreen or
-      document.webkitIsFullScreen or document.msIsFullScreen
-
-    enableFullScreen: ->
-      if @el.requestFullscreen
-        @el.requestFullscreen()
-      else if @el.mozRequestFullScreen
-        @el.mozRequestFullScreen()
-      else if @el.webkitRequestFullScreen
-        @el.webkitRequestFullScreen()
-      else if @el.msRequestFullScreen
-        @el.msRequestFullScreen()
-      else
-        options = 'fullscreen=yes,menubar=no,location=no,toolbar=no,status=no'
-        window.open location.href, '_blank', options
-      return
-
-    disableFullScreen: ->
-      if document.exitFullscreen
-        document.exitFullscreen()
-      else if document.mozCancelFullScreen
-        document.mozCancelFullScreen()
-      else if document.webkitCancelFullScreen
-        document.webkitCancelFullScreen()
-      else if document.msCancelFullScreen
-        document.msCancelFullScreen()
-      return
 
     toggleFullscreen: (event) ->
       event.preventDefault()
-      if @isFullScreen()
-        @disableFullScreen()
-      else
-        @enableFullScreen()
+      fullscreen.toggleFullscreen @el
       return
 
     # Rendering
@@ -179,20 +192,16 @@ define [
     render: ->
       super
 
+      @$chart = @$('.chart')
+
       unless @shouldShowTitles()
         @$('> .header .title').hide()
 
-      footer = @$('> .footer')
-      playButton = footer.find '.nav-play'
-      prevNextNavigation = footer.find '.nav-left, .nav-right'
-      if @shouldAnimate()
-        playButton.show()
-        prevNextNavigation.hide()
-      else
-        playButton.hide()
-        prevNextNavigation.show()
-
+      @initAnimationControls()
       @renderContextboxView()
+
+      # Observe document-wide key shortcuts
+      $(document).keydown @documentKeydown
 
       # Append to the DOM before creating the chart
       $('#page-container').append @el
@@ -204,35 +213,55 @@ define [
 
       return
 
+    initAnimationControls: ->
+      footer = @$('> .footer')
+      playButton = footer.find '.nav-play'
+      prevNextNavigation = footer.find '.nav-left, .nav-right'
+      if @shouldAnimate()
+        playButton.show()
+        prevNextNavigation.hide()
+      else
+        playButton.hide()
+        prevNextNavigation.show()
+      return
+
     createChart: ->
-      $container = @$('.chart')
-      container = $container.get(0)
+      container = @$chart.get 0
       if Chart.canUse
         @chart = new Chart {container}
       else
         @chart = new StaticChart {container, presentation: @model}
+      @subview 'chart', @chart
       # Development shortcut: register the chart instance as a module
       #define 'chart', @chart
       return
 
-    renderLegend: ->
+    renderLegend: =>
       keyframe = @getCurrentKeyframe()
       return unless keyframe and keyframe.get('countries').length
 
-      container = @$('.chart')
+      @removeSubview 'legendSources'
+      @removeSubview 'legendExplanations'
+      @removeSubview 'legendAbout'
+      @removeSubview 'legend'
 
-      legendSources = new LegendView
-        model: keyframe
-        container: container
-      legendSources.$el.addClass 'sources-only'
-      @subview 'legendSources', legendSources
+      if $(window).width() > 650
+        # Three separate legends
+        @createLegend name: 'legendSources', only: 'sources'
+        @createLegend name: 'legendExplanations', only: 'explanations'
+        @createLegend name: 'legendAbout', only: 'about', overlay: true
+      else
+        @createLegend name: 'legend', overlay: true
 
-      legendExplanations = new LegendView
-        model: keyframe
-        container: container
-      legendExplanations.$el.addClass 'explanations-only'
-      @subview 'legendExplanations', legendExplanations
+      return
 
+    createLegend: (options) ->
+      view = new LegendView
+        model: @getCurrentKeyframe()
+        container: @el
+        only: options.only
+        overlay: options.overlay
+      @subview options.name, view
       return
 
     renderContextboxView: ->
@@ -254,7 +283,7 @@ define [
       keyframe = @getCurrentKeyframe()
       @chart.update {keyframe}
       @renderLegend()
-      @updateNavigation()
+      @updateControls()
       return
 
     initNumKeyframes: ->
@@ -266,30 +295,39 @@ define [
       data.editorUrl = @model.getEditorURL()
       data
 
-    # General navigation
-    # ------------------
+    updateControls: ->
+      keyframe = @getCurrentKeyframe()
+      year = keyframe.get 'year'
 
-    updateNavigation: ->
+      @updateHeader()
+
+      # Year inside the chart
+      @$('.current-year').text year
+
+      @updateFooter()
+      return
+
+    updateHeader: ->
       header = @$('> .header')
+
+      keyframe = @getCurrentKeyframe()
+      title = keyframe.get 'title'
+      type = keyframe.get('data_type_with_unit')[0]
+      year = keyframe.get 'year'
+
+      header.find('.title').text title
+
+      text = I18n.t('data_type', type) + ' ' + year
+      header.find('.relation').text text
+      return
+
+    updateFooter: ->
       footer = @$('> .footer')
 
       keyframe = @getCurrentKeyframe()
-      title = keyframe.get('title')
-      [type, unit] = keyframe.get 'data_type_with_unit'
-      year = keyframe.get 'year'
-
-      # Update header
-      header.find('.title').text title
-
-      text = I18n.template ['player', 'title', type, 'year'], {year}
-      header.find('.relation').text text
-
-      unit = I18n.t 'units', unit, 'full'
-      text = I18n.template ['player', 'title', type, 'unit'], {unit}
-      header.find('.unit').text text
 
       footer.find('.current-index').text @currentKeyframeIndex + 1
-      footer.find('.title').text title
+      footer.find('.title').text keyframe.getDisplayTitle()
 
       @updateNavButtons()
       @highlightSelectedDot()
@@ -394,7 +432,6 @@ define [
       return unless support.mouseover
       dot.attr r: dotSettings.activeRadius
       dotIndex = dot.data 'index'
-      keyframe = @getKeyframe dotIndex
       @showDotTooltip dot
       return
 
@@ -419,7 +456,7 @@ define [
     showDotTooltip: (dot) ->
       dotIndex = dot.data 'index'
       keyframe = @getKeyframe(dotIndex)
-      title = keyframe.get 'title'
+      title = keyframe.getDisplayTitle()
 
       $tooltip = @$('.dots .tooltip')
       @updateTooltip $tooltip, keyframe
@@ -441,5 +478,6 @@ define [
     dispose: ->
       return if @disposed
       @stopPlay()
-      @chart.dispose()
+      $(document).off 'keypress', @documentKeydown
+      $(window).off 'resize', @resize
       super

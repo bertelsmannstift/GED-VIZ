@@ -1,14 +1,13 @@
 define [
   'underscore'
-  'lib/type_data'
-  'lib/currency'
-  'models/base/collection'
   'models/bubble'
   'views/base/view'
   'views/bubble_view'
+  'lib/currency'
   'lib/i18n'
+  'lib/type_data'
   'jquery.sortable'
-], (_, TypeData, Currency, Collection, Bubble, View, BubbleView, I18n) ->
+], (_, Bubble, View, BubbleView, Currency, I18n, TypeData) ->
   'use strict'
 
   class UsedIndicatorView extends View

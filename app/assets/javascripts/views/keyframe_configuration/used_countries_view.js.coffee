@@ -1,14 +1,11 @@
 define [
-  'views/base/view'
+  'models/bubble'
   'views/base/collection_view'
   'views/keyframe_configuration/used_country_view'
   'views/keyframe_configuration/country_context_view'
   'views/bubble_view'
-  'models/country'
-  'models/bubble'
   'jquery.sortable'
-], (View, CollectionView, UsedCountryView, CountryContextView, BubbleView,
-    Country, Bubble) ->
+], (Bubble, CollectionView, UsedCountryView, CountryContextView, BubbleView) ->
   'use strict'
 
   class UsedCountriesView extends CollectionView

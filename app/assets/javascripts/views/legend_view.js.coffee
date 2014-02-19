@@ -1,12 +1,12 @@
 define [
   'underscore'
-  'lib/utils'
-  'lib/i18n'
-  'lib/type_data'
+  'views/base/view'
   'lib/colors'
   'lib/currency'
-  'views/base/view'
-], (_, utils, I18n, TypeData, Colors, Currency, View) ->
+  'lib/i18n'
+  'lib/number_formatter'
+  'lib/type_data'
+], (_, View, Colors, Currency, I18n, numberFormatter, TypeData) ->
   'use strict'
 
   # Unit representations
@@ -16,6 +16,10 @@ define [
     'ranking'
   ]
 
+  # Constants
+  OPENED_CLASS = 'opened'
+  CLOSED_CLASS = 'closed'
+
   class LegendView extends View
 
     # Property declarations
@@ -23,6 +27,7 @@ define [
     #
     # model: Keyframe
 
+    tagName: 'section'
     templateName: 'legend'
 
     className: 'legend'
@@ -31,54 +36,78 @@ define [
 
     events:
       'click .toggle-button': 'toggleButtonClicked'
-      'click .info-button': 'infoButtonClicked'
       'click .close-button': 'closeButtonClicked'
+
+    initialize: (options) ->
+      # Visibility of the parts
+      if options.only
+        partsVisibility = sources: false, explanations: false, about: false
+        partsVisibility[options.only] = true
+        @$el.addClass options.only + '-only'
+      else
+        partsVisibility = sources: true, explanations: true, about: true
+      @partsVisibility = partsVisibility
+
+      # Overlay mode
+      if options.overlay
+        @$el.addClass 'overlay'
+
+      return
 
     toggleButtonClicked: (event) ->
       event.preventDefault()
-      if @$el.hasClass('open')
-        @close()
-      else
-        @open()
-
-    infoButtonClicked: (event) ->
-      event.preventDefault()
-      @open()
+      @toggle()
+      return
 
     closeButtonClicked: (event) ->
       event.preventDefault()
       @close()
+      return
 
     close: ->
       @$('.toggle-button').text I18n.t('legend', 'toggle_open')
-      @$el.addClass('closed').removeClass('open')
+      @$el.addClass(CLOSED_CLASS).removeClass(OPENED_CLASS)
+      return
 
     open: ->
       @$('.toggle-button').text I18n.t('legend', 'toggle_close')
-      @$el.addClass('open').removeClass('closed')
+      @$el.addClass(OPENED_CLASS).removeClass(CLOSED_CLASS)
+      return
+
+    toggle: ->
+      if @$el.hasClass(OPENED_CLASS)
+        @close()
+      else
+        @open()
+      return
 
     render: ->
       super if @model
       @close()
+      this
 
     getTemplateData: ->
       data = super
       [typeKey, unitKey] = data.data_type_with_unit
       data.staticChart = @options.staticChart
-      data.magnetOutgoingColor = Colors.magnets[typeKey].outgoing
-      data.magnetIncomingColor = Colors.magnets[typeKey].incoming
-      # Sources
-      data.allSources = @getAllSources()
-      data.dataSource = @getDataSource()
-      data.indicatorSources = @getIndicatorSources()
-      # Indicators
-      data.indicators = @getIndicators()
-      # Currency
+      data.partsVisibility = @partsVisibility
+
+      if @partsVisibility.sources
+        data.allSources = @getAllSources()
+        data.dataSource = @getDataSource()
+        data.indicatorSources = @getIndicatorSources()
+
+      if @partsVisibility.explanations
+        data.magnetOutgoingColor = Colors.magnets[typeKey].outgoing
+        data.magnetIncomingColor = Colors.magnets[typeKey].incoming
+        data.indicators = @getIndicators()
+
       if data.currency is 'eur'
         data.exchangeRateSource = @getExchangeRateSource()
         data.usd_in_eur_current = @getEuroRate unitKey, data.year
         # Fixed rate for real values (base 2005)
         data.usd_in_eur_constant = @getEuroRate unitKey, 2005
+
       data
 
     # All sourcs (data, indicators, currency) as an array or strings
@@ -125,7 +154,7 @@ define [
           type: I18n.t('indicators', twu[0], 'short')
           maxValue: I18n.template(
             ['units', twu[1], 'with_value']
-            number: utils.formatNumber(maxValue)
+            number: numberFormatter.formatNumber(maxValue, 2, false, true)
           )
         }
 
@@ -137,4 +166,4 @@ define [
       {name, url}
 
     getEuroRate: (unitKey, year) ->
-      utils.formatNumber Currency.getExchangeRate(unitKey, year), 4
+      numberFormatter.formatNumber Currency.getExchangeRate(unitKey, year), 4

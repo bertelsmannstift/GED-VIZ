@@ -1,43 +1,51 @@
 class DataTypeImporter < Importer
 
   TYPE_NAME_TO_KEY = {
-    'Import'                                       => 'import',
+    'Import' => 'import',
     'Inflows of foreign population by nationality' => 'migration',
-    'Foreign Claims'                               => 'claims'
+    'Foreign Claims' => 'claims'
   }
 
   UNIT_NAME_TO_ATTRIBUTES = {
+    # US dollar
     'Bln. US-$' => {
-      key:            'bln_current_dollars',
+      key: 'bln_current_dollars',
       representation: Unit::ABSOLUTE
     },
     'Bln. Us-$' => {
-      key:            'bln_current_dollars',
+      key: 'bln_current_dollars',
       representation: Unit::ABSOLUTE
     },
     'Mio. US-$' => {
-      key:            'mln_current_dollars',
-      representation: Unit::ABSOLUTE
-    },
-    'Bln. EUR' => {
-      key:            'bln_current_euros',
-      representation: Unit::ABSOLUTE
-    },
-    'Mio. EUR' => {
-      key:            'mln_current_euros',
+      key: 'mln_current_dollars',
       representation: Unit::ABSOLUTE
     },
 
+    # Euro
+    'Bln. EUR' => {
+      key: 'bln_current_euros',
+      representation: Unit::ABSOLUTE
+    },
+    'Mio. EUR' => {
+      key: 'mln_current_euros',
+      representation: Unit::ABSOLUTE
+    },
+
+    # Persons
+    'Persons' => {
+      key: 'persons',
+      representation: Unit::ABSOLUTE
+    },
     'Tsd. Persons' => {
-      key:            'tsd_persons',
+      key: 'tsd_persons',
       representation: Unit::ABSOLUTE
     }
   }
 
-  DATA_TYPE_KEY_TO_UNIT_KEYS = {
-    'import'    => ['bln_current_dollars', 'bln_current_euros'],
-    'migration' => ['tsd_persons'],
-    'claims'    => ['bln_current_dollars', 'bln_current_euros']
+  TYPE_KEY_TO_UNIT_KEYS = {
+    'import' => %w(bln_current_dollars bln_current_euros),
+    'migration' => %w(persons),
+    'claims' => %w(bln_current_dollars bln_current_euros)
   }
 
   def import
@@ -48,8 +56,7 @@ class DataTypeImporter < Importer
   def create_units
     puts 'DataTypeImporter#create_units'
 
-    # Create units
-    UNIT_NAME_TO_ATTRIBUTES.each do |unit_name, attributes|
+    UNIT_NAME_TO_ATTRIBUTES.each do |name, attributes|
       unit = Unit.where(key: attributes[:key]).first_or_initialize
       unit.attributes = {
         representation: attributes[:representation]
@@ -64,7 +71,7 @@ class DataTypeImporter < Importer
     DataType.delete_all
 
     TYPE_NAME_TO_KEY.each do |name, key|
-      unit_ids = Unit.where(key: DATA_TYPE_KEY_TO_UNIT_KEYS.fetch(key)).pluck(:id)
+      unit_ids = Unit.where(key: TYPE_KEY_TO_UNIT_KEYS.fetch(key)).pluck(:id)
       type = DataType.create!(
         key: key,
         unit_ids: unit_ids

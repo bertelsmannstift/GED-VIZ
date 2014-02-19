@@ -1,10 +1,10 @@
 define [
   'jquery'
   'views/base/view'
-  'lib/i18n'
   'lib/currency'
+  'lib/i18n'
   'lib/type_data'
-], ($, View, I18n, Currency, TypeData) ->
+], ($, View, Currency, I18n, TypeData) ->
   'use strict'
 
   class DataView extends View

@@ -1,13 +1,13 @@
 define [
   'underscore'
-  'lib/utils'
   'display_objects/display_object'
   'display_objects/magnet'
   'display_objects/indicators'
-], (_, utils, DisplayObject, Magnet, Indicators) ->
+  'lib/utils'
+], (_, DisplayObject, Magnet, Indicators, utils) ->
   'use strict'
 
-  # Constants
+  # Shortcuts
   # ---------
 
   LEFT = 'left'
@@ -256,7 +256,7 @@ define [
       sum
 
     drawNormalRelations: (options) ->
-      for relation in @relationsOut when relation.visible and relation.to
+      @forOutgoingRelations (relation) ->
         relation.draw options
       return
 
@@ -264,8 +264,25 @@ define [
       side = if @magnet.degdeg is 180 then LEFT else RIGHT
       drawInverseFrom = side is LEFT
       drawInverseTo = side is RIGHT
-      for relation in @relationsOut when relation.visible and relation.to
+      @forOutgoingRelations (relation) ->
         relation.draw options, drawInverseFrom, drawInverseTo
+        return
+      return
+
+    # Helper for iterating all visible outgoing relations with a target element
+    forOutgoingRelations: (callback) ->
+      for relation in @relationsOut when relation.visible and relation.to
+        callback relation
+      return
+
+    # Fade out before disposal
+    fadeOut: ->
+      @magnet.fadeOut()
+      if @elementCount <= 8 and not @elementIdsChanged
+        @indicators.fade false, @animationDuration / 2
+      @forOutgoingRelations (relation) ->
+        relation.fadeOut()
+        return
       return
 
     # Disposal

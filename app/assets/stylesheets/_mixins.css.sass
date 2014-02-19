@@ -11,7 +11,10 @@
 
 @mixin svg-bg-with-fallback($name)
   background-image: image-url('#{$name}.png')
+  // Use multiple background images as feature detection
   background-image: none, image-url('#{$name}.svg')
+
+// Keyframe animation
 
 @mixin keyframes($name)
   @-webkit-keyframes #{$name}
@@ -25,6 +28,15 @@
 
 @mixin animation($value)
   +experimental(animation, $value, $moz: true, $webkit: true, $o: false, $ms: true, $khtml: false, $official: true)
+
+// Transitions
+
+@mixin transition($transitions...)
+  -webkit-transition: $transitions
+  transition: $transitions
+
+@mixin transform($value)
+  +experimental(transform, $value, $moz: false, $webkit: true, $o: false, $ms: true, $khtml: false, $official: true)
 
 // Layout abstract classes
 
@@ -42,6 +54,12 @@
 %off-left
   +off-left
 
+// Change the standard box model so width includes border and padding
+%border-box
+  -webkit-box-sizing: border-box
+  -moz-box-sizing: border-box
+  box-sizing: border-box
+
 // Content abstract classes
 
 %dark-background-gradient
@@ -50,9 +68,12 @@
 %heading
   font-weight: 300
   font-size: 17px
-  line-height: 1
+  line-height: 17px
   color: $heading-color
   text-transform: uppercase
+
+  @media screen and (max-width: 1000px)
+    font-size: 15px
 
 %underlined-heading
   @extend %heading

@@ -9,25 +9,40 @@ $label-blue: rgb(42, 86, 104)
   color: $label-blue
   white-space: nowrap
 
-  &.align-right
+  &.side-right
     text-align: left
-  &.align-left
+  &.side-left
     text-align: right
 
   &.open
     z-index: 100
 
-.indicator-labels
-  border-radius: 4px
-  margin-left: 3px
-  padding: 0 4px
-
 .indicator-visualization,
 .indicator-labels
-  .align-right &
-    float: left
-  .align-left &
-    float: right
+  display: inline-block
+  vertical-align: top
+  white-space: nowrap
+
+  .side-right &
+    text-align: left
+
+  .side-left &
+    text-align: right
+
+  .ie7 &
+    display: inline
+    zoom: 1
+
+.indicator-labels
+  border-radius: 4px
+  padding: 0 4px
+  text-align: left
+
+  .side-right &
+    margin-left: 3px
+
+  .side-left &
+    margin-right: 3px
 
 .open .indicator-labels
   background-color: #F0F0F0
@@ -36,10 +51,12 @@ $label-blue: rgb(42, 86, 104)
 .indicator-short-label,
 .indicator-tendency-arrow,
 .indicator-tendency-percent
-  .align-right &
+
+  .side-right &
     float: left
     margin-right: 3px
-  .align-left &
+
+  .side-left &
     float: right
     margin-left: 3px
 
@@ -75,11 +92,10 @@ $label-blue: rgb(42, 86, 104)
   .narrow-space
     font-size: 60%
 
-// .indicator-tendency-arrow
-
 .indicator-full-label-and-description
-  clear: both
   display: none
+  clear: both
+  // Show with JavaScript
 
 .indicator-short-label,
 .indicator-full-label,

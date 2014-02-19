@@ -2,10 +2,10 @@ define [
   'underscore'
   'jquery'
   'raphael'
-  'lib/utils'
   'display_objects/display_object'
   'lib/colors'
-], (_, $, Raphael, utils, DisplayObject, Colors) ->
+  'lib/type_data'
+], (_, $, Raphael, DisplayObject, Colors, TypeData) ->
   'use strict'
 
   # Shortcuts
@@ -44,9 +44,9 @@ define [
       @saveDrawOptions options
 
       func = switch @data.representation
-        when utils.UNIT_ABSOLUTE then @drawCircle
-        when utils.UNIT_PROPORTIONAL then @drawPercent
-        when utils.UNIT_RANKING then @drawRanking
+        when TypeData.UNIT_ABSOLUTE then @drawCircle
+        when TypeData.UNIT_PROPORTIONAL then @drawPercent
+        # when utils.UNIT_RANKING then @drawRanking
       func.apply this
 
       @addMouseHandlers()
@@ -149,38 +149,37 @@ define [
     # Draws the ranking visualization (e.g. HDI)
     # ------------------------------------------
 
-    drawRanking: ->
-      {paper, x, y, width, height, data} = this
-
-      x += width / 2
-      y += height / 2
-      radius = width / 2
-
-      unless @circle
-        @circle = paper.circle(x, y, radius)
-          .attr(fill: Colors.lightGray, 'stroke-opacity': 0)
-        @addChild @circle
-
-        innerRadius = radius * 0.875
-        @innerCircle = paper.circle(x, y, innerRadius)
-          .attr(fill: Colors.white, 'stroke-opacity': 0)
-        @addChild @innerCircle
-
-      if @rankingLabel
-        @rankingLabel.attr text: data.ranking
-      else
-        # TODO: Scale y offset?
-        @rankingLabel = paper.text(x, y - 3.5, data.ranking)
-          .attr(
-            'text-anchor': 'middle'
-            'font-family': utils.getFont(true)
-            'font-weight': 300
-            'font-size': 11
-            fill: '#84828d'
-          )
-        @addChild @rankingLabel
-
-      return
+    #drawRanking: ->
+    #  {paper, x, y, width, height, data} = this
+    #
+    #  x += width / 2
+    #  y += height / 2
+    #  radius = width / 2
+    #
+    #  unless @circle
+    #    @circle = paper.circle(x, y, radius)
+    #      .attr(fill: Colors.lightGray, 'stroke-opacity': 0)
+    #    @addChild @circle
+    #
+    #    innerRadius = radius * 0.875
+    #    @innerCircle = paper.circle(x, y, innerRadius)
+    #      .attr(fill: Colors.white, 'stroke-opacity': 0)
+    #    @addChild @innerCircle
+    #
+    #  if @rankingLabel
+    #    @rankingLabel.attr text: data.ranking
+    #  else
+    #    @rankingLabel = paper.text(x, y - 3.5, data.ranking)
+    #      .attr(
+    #        'text-anchor': 'middle'
+    #        'font-family': utils.getFont(true)
+    #        'font-weight': 300
+    #        'font-size': 11
+    #        fill: '#84828d'
+    #      )
+    #    @addChild @rankingLabel
+    #
+    #  return
 
     # Mouse event handling
     # --------------------

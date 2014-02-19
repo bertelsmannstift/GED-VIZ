@@ -1,13 +1,12 @@
 define [
   'underscore'
   'jquery'
-  'views/base/view'
-  'lib/utils'
-  'lib/type_data'
-  'lib/i18n'
   'models/bubble'
+  'views/base/view'
   'views/bubble_view'
-], (_, $, View, utils, TypeData, I18n, Bubble, BubbleView) ->
+  'lib/i18n'
+  'lib/number_formatter'
+], (_, $, Bubble, View, BubbleView, I18n, numberFormatter) ->
   'use strict'
 
   MARKER_WIDTH = 40
@@ -60,9 +59,8 @@ define [
       @model.fetch()
 
     updateNavigation: ->
-      currentYear = Number @model.get('year')
-      years = @$('.year').map((index, elem) -> Number $(elem).text()).toArray()
-
+      currentYear = String @model.get('year')
+      years = _(@model.get('yearly_totals')).keys()
       @$('.prev').toggleClass 'disabled', currentYear is years[0]
       @$('.next').toggleClass 'disabled', currentYear is years[years.length - 1]
       return
@@ -120,30 +118,26 @@ define [
     getTemplateData: ->
       data = super
 
-      # Current year
+      # Current year as string
       data.year = String data.year
 
       # Totals
-      yearlyTotals = data.yearlyTotals = {}
-      for year, value of data.yearly_totals when value > 0
-        yearlyTotals[year] = value
+      data.yearlyTotals = data.yearly_totals
+      yearlyTotals = data.yearlyTotals
 
       # Heights
       max = Math.max _(yearlyTotals).values()...
       data.heights = {}
       for year, value of yearlyTotals
-        data.heights[year] = value / max * 100
+        data.heights[year] = if max > 0
+          value / max * 100
+        else
+          100
 
       data
 
     render: ->
       super
-      content = @$('.nav, ul')
-      if @model.get('countries').length < 1
-        content.hide()
-        return
-      else
-        content.show()
       @drawMarker()
       @drawArrows()
       @updateNavigation()
@@ -173,5 +167,5 @@ define [
 
     formatValue: (value) ->
       [type, unit] = @model.get 'data_type_with_unit'
-      number = utils.formatValue value, type, unit
+      number = numberFormatter.formatValue value, type, unit, true
       "#{number} #{I18n.t('units', unit, 'full')}"

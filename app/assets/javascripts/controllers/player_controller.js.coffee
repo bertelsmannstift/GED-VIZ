@@ -12,7 +12,7 @@ define [
       presentationData = window.presentation
 
       # Create presentation and fill it with embedded JSON data
-      if presentationData
+      if presentationData and presentationData.id
         @presentation = new Presentation presentationData, parse: true
       else
         @presentation = new Presentation id: params.id

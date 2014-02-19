@@ -1,8 +1,8 @@
 define [
   'underscore'
-  'lib/utils'
   'chaplin'
-], (_, utils, Chaplin) ->
+  'lib/utils'
+], (_, Chaplin, utils) ->
   'use strict'
 
   # Application-specific feature detection
@@ -17,20 +17,24 @@ define [
   support.localStorage = do ->
     try
       localStorage.setItem 'check', 'check'
+      unless localStorage.getItem('check') is 'check'
+        return false
       localStorage.removeItem 'check'
       return true
     catch error
       return false
 
-  #support.cssTransitionProperty = do ->
-  #  style = document.documentElement.style
-  #  stringType = 'string'
-  #  baseProp = 'transition'
-  #  return baseProp if typeof style[baseProp] is stringType
-  #  for prefix in ['Moz', 'Webkit', 'Khtml', 'O', 'ms']
-  #    prop = prefix + baseProp.charAt(0).toUppercase() + baseProp.substring(1)
-  #    return prop if typeof style[prop] is stringType
-  #  false
+  support.testCSSProperty = (property) ->
+    style = document.documentElement.style
+    stringType = 'string'
+    return property if typeof style[property] is stringType
+    for prefix in ['Moz', 'Webkit', 'Khtml', 'O', 'ms']
+      prop = prefix + property.charAt(0).toUpperCase() + property.substring(1)
+      return prop if typeof style[prop] is stringType
+    false
+
+  support.cssTransitionProperty = support.testCSSProperty 'transition'
+  support.cssTransformProperty = support.testCSSProperty 'transform'
 
   # Do not render rollovers in Mobile Safari because changing the DOM in
   # a mouseenter handler will prevent the click event from firing. See:
@@ -40,8 +44,8 @@ define [
   support.mouseover = do ->
     ua = navigator.userAgent
     not (
-      /\sSafari\/[^\s]+(\s|$)/.test(ua) and
-      /\sMobile\/[^\s]+(\s|$)/.test(ua)
+      /(^|\s)AppleWebKit\/[^\s]+(\s|$)/.test(ua) and
+      /(^|\s)Mobile\/[^\s]+(\s|$)/.test(ua)
     )
 
   Object.freeze? support

@@ -1,11 +1,13 @@
 define [
-  'lib/type_data'
-  'lib/i18n'
+  'jquery'
+  'models/base/model'
   'models/bubble'
   'views/base/view'
   'views/bubble_view'
-  'jquery'
-], (TypeData, I18n, Bubble, View, BubbleView, $) ->
+  'views/prompt_view'
+  'lib/i18n'
+  'lib/type_data'
+], ($, Model, Bubble, View, BubbleView, PromptView, I18n, TypeData) ->
   'use strict'
 
   class CountryContextView extends View
@@ -121,24 +123,13 @@ define [
         @trigger 'unselectAll'
 
       else if $li.hasClass 'group'
-        defaultTitle = I18n.t 'editor', 'default_group_title'
-        title = prompt(
-          I18n.t('editor', 'enter_group_title'),
-          defaultTitle
-        )
-        if title isnt null
-          title = defaultTitle if title is ''
-          @trigger 'group', @selectedCountries, title
+        @groupCountries()
 
       else if $li.hasClass 'ungroup'
         @trigger 'ungroup', @selectedCountries[0]
 
       else if $li.hasClass 'rename-group'
-        countryGroup = @selectedCountries[0]
-        oldTitle = countryGroup.get('title')
-        title = prompt I18n.t('editor', 'enter_new_group_title'), oldTitle
-        if title and title isnt oldTitle
-          @trigger 'renameGroup', countryGroup, title
+        @renameGroup()
 
       else if $li.hasClass 'remove'
         @trigger 'remove', @selectedCountries
@@ -151,4 +142,31 @@ define [
         direction = $(event.target).data 'direction'
         @trigger 'addRelated', country, direction
 
+      return
+
+    groupCountries: ->
+      defaultTitle = I18n.t 'editor', 'default_group_title'
+      success = (title) =>
+        title = defaultTitle if title is ''
+        @trigger 'group', @selectedCountries, title
+        return
+      model = new Model
+        label: I18n.t('editor', 'enter_group_title')
+        default: defaultTitle
+        success: success
+      @subview 'prompt', new PromptView {model}
+      return
+
+    renameGroup: ->
+      countryGroup = @selectedCountries[0]
+      oldTitle = countryGroup.get 'title'
+      success = (title) =>
+        if title and title isnt oldTitle
+          @trigger 'renameGroup', countryGroup, title
+        return
+      model = new Model
+        label: I18n.t('editor', 'enter_new_group_title')
+        default: oldTitle
+        success: success
+      @subview 'prompt', new PromptView {model}
       return

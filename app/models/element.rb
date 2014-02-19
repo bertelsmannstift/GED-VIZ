@@ -6,9 +6,8 @@ class Element
 
   self.include_root_in_json = false
 
-  attr_accessor :country_group, :outgoing, :incoming, :incoming_stacked
-
-  attr_accessor :no_incoming, :no_outgoing, :missing_relations
+  attr_accessor :country_group, :outgoing, :incoming, :incoming_stacked,
+                :no_incoming, :no_outgoing, :missing_relations
 
   def initialize(keyframe, country_group)
     @keyframe      = keyframe
@@ -26,13 +25,13 @@ class Element
 
   def attributes
     attrs = {
-      sum_in:               sum_in,
-      sum_out:              sum_out,
-      indicators:           indicators,
-      outgoing:             outgoing,
-      no_incoming:          no_incoming,
-      no_outgoing:          no_outgoing,
-      missing_relations:    missing_relations
+      sum_in:            sum_in,
+      sum_out:           sum_out,
+      indicators:        indicators,
+      outgoing:          outgoing,
+      no_incoming:       no_incoming,
+      no_outgoing:       no_outgoing,
+      missing_relations: missing_relations
     }
     if incoming
       attrs[:incoming] = incoming
@@ -43,19 +42,32 @@ class Element
   # Outgoing volume as a sum of all relations,
   # even if the target countries are not currently selected
   def sum_out
-    DataAggregator.new.sum_out(country_ids, year, type_with_unit)
+    aggregator = DataAggregator.new
+    value = aggregator.sum_out(country_ids, year, type_with_unit)
+    # Convert BigDecimal to Float so the JSON representation
+    # is a Number, not a String
+    value.to_f
   end
 
   # Incoming volume as a sum of all relations,
   # even if the source countries are not currently selected
   def sum_in
-    DataAggregator.new.sum_in(country_ids, year, type_with_unit)
+    aggregator = DataAggregator.new
+    value = aggregator.sum_in(country_ids, year, type_with_unit)
+    # Convert BigDecimal to Float so the JSON representation
+    # is a Number, not a String
+    value.to_f
   end
 
   # All indicator values with tendency and tendency percent
   def indicators
+    aggregator = IndicatorAggregator.new
     @keyframe.indicator_types_with_unit.map do |twu|
-      IndicatorAggregator.new.indicator_value(country_ids, year, twu)
+      hash = aggregator.indicator_value(country_ids, year, twu)
+      # Convert BigDecimal to Float so the JSON representation
+      # is a Number, not a String
+      hash[:value] = hash[:value].to_f
+      hash
     end
   end
 

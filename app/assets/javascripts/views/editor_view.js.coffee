@@ -1,5 +1,6 @@
 define [
   'underscore'
+  'lib/support'
   'views/base/view'
   'views/editor_header_view'
   'views/keyframe_configuration_view'
@@ -9,11 +10,14 @@ define [
   'views/keyframe_year_view'
   'views/contextbox_view'
   'views/loading_indicator_view'
-  'display_objects/chart'
   'views/legend_view'
-], (_, View, EditorHeaderView, KeyframeConfigurationView, KeyframesView,
-    SharingView, KeyframeCurrencyView, KeyframeYearView, ContextboxView,
-    LoadingIndicatorView, Chart, LegendView) ->
+  'views/outdated_browser_view'
+  'display_objects/chart'
+], (
+  _, support, View, EditorHeaderView, KeyframeConfigurationView, KeyframesView,
+  SharingView, KeyframeCurrencyView, KeyframeYearView, ContextboxView,
+  LoadingIndicatorView, LegendView, OutdatedBrowserView, Chart
+) ->
   'use strict'
 
   class EditorView extends View
@@ -32,7 +36,7 @@ define [
     initialize: ->
       super
       @listenTo @model, 'change:keyframe', @keyframeReplaced
-      $(window).on 'resize', @adjustKeyframeListHeight
+      $(window).resize @adjustKeyframeListHeight
 
     # Rendering
     # ---------
@@ -51,6 +55,8 @@ define [
       # Append to DOM before creating the chart
       $('#page-container').append @el
       @createChart()
+
+      @renderOutdatedBrowserView()
 
     # Keyframe change handler
     # -----------------------
@@ -101,7 +107,7 @@ define [
     renderKeyframesView: ->
       @subview 'keyframes', new KeyframesView(
         model: @model
-        container: @$('.bottom-right')
+        container: @$('.sidebar')
         autoRender: true
       )
       return
@@ -109,17 +115,21 @@ define [
     renderSharingView: ->
       @subview 'sharing', new SharingView(
         model: @model.getPresentation()
-        container: @$('.bottom-right')
+        container: @$('.sidebar')
         # Renders itself when some keyframes have been captured
       )
       return
 
     renderContextboxView: ->
-      @subview 'contextbox', new ContextboxView(container: @el)
+      @subview 'contextbox', new ContextboxView(
+        container: @$('.chart')
+      )
       return
 
     renderLoadingIndicatorView: ->
-      @subview 'loadingIndicator', new LoadingIndicatorView(container: @el)
+      @subview 'loadingIndicator', new LoadingIndicatorView(
+        container: @$('.chart')
+      )
       return
 
     # Subviews which bind to the keyframe
@@ -180,20 +190,32 @@ define [
       keyframe = @model.getKeyframe()
       return unless keyframe and keyframe.get('countries').length
 
-      container = @$('.chart')
+      chartElement = @$('.chart')
 
       legendSources = new LegendView
         model: keyframe
-        container: container
-      legendSources.$el.addClass 'sources-only'
+        container: chartElement
+        only: 'sources'
       @subview 'legendSources', legendSources
 
       legendExplanations = new LegendView
         model: keyframe
-        container: container
-      legendExplanations.$el.addClass 'explanations-only'
+        container: chartElement
+        only: 'explanations'
       @subview 'legendExplanations', legendExplanations
 
+      return
+
+    # Outdated browser dialog
+    # -----------------------
+
+    renderOutdatedBrowserView: ->
+      noSVGSupport = Raphael.type isnt 'SVG'
+      # notShownBefore = not support.localStorage or
+      #  not localStorage.getItem('outdated_browser_shown')
+      if noSVGSupport # and notShownBefore
+        @subview 'outdatedBrowser', new OutdatedBrowserView()
+        # localStorage.setItem('outdated_browser_shown', '1') if support.localStorage
       return
 
     # Resize handler
@@ -205,11 +227,11 @@ define [
       sharingHeight = @$('.sharing').height()
       viewportHeight = $(document).height()
       maxHeight = viewportHeight - headerHeight - sharingHeight - 70
-      @$('.bottom-right .keyframes ul').css 'max-height', maxHeight
+      @$('.sidebar .keyframes ul').css 'max-height', maxHeight
       return
 
     # Limit calls to adjustKeyframeListHeight
-    adjustKeyframeListHeight: _.debounce(
+    @prototype.adjustKeyframeListHeight = _.debounce(
       @prototype.adjustKeyframeListHeight, 100
     )
 

@@ -11,11 +11,11 @@ Chart indicators
 Legend
 
 200-299
-Editor and Player controls
-200 Editor bottom bar
+Player and Editor controls
 200 Player tooltips
-201 Editor bottom right bar
-202 Editor dropdown menus
+200 Editor bottom bar
+201 Editor sidebar
+202 Editor header
 
 300-399
 Modal dialogs

@@ -9,20 +9,16 @@ class Unit < ActiveRecord::Base
   validates :key, uniqueness: true
   validates :representation, inclusion: { in: (0..2) }
 
-  def hash
-    [self.class, key].hash
-  end
+  scope :ordered_by_position, -> { order('position ASC') }
 
-  def eql?(other)
-    if other.class == self.class
-      self.key.eql?(other.key)
-    else
-      false
-    end
+  def ==(other)
+    self.class == other.class &&
+      self.key == other.key
   end
+  alias_method :==, :eql?
 
   def is_proportional?
-    IndicatorTypeImporter::UNIT_KEY_TO_REPRESENTATION[key] == PROPORTIONAL
+    IndicatorTypes.unit_definitions[key][:representation] == PROPORTIONAL
   end
 
 end

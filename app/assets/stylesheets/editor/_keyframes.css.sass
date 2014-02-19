@@ -1,28 +1,42 @@
 // The keyframe list on the right side
 .editor .keyframes
+  $keyframe-border: 1px solid #b2b2b2
+  $active-keyframe-color: #808080
+  $active-keyframe-background: #e6e6e6
+
   margin-bottom: 20px
-  min-height: 100px
-  background-color: white
+  // The current keyframe arrow should point to the chart, not the legend
+  min-height: 120px
 
   a
     text-decoration: none
 
+  .header
+    @extend %pie-clearfix
+    padding: 0 5px 0 10px
+    border-bottom: $keyframe-border
+    height: 25px
+
+    @media screen and (max-width: 1000px)
+      padding: 0 3px 0 5px
+
   h2
     @extend %heading
-    border-bottom: 1px solid #b2b2b2
-    height: 24px
+    float: left
 
   .capture
     @extend %blue-button
-    position: absolute
+    position: relative
     top: -3px
-    right: 0
+    float: right
     +svg-bg-with-fallback('capture')
     +background-size(16px)
     background-repeat: no-repeat
     background-position: 5px
-    padding-left: 26px
-    padding-right: 6px
+    padding-left: 25px
+
+    @media screen and (max-width: 1000px)
+      font-size: 15px
 
   ul
     width: 100%
@@ -40,15 +54,16 @@
     overflow-y: auto
 
   li
+    @extend %border-box
     position: relative
     padding: 7px 0 0 10px
-    height: 42px
+    height: 50px
     color: #808080
-    border-bottom: 1px solid #b2b2b2
-    background-color: white
+    border-bottom: $keyframe-border
     font-size: 12px
     cursor: pointer
 
+    // The arrow pointing to the chart
     &:before
       content: ''
       display: none
@@ -71,19 +86,19 @@
     cursor: auto
 
   .current
-    background-color: #f2f2f2
+    background-color: $active-keyframe-background
 
   // Number
   .index
     position: absolute
     top: 5px
-    right: 5px
+    right: 10px
     font-weight: 300
     font-size: 20px
     color: #d4d4d4
 
   li:hover .index
-    color: #808080
+    color: $active-keyframe-color
 
   // Editable title (input field)
   .title
@@ -91,7 +106,7 @@
     margin: 0 0 0 -3px
     border: 1px solid transparent
     padding: 0 2px
-    width: 115px
+    width: 75%
     background-color: transparent
     font-family: inherit
     font-size: 14px
@@ -115,13 +130,15 @@
   // Subtitle
   .subtitle
     margin-top: 2px
+    margin-right: 25px
 
   // Remove button
   .remove
     position: absolute
-    right: 5px
-    bottom: 5px
-    color: #808080
+    right: 0
+    bottom: 0
+    padding: 5px 10px
+    color: $active-keyframe-color
     font-size: 18px
 
     &:hover

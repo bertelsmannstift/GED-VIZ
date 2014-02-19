@@ -19,10 +19,6 @@ define [
 
     className: 'modal-dialog export-dialog'
 
-    container: '#page-container'
-
-    autoRender: true
-
     events:
       'click .download-button': 'download'
       'change .subset': 'subsetChanged'

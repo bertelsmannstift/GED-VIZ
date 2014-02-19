@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130607200949) do
+ActiveRecord::Schema.define(:version => 20130909131224) do
 
   create_table "countries", :force => true do |t|
     t.string "name"
@@ -76,6 +76,7 @@ ActiveRecord::Schema.define(:version => 20130607200949) do
   create_table "units", :force => true do |t|
     t.string  "key"
     t.integer "representation"
+    t.integer "position"
   end
 
   add_index "units", ["key"], :name => "index_units_on_key", :unique => true

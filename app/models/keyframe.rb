@@ -1,19 +1,11 @@
-# Load classes so YAML.load will find them on deserialization
-require_dependency 'country'
-require_dependency 'country_group'
-require_dependency 'indicator_type'
-require_dependency 'indicator_value'
-require_dependency 'data_type'
-require_dependency 'type_with_unit'
-require_dependency 'unit'
-
 class Keyframe
   extend ActiveModel::Naming
   include ActiveModel::Conversion
   include ActiveModel::Serializers::JSON
   include ActiveModel::Validations
 
-  attr_accessor :countries, :data_type_with_unit, :indicator_types_with_unit, :title, :year, :locking, :currency
+  attr_accessor :countries, :data_type_with_unit, :indicator_types_with_unit,
+                :title, :year, :locking, :currency
   attr_writer :max_overall, :indicator_bounds, :yearly_totals
 
   self.include_root_in_json = false
@@ -107,6 +99,11 @@ class Keyframe
     indicator_types_with_unit.map do |iwu|
       aggregator = IndicatorAggregator.new
       min, max = aggregator.min_max_indicator_all(nested_country_ids, iwu)
+      # Convert BigDecimal to Float so the JSON representation
+      # is a Number, not a String
+      min = min.to_f
+      max = max.to_f
+      [min, max]
     end
   end
 
@@ -133,11 +130,18 @@ class Keyframe
   end
 
   def calculate_yearly_totals_and_max
+    aggregator = DataAggregator.new
     if countries.any?
-      aggregator = DataAggregator.new
-      @yearly_totals, @max_overall = aggregator.sum_yearly_for_groups(nested_country_ids, data_type_with_unit)
+      @yearly_totals, @max_overall = aggregator.sum_yearly_for_groups(
+        nested_country_ids,
+        data_type_with_unit
+      )
     else
-      @yearly_totals = 0.0
+      # Return a hash with all years, but set the total to zero
+      @yearly_totals = aggregator.all_years.reduce({}) do |memo, year|
+        memo[year] = 0.0
+        memo
+      end
       @max_overall = 0.0
     end
   end

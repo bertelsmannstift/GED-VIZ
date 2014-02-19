@@ -1,3 +1,4 @@
 .chart
 .header-and-keyframe-configuration
-.bottom-right
+.sidebar-container
+  .sidebar

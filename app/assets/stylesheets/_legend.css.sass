@@ -1,16 +1,17 @@
-$light-background: white
-$light-foreground: #808080
-$highlight-background: #f5f5f5
-
-$dark-background: #444
-$dark-foreground: #ccc
-
-$padding: 10px
-$section-margin: 12px
-
 .legend
+  $light-background: white
+  $light-foreground: #808080
+  $highlight-background: #f5f5f5
+
+  $dark-background: #444
+  $dark-foreground: #ccc
+
+  $padding: 10px
+  $part-margin: 12px
+
   position: absolute
-  bottom: 30px
+  // Eventual bottom value is set in player/editor
+  bottom: 0
   width: 260px
   z-index: 100
   border-radius: 2px
@@ -24,7 +25,7 @@ $section-margin: 12px
   a
     color: $light-foreground
 
-  // GED logo, only visible in static charts (PhantomJS)
+  // GED logo, only visible in static charts
   .ged-logo
     margin-bottom: 10px
     text-align: center
@@ -37,9 +38,7 @@ $section-margin: 12px
       background: image-url('ged-logo.svg') top center no-repeat
       +background-size(contain)
 
-  .content
-    // Swallow the last element’s margin
-    margin-bottom: -$section-margin
+  // Header buttons
 
   .close-button
     display: none
@@ -55,21 +54,11 @@ $section-margin: 12px
     background-repeat: no-repeat
     background-position: center
 
-  .info-button
-    display: none
-    position: absolute
-    top: 0
-    right: 0
-    width: 14px
-    height: 14px
-    background-image: image-url('i-button.png')
-    +background-size(14px 14px)
-
   .toggle-button
     float: right
-    font-size: 11px
     text-decoration: none
     color: $light-foreground
+
     &:before
       padding-right: 2px
       font-size: 8px
@@ -80,12 +69,9 @@ $section-margin: 12px
     border-bottom: 1px solid
     padding-bottom: 2px
     font-weight: 600
-    font-size: 12px
     text-transform: uppercase
 
-  .sources,
-  .explanations
-    margin-bottom: $section-margin
+  // Explanations
 
   .magnet-outgoing-part,
   .magnet-incoming-part
@@ -138,6 +124,8 @@ $section-margin: 12px
       width: 20px
       margin: 3px 0 0 5px
 
+  // Tables with icons
+
   td
     font-weight: 300
     vertical-align: top
@@ -158,18 +146,23 @@ $section-margin: 12px
   strong, .source
     font-weight: 600
 
-  //states:
-  //  open: hide short, show long
+  // About logo
+
+  .bertelsmann-foundation-logo
+    margin-left: auto
+    width: 160px
+    height: 22px
+    +svg-bg-with-fallback(bertelsmann-foundation-logo-white)
+    background-position: right bottom
+    background-repeat: no-repeat
+    +background-size(160px auto)
+
+  // States:
+  //  opened: hide short, show long
   //  closed: show short, hide long
-  //  .small.open: show close button, show long, hide short
-  //  .small.closed, show info button, show both content pieces
-  //modifiers:
-  // small: show info button, full screen, black background, no toggle button
-  // legend-only: hide sources
-  // sources-only: hide legend
+  //  overlay: like opened, but covering the whole viewport, possibly centered
 
   &.closed
-    bottom: 25px
     padding: 0
     .short
       display: block
@@ -180,7 +173,7 @@ $section-margin: 12px
     td
       padding-bottom: 0
 
-  &.open
+  &.opened
     padding: $padding
     background-color: $highlight-background
     box-shadow: 1px 1px 5px #666
@@ -192,62 +185,53 @@ $section-margin: 12px
     .long
       display: block
 
+  // Modifiers:
+  //  legend-only: show only the legend
+  //  sources-only: show only the sources
+  //  about-only: show only the about section
+
   // First legend on the left, only sources
   &.sources-only
     left: 10px
-    .explanations
-      display: none
 
   // Second legend on the right, only explanations
   &.explanations-only
     right: 10px
-    .sources
+
+  // Overlay style
+  &.overlay
+    left: 5px
+    right: 5px
+    top: 5px
+    bottom: 5px
+    width: auto
+    overflow-y: auto
+    background-color: $dark-background
+    color: $dark-foreground
+
+    &.closed
       display: none
 
-  // Not wide enough to display two legends
-  @media screen and (max-width: 600px)
-    padding: 0
+    a
+      color: $dark-foreground
 
-    .info-button
+    .close-button
       display: block
 
     .toggle-button
       display: none
 
-    // Hide the second legend
-    &.sources-only.open,
-    &.sources-only.closed
-      display: none
+    .section
+      margin-bottom: $part-margin
 
-    // When closed, only show the info button
-    &.closed
-      right: 10px
-      bottom: 24px
-      .content
-        display: none
-      .close-button
-        display: none
-
-    &.open
-      left: 5px
-      right: 5px
-      top: 5px
-      bottom: 5px
-      width: auto
-      overflow-y: auto
-      background-color: $dark-background
-      color: $dark-foreground
-
-      a
-        color: $dark-foreground
-
-      .info-button
-        display: none
-
-      .close-button
-        display: block
-
-      // Show sources even in .explanations-only
-      .sources
-        display: block
-
+    // Center and increase font size on larger viewports
+    @media screen and (min-width: 650px)
+      left: 0
+      right: 0
+      top: 0
+      bottom: 0
+      margin: auto
+      max-width: 400px
+      max-height: 265px
+      font-size: 14px
+      line-height: 1.3

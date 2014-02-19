@@ -12,7 +12,5 @@ define [
     t: I18n.t
     template: I18n.template
     "_": _
-    formatNumber: utils.formatNumber
-    formatValue: utils.formatValue
 
   return

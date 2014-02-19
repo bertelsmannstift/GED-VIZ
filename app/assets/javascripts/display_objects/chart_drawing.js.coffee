@@ -1,9 +1,9 @@
 define [
   'raphael'
-  'lib/utils'
   'lib/i18n'
   'lib/scale'
-], (Raphael, utils, I18n, scale) ->
+  'lib/utils'
+], (Raphael, I18n, scale, utils) ->
   'use strict'
 
   # Shortcuts
@@ -60,8 +60,10 @@ define [
       'chartRadius'
 
     smallestSide = Math.min @paper.width, @paper.height
-    factor = scale scalingMap, smallestSide
-    @radius = smallestSide * factor
+    # Charts are typically wider then high
+    weightedSmallestSide = Math.min @paper.width * 0.85, @paper.height
+    factor = scale scalingMap, weightedSmallestSide
+    @radius = weightedSmallestSide * factor
 
     # Decrease radius by the half of the y offset
     @radius -= @yOffset
@@ -196,7 +198,7 @@ define [
     deg = Raphael.rad 180
     height = maxHeight * (element.sum / maxSum)
     # Center the magnet horizontally
-    x1 = (scale 'magnetSizeUpToTwo', @paper.width) / 2
+    x1 = scale('magnetSizeUpToTwo', @paper.width) / 2
     x2 = x1
     y1 = maxHeight / 2
     y2 = y1 - height

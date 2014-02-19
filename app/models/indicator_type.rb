@@ -6,15 +6,9 @@ class IndicatorType < ActiveRecord::Base
   # Filter out internal indicator types, sort by position
   scope :external, where(external: true).order('position ASC')
 
-  def hash
-    [self.class, key].hash
+  def ==(other)
+    self.class == other.class &&
+      self.key == other.key
   end
-
-  def eql?(other)
-    if other.class == self.class
-      self.key.eql?(other.key)
-    else
-      false
-    end
-  end
+  alias_method :eql?, :==
 end

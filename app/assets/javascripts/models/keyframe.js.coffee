@@ -1,15 +1,16 @@
 define [
   'underscore'
-  'lib/utils'
-  'lib/type_data'
+  'chaplin/lib/sync_machine'
   'models/base/model'
   'models/country_group'
-  'chaplin/lib/sync_machine'
   'models/element'
   'models/country_factory'
   'lib/i18n'
-], (_, utils, TypeData, Model, CountryGroup, SyncMachine, Element,
-    CountryFactory, I18n) ->
+  'lib/type_data'
+], (
+  _, SyncMachine, Model, CountryGroup, Element, CountryFactory,
+  I18n, TypeData
+) ->
   'use strict'
 
   class Keyframe extends Model
@@ -56,10 +57,26 @@ define [
       super
       @set @parse(attributes) if attributes
 
+    # Keyframe title
+    # --------------
+
+    getDisplayTitle: ->
+      title = @get 'title'
+      return title if title
+      dataType = @getTranslatedDataType()
+      year = @get 'year'
+      "#{dataType} #{year}"
+
     getSubtitle: ->
-      I18n.t('data_type', @get('data_type_with_unit')[0]) +
-      ' – ' +
-      @get('year')
+      dataType = @getTranslatedDataType()
+      year = @get 'year'
+      I18n.template(
+        ['editor', 'keyframe_subtitle'],
+        { data_type: dataType, year: year }
+      )
+
+    getTranslatedDataType: ->
+      I18n.t 'data_type', @get('data_type_with_unit')[0]
 
     # Serialization / Deserialization
     # -------------------------------
@@ -103,7 +120,7 @@ define [
           {index, type, unit}
         # Filter by representation
         .filter (obj) ->
-          TypeData.units[obj.unit].representation is utils.UNIT_ABSOLUTE
+          TypeData.units[obj.unit].representation is TypeData.UNIT_ABSOLUTE
         .value()
 
       for {index, type, unit} in absoluteUnits

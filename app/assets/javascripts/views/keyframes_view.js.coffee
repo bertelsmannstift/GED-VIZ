@@ -91,9 +91,11 @@ define [
       # Draw the marker arrow using Raphael
       unless @arrowContainer
         @arrowContainer = @$('.arrow')
-        Raphael(@arrowContainer.get(0), 15, 50)
-          .path('M 15 0 V 50 L 0 25 z')
-          .attr(fill: '#f2f2f2', 'stroke-opacity': 0)
+        width = 15
+        height = 50
+        Raphael(@arrowContainer.get(0), width, height)
+          .path("M #{width} 0 V #{height} L 0 #{height / 2} z")
+          .attr(fill: '#e6e6e6', 'stroke-opacity': 0)
       $item.append @arrowContainer
 
       return
@@ -110,7 +112,7 @@ define [
           text: 'capture_slide_1'
           targetElement: @$('.capture')
           position: 'above'
-          positionLeftReference: '.bottom-right'
+          positionLeftReference: '.editor .sidebar'
           customClass: 'capture'
           timeout: 2000
 
@@ -120,7 +122,7 @@ define [
           text: 'capture_slide_2'
           targetElement: @$('.capture')
           position: 'above'
-          positionLeftReference: '.bottom-right'
+          positionLeftReference: '.editor .sidebar'
           customClass: 'capture'
           timeout: 800
 
@@ -157,7 +159,7 @@ define [
         text: 'capture'
         targetElement: target
         position: 'above'
-        positionLeftReference: '.bottom-right'
+        positionLeftReference: '.editor .sidebar'
         customClass: 'capture'
 
       @subview 'captureRollover', new BubbleView(model: bubble)

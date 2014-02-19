@@ -21,7 +21,7 @@ class CountryGroup
     options = {} if options.nil?
     options[:include] = [:countries]
     hash = super(options)
-    hash['type'] = "CountryGroup"
+    hash['type'] = 'CountryGroup'
     hash
   end
 

@@ -3,15 +3,9 @@ class DataType < ActiveRecord::Base
   has_many :data_values
   validates :key, uniqueness: true
 
-  def hash
-    [self.class, key].hash
+  def ==(other)
+    self.class == other.class &&
+      self.key == other.key
   end
-
-  def eql?(other)
-    if other.class == self.class
-      self.key.eql?(other.key)
-    else
-      false
-    end
-  end
+  alias_method :eql?, :==
 end

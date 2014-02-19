@@ -4,7 +4,7 @@ require 'csv'
 class CountryImporter < Importer
 
   def import
-    puts 'CountryImporter#create_countries'
+    puts 'CountryImporter#import'
 
     Country.delete_all
 
@@ -13,8 +13,8 @@ class CountryImporter < Importer
     end
   end
 
-  # Returns a list of all pre-defined country groups for client-side processing
-  def self.predefined_country_groups
+  # Returns an array of all pre-defined country groups for client-side processing
+  def self.country_groups
     country_groups = []
     GROUPNAMES.each_with_index do |name, index|
       countries = COUNTRY_CSV.select do |line|

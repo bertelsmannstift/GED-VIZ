@@ -1,0 +1,13 @@
+%section.window
+  %h2= @label
+
+  %a.close{ href: '', title: @t('editor', 'close_dialog') }
+    &times;
+
+  %form.content-section
+    %p
+      %input.input-field(type='text' value=@default)
+
+  %p
+    %a.button.close-button(href='')= @t 'editor', 'cancel_button'
+    %a.button.okay-button.right(href='')= @t 'editor', 'okay_button'

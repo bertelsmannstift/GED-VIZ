@@ -1,4 +1,3 @@
-%a.info-button(href='' title='Info')
 %a.close-button(href='')
 %a.toggle-button.closed(href='')= @t 'legend', 'toggle_open'
 
@@ -26,99 +25,114 @@
 
 .content
 
-  .sources
-    %h3= @t 'legend', 'sources'
+  - if @partsVisibility.sources
 
-    .short
-      = @allSources.join ', '
+    %section.legend-part.section.sources
+      %h3= @t 'legend', 'sources'
 
-    .long
-      %ul
-        -# Data source
-        %li
-          = @t('data_type', type) + ':'
-          %a.source{ href: @dataSource.url, target: '_blank' }
-            = @dataSource.name
+      .short
+        = @allSources.join ', '
 
-        -# Indicator sources
-        - for source in @indicatorSources
+      .long
+        %ul
+          -# Data source
           %li
-            = source.indicators.join(', ') + ':'
-            %a.source{ href: source.url, target: '_blank' }
-              = source.name
+            = @t('data_type', type) + ':'
+            %a.source{ href: @dataSource.url, target: '_blank' }
+              = @dataSource.name
 
-        - if @currency is 'eur'
-          %li
-            = @t('legend', 'exchange_rate') + ':'
-            %a.source{ href: @exchangeRateSource.url, target: '_blank' }
-              = @exchangeRateSource.name
+          -# Indicator sources
+          - for source in @indicatorSources
+            %li
+              = source.indicators.join(', ') + ':'
+              %a.source{ href: source.url, target: '_blank' }
+                = source.name
 
-  .explanations
-    %h3= @t 'legend', 'legend'
+          - if @currency is 'eur'
+            %li
+              = @t('legend', 'exchange_rate') + ':'
+              %a.source{ href: @exchangeRateSource.url, target: '_blank' }
+                = @exchangeRateSource.name
 
-    .short
-      %p
-        %span.outgoing-label= @t 'flow', type, 'outgoing'
-        %span.magnet-outgoing-part(style="background-color: #{@magnetOutgoingColor}")
-        %span.relation-arrow
-        %span.magnet-incoming-part(style="background-color: #{@magnetIncomingColor}")
-        %span.incoming-label= @t 'flow', type, 'incoming'
-      %p
-        %span.source= @year
-        in
-        = @t('units', unit, 'full')
+  - if @partsVisibility.explanations
 
-    %table.long
+    %section.legend-part.section.explanations
+      %h3= @t 'legend', 'legend'
 
-      -# Magnet bars
-      %tr
-        %td.icon
-          .magnet-outgoing-part(style="background-color: #{@magnetOutgoingColor}")
-          .magnet-incoming-part(style="background-color: #{@magnetIncomingColor}")
-        %td
-          = @template ['legend', 'data', type, 'short'], year: @year, unit: @t('units', unit, 'full')
-          = @t 'legend', 'data', type, 'long'
-
-      -# Relations splines
-      %tr
-        %td.icon
+      .short
+        %p
+          %span.outgoing-label= @t 'flow', type, 'outgoing'
+          %span.magnet-outgoing-part(style="background-color: #{@magnetOutgoingColor}")
           %span.relation-arrow
-        %td
-          = @template ['legend', 'data', type, 'flow'], unit: @t('units', unit, 'full')
+          %span.magnet-incoming-part(style="background-color: #{@magnetIncomingColor}")
+          %span.incoming-label= @t 'flow', type, 'incoming'
+        %p
+          %span.source= @year
+          in
+          = @t('units', unit, 'full')
 
-      -# Indicator visualization
-      - if @indicators.absolute
+      %table.long
+
+        -# Magnet bars
         %tr
           %td.icon
-            %img(src='/assets/legend-indicator-absolute.png' width='20' height='20' alt='')
+            .magnet-outgoing-part(style="background-color: #{@magnetOutgoingColor}")
+            .magnet-incoming-part(style="background-color: #{@magnetIncomingColor}")
           %td
-            %p= @t 'legend', 'indicator-icon', 'absolute'
-            = describeIndicators.call this, @indicators.absolute
+            = @template ['legend', 'data', type, 'short'], year: @year, unit: @t('units', unit, 'full')
+            = @t 'legend', 'data', type, 'long'
 
-      - if @indicators.percent
+        -# Relations splines
         %tr
           %td.icon
-            %img(src='/assets/legend-indicator-percent.png' width='20' height='20' alt='')
+            %span.relation-arrow
           %td
-            %p= @t 'legend', 'indicator-icon', 'percent'
-            = describeIndicators.call this, @indicators.percent
+            = @template ['legend', 'data', type, 'flow'], unit: @t('units', unit, 'full')
 
-      - if @indicators.ranking
-        %tr
-          %td.icon
-            %img(src='/assets/legend-indicator-ranking.png' width='20' height='20' alt='')
-          %td= @t 'legend', 'indicator-icon', 'ranking'
+        -# Indicator visualization
+        - if @indicators.absolute
+          %tr
+            %td.icon
+              %img(src='/assets/legend-indicator-absolute.png' width='20' height='20' alt='')
+            %td
+              %p= @t 'legend', 'indicator-icon', 'absolute'
+              = describeIndicators.call this, @indicators.absolute
 
-      -# Indicator tendency arrows
-      - if @indicator_types_with_unit.length > 0
-        %tr
-          %td.icon
-            %img(src='/assets/legend-indicator-tendency.png' width='10' height='10' alt='')
-          %td= @t 'legend', 'tendency'
+        - if @indicators.percent
+          %tr
+            %td.icon
+              %img(src='/assets/legend-indicator-percent.png' width='20' height='20' alt='')
+            %td
+              %p= @t 'legend', 'indicator-icon', 'percent'
+              = describeIndicators.call this, @indicators.percent
 
-      -# Currency conversion USD -> EUR
-      - if @currency is 'eur'
-        %tr
-          %td.icon €
-          %td
-            != @template ['legend', 'eur_currency'], year: @year, usd_in_eur_current: @usd_in_eur_current, usd_in_eur_constant: @usd_in_eur_constant
+        - if @indicators.ranking
+          %tr
+            %td.icon
+              %img(src='/assets/legend-indicator-ranking.png' width='20' height='20' alt='')
+            %td= @t 'legend', 'indicator-icon', 'ranking'
+
+        -# Indicator tendency arrows
+        - if @indicator_types_with_unit.length > 0
+          %tr
+            %td.icon
+              %img(src='/assets/legend-indicator-tendency.png' width='10' height='10' alt='')
+            %td= @t 'legend', 'tendency'
+
+        -# Currency conversion USD -> EUR
+        - if @currency is 'eur'
+          %tr
+            %td.icon €
+            %td
+              != @template ['legend', 'eur_currency'], year: @year, usd_in_eur_current: @usd_in_eur_current, usd_in_eur_constant: @usd_in_eur_constant
+
+  - if @partsVisibility.about
+
+    .legend-part.about
+      %section.section
+        %h3= @t 'legend', 'about_heading'
+        %div!= @t 'legend', 'about_body'
+      %section.section
+        %h3= @t 'legend', 'partners_heading'
+        %div!= @t 'legend', 'partners_body'
+      .bertelsmann-foundation-logo

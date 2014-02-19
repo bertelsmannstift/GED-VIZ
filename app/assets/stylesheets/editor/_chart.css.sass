@@ -1,0 +1,26 @@
+.editor
+
+  .chart
+    position: absolute
+    top: $total-editor-height
+    left: 0
+    right: $editor-sidebar-width
+    bottom: 50px
+    overflow: hidden
+
+    @media screen and (max-width: 1000px)
+      right: $editor-sidebar-small-width
+
+    @media screen and (max-height: 768px)
+      bottom: 45px
+
+  .legend
+    bottom: 15px
+
+  // Make sure additional elements do not overlap with sidebar.
+
+  .legend.explanations-only
+    right: 25px
+
+  .contentbox
+    right: 215px

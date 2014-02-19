@@ -1,7 +1,6 @@
 define [
   'underscore'
   'lib/type_data'
-  'models/indicator'
 ], (_, TypeData) ->
   'use strict'
 
@@ -42,6 +41,6 @@ define [
       @representation = typeData.representation
 
       # Split up HDI value into ranking and value
-      if @type is 'hdi'
-        @ranking = Math.floor value
-        @value   = value - @ranking
+      # if @type is 'hdi'
+      #   @ranking = Math.floor value
+      #   @value   = value - @ranking

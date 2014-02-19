@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
     default = I18n.default_locale
     available = I18n.available_locales
     return forced if forced.present? and available.include?(forced)
-    request.compatible_language_from(available) || default
+    http_accept_language.compatible_language_from(available) || default
   end
 
   def disable_session_cookies

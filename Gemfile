@@ -1,17 +1,15 @@
 # -*- coding: utf-8 -*-
 source 'https://rubygems.org'
 
-gem 'json', '~> 1.8.0'
-gem 'rails', '3.2.13'
+gem 'rails', '~> 3.2.17'
 gem 'haml'
 gem 'mysql2'
 
 # Needs to be outside of assets group because it’s needed in production
 # Use a patched version with an updated r.js file
 gem 'requirejs-rails', '0.9.1', path: 'vendor/gems/requirejs-rails-0.9.1'
-
 gem 'memcache-client'
-gem 'rubyzip', require: 'zip/zip'
+gem 'rubyzip'
 gem 'exception_notification'
 gem 'http_accept_language'
 
@@ -19,9 +17,14 @@ group :assets do
   gem 'coffee-rails'
   gem 'sass-rails'
   gem 'compass-rails'
-  gem 'haml_coffee_assets'
-  gem 'therubyracer', '0.11.4', platform: :ruby
-  gem 'libv8', '3.11.8.13', platform: :ruby
+  # Lock old version because of several bugs
+  # e.g. https://github.com/netzpirat/haml_coffee_assets/issues/121
+  gem 'haml_coffee_assets', '1.13.2'
+  # Explicitly lock tilt to avoid clashes with Rails
+  # see https://github.com/netzpirat/haml_coffee_assets/issues/118
+  gem 'tilt', '~> 1.3.3'
+  gem 'therubyracer', '~> 0.12.0', platform: :ruby
+  gem 'libv8', '~> 3.16.14.3', platform: :ruby
   gem 'uglifier'
 end
 
@@ -33,7 +36,6 @@ group :development do
   gem 'guard-coffeescript'
   gem 'guard-livereload'
   gem 'rb-fsevent'
-  gem 'capistrano'
 end
 
 #group :test do
@@ -47,7 +49,7 @@ end
   #gem 'cucumber'
   #gem 'cucumber-rails'
   #gem 'cucumber_factory'
-  gem 'rspec-rails'
+  #gem 'rspec-rails'
   #gem 'shoulda'
   #gem 'spork'
   #gem 'webmock'

@@ -36,7 +36,7 @@ There is a [detailed blog post on the implementation](http://9elements.com/io/in
 - `bundle install`
 - Adjust `config/database.yml` to your database configuration. You might use
   `config/database.yml.sample` as a template.
-- `rake db:create db:migrate db:seed importer:import`
+- `rake db:create db:migrate db:seed`
   This creates the database and imports the data. This may take several minutes.
 - Start the local development server:
   `rails server`
