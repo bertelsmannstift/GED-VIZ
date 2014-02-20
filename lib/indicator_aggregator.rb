@@ -2,6 +2,7 @@ class IndicatorAggregator < Aggregator
 
   # Returns a hash with value, tendency, tendency_percent and missing
   def indicator_value(country_ids, year, type_with_unit, value_only = false)
+    country_ids = country_ids.sort
     cached('indicator_value', country_ids, year, type_with_unit, value_only) do
 
       if country_ids.length == 1
@@ -201,6 +202,7 @@ class IndicatorAggregator < Aggregator
 
   # Used for one country or country group
   def min_max_indicator_single(country_ids, type_with_unit)
+    country_ids = country_ids.sort
     cached('min_max_indicator_single', country_ids, type_with_unit) do
       min = 0
       max = 0

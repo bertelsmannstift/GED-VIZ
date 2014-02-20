@@ -18,7 +18,7 @@ class DataAggregator < Aggregator
   # Incoming volume as a sum of all relations,
   # even if the source countries are not currently selected
   def sum_in(country_ids, year, type_with_unit)
-    country_ids.sort!
+    country_ids = country_ids.sort
     cached('sum_in', country_ids, year, type_with_unit) do
       DataValue.where(
         data_type_id:    type_with_unit.type.id,
