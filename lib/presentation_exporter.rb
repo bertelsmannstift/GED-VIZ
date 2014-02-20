@@ -60,7 +60,7 @@ class PresentationExporter
     zip_path = renderer.directory.join(images_zip_filename(options))
     unless zip_path.exist?
       Rails.logger.info("Creating export zip #{zip_path}")
-      Zip::File.open(zip_path, true) do |zip_file|
+      ::Zip::File.open(zip_path, true) do |zip_file|
         @keyframe_indices.each do |index|
           file_path = renderer.image_path(index.to_i, options)
           filename_in_zip = "#{keyframe_filename(index)}.png"
