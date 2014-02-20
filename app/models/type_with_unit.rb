@@ -40,6 +40,10 @@ class TypeWithUnit
     "#{@type.key}(#{@unit.key})"
   end
 
+  def inspect
+    to_s
+  end
+
   def set_data_type_and_unit(twu)
     @type = DataType.where(key: twu[0]).first
     @unit = Unit.where(key: twu[1]).first
