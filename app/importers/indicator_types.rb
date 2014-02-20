@@ -18,83 +18,105 @@ module IndicatorTypes
   end
 
   # Simple derived IndicatorTypes
-  # Returns an array with hashes { twu: TypeWithUnit, source: TypeWithUnit, converter: Proc }
+  # Returns an array with hashes:
+  # [ { twu: TypeWithUnit, source: TypeWithUnit, converter: Proc }, … ]
 
   def self.derived_types
     @derived_types ||= type_definitions.each_with_object([]) do |type_definition, types|
       source = type_definition[:source]
       next if source.nil?
-
-      twu = TypeWithUnit.new(
-        indicator_type: type_definition[:type],
-        unit: type_definition[:unit]
-      )
       source = parse_type_with_unit(source)
 
-      types << {
-        twu: twu,
-        source: source,
-        converter: type_definition[:converter]
-      }
+      type_key = type_definition[:type]
+      unit_key = type_definition[:unit]
+      converter = type_definition[:converter]
+
+      for_all_currencies unit_key do |unit_key|
+        twu = TypeWithUnit.new indicator_type: type_key, unit: unit_key
+
+        types << {
+          twu: twu,
+          source: source,
+          converter: converter
+        }
+      end
     end
   end
 
   # Derived IndicatorTypes that are quotient of two other types
-  # Returns an array with hashes { twu: TypeWithUnit, dividend: TypeWithUnit, divisor: Proc }
+  # Returns an array with hashes:
+  # [ { twu: TypeWithUnit, dividend: TypeWithUnit, divisor: TypeWithUnit, converter: Proc }, … ]
 
   def self.quotient_types
     @quotient_types ||= type_definitions.each_with_object([]) do |type_definition, types|
       formula = type_definition[:formula]
       next if formula.blank?
 
-      twu = TypeWithUnit.new(
-        indicator_type: type_definition[:type],
-        unit: type_definition[:unit]
-      )
+      type_key = type_definition[:type]
+      unit_key = type_definition[:unit]
+      converter = type_definition[:converter]
 
-      parts = formula.split(/[\/()]+/)
-      dividend_type, dividend_unit, divisor_type, divisor_unit = parts
+      for_all_currencies unit_key do |unit_key|
+        twu = TypeWithUnit.new(
+          indicator_type: type_key,
+          unit: unit_key
+        )
 
-      dividend = TypeWithUnit.new(
-        indicator_type: dividend_type,
-        unit: dividend_unit
-      )
+        parts = formula.split(/[\/()]+/)
+        dividend_type, dividend_unit, divisor_type, divisor_unit = parts
 
-      divisor = TypeWithUnit.new(
-        indicator_type: divisor_type,
-        unit: divisor_unit
-      )
+        dividend = TypeWithUnit.new(
+          indicator_type: dividend_type,
+          unit: dividend_unit
+        )
 
-      types << {
-        twu: twu,
-        dividend: dividend,
-        divisor: divisor,
-        converter: type_definition[:converter]
-      }
+        divisor = TypeWithUnit.new(
+          indicator_type: divisor_type,
+          unit: divisor_unit
+        )
+
+        types << {
+          twu: twu,
+          dividend: dividend,
+          divisor: divisor,
+          converter: converter
+        }
+      end
     end
   end
 
   # Types with values that are addable when calculating
   # the sum for a country group
+  # Returns an array of TypeWithUnit objects: [ TypeWithUnit, … ]
 
   def self.addable_types
     @addable_types ||= type_definitions.each_with_object([]) do |type_definition, types|
+      type_key = type_definition[:type]
+      unit_key = type_definition[:unit]
+      formula = type_definition[:formula]
+
       addable =
         # Total import/export are not addable because
         # they include the trade between the countries
-        type_definition[:type] != 'import' &&
-        type_definition[:type] != 'export' &&
+        type_key != 'import' &&
+        type_key != 'export' &&
         # Percent values are only addable if they are quotient values
-        (type_definition[:unit] != 'percent' || type_definition[:formula].present?)
+        (unit_key != 'percent' || formula.present?)
 
-      if addable
-        twu = TypeWithUnit.new(
-          indicator_type: type_definition[:type],
-          unit: type_definition[:unit]
-        )
-        types << { twu: twu }
+      next unless addable
+
+      for_all_currencies unit_key do |unit_key|
+        twu = TypeWithUnit.new indicator_type: type_key, unit: unit_key
+        types << twu
       end
     end
+  end
+
+  # Call a block for all currencies
+
+  def self.for_all_currencies(unit, &proc)
+    proc.call unit
+    CurrencyConverter.other_unit(unit, &proc)
   end
 
   # For a given Prognos name, return an array with the corresponding type and unit keys
@@ -117,9 +139,14 @@ module IndicatorTypes
   CONVERT_FROM_TSD = lambda { |value|
     value / 1000.0
   }
+
+  CURRENCIES_IN_BILLION =
+    %w(bln_real_dollars bln_current_dollars bln_real_euros bln_current_euros)
+
   CONVERT_PER_CAPITA = lambda { |dividend, divisor, dividend_twu, divisor_twu|
-    # Convert billion dollars to dollars
-    if %w(bln_real_dollars bln_current_dollars).include?(dividend_twu.unit.key)
+
+    # Convert billion dollars/euros to dollars/euros
+    if CURRENCIES_IN_BILLION.include?(dividend_twu.unit.key)
       dividend = dividend * 1000000000
     end
 
