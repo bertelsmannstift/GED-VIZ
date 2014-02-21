@@ -22,13 +22,14 @@ class TypeWithUnit
       elsif indicator_type
         @type = IndicatorType.where(key: indicator_type).first
       end
+      #raise "TypeWithUnit: no type given #{options}" unless @type
 
       if unit.is_a? Unit
         @unit = unit
       elsif unit
         @unit = Unit.where(key: unit).first
       end
-
+      #raise "TypeWithUnit: no unit given #{options}" unless @unit
     end
   end
 

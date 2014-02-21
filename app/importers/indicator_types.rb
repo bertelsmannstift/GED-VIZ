@@ -56,14 +56,16 @@ module IndicatorTypes
       unit_key = type_definition[:unit]
       converter = type_definition[:converter]
 
-      for_all_currencies unit_key do |unit_key|
+      parts = formula.split(/[\/()]+/)
+      dividend_type, dividend_unit, divisor_type, divisor_unit = parts
+
+      for_all_currencies(unit_key, dividend_unit, divisor_unit) do
+        |unit_key, dividend_unit, divisor_unit|
+
         twu = TypeWithUnit.new(
           indicator_type: type_key,
           unit: unit_key
         )
-
-        parts = formula.split(/[\/()]+/)
-        dividend_type, dividend_unit, divisor_type, divisor_unit = parts
 
         dividend = TypeWithUnit.new(
           indicator_type: dividend_type,
@@ -114,9 +116,14 @@ module IndicatorTypes
 
   # Call a block for all currencies
 
-  def self.for_all_currencies(unit, &proc)
-    proc.call unit
-    CurrencyConverter.other_unit(unit, &proc)
+  def self.for_all_currencies(*units, &proc)
+    proc.call *units
+    converted_units = units.map do |unit|
+      CurrencyConverter.other_unit(unit) || unit
+    end
+    if converted_units != units
+      proc.call *converted_units
+    end
   end
 
   # For a given Prognos name, return an array with the corresponding type and unit keys

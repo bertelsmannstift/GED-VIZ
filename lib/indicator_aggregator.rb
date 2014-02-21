@@ -235,7 +235,6 @@ class IndicatorAggregator < Aggregator
 
   def addable_type?(type_with_unit)
     IndicatorTypes.addable_types.any? do |other_type_with_unit|
-      Rails.logger.debug "\tcompare #{type_with_unit} #{other_type_with_unit}"
       type_with_unit == other_type_with_unit
     end
   end

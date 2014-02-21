@@ -36,7 +36,8 @@ class IndicatorTypeImporter < Importer
     # Create/update type
     import_unit(unit_key, type)
 
-    CurrencyConverter.other_unit(unit_key) do |converted_unit_key|
+    converted_unit_key = CurrencyConverter.other_unit(unit_key)
+    if converted_unit_key
       import_unit(converted_unit_key, type)
     end
   end
