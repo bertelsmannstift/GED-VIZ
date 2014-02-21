@@ -1,3 +1,5 @@
+require 'zip'
+
 class PresentationExporter
 
   def initialize(presentation, keyframe_indices = nil)
