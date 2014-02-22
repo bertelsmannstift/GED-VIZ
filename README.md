@@ -1,4 +1,4 @@
-# GED VIZ
+# GED VIZ – Visualizing Global Economic Relations
 
 GED VIZ lets you create and share visualizations of global economic relations -
 for research, teaching and storytelling.
@@ -17,7 +17,7 @@ http://www.ged-project.de/contact/
 
 ## Implementation
 
-GED VIZ is a Ruby on Rails application using a MySQL database. The client side
+GED VIZ is a data visualization tool that uses open web technologies like HTML5, CSS, SVG, JavaScript and JSON. In particular, GED VIZ is a Ruby on Rails application using a MySQL database. The client side
 part is written in JavaScript/[CoffeeScript](http://coffeescript.org/) using
 [Backbone.js](http://backbonejs.org/), [Chaplin.js](http://chaplinjs.org) and
 [Raphael.js](http://raphaeljs.com).
@@ -26,19 +26,21 @@ There is a [detailed blog post on the implementation](http://9elements.com/io/in
 
 ### Dependencies
 
-- Ruby 1.9.3 (MRI) with RubyGems
+- Ruby 1.9.3 (MRI) with RubyGems. Also works with latest Ruby 2.1.
 - MySQL 5.1 or newer
-- PhantomJS (for generating static images for slide previews, exporting and older browsers)
+- [PhantomJS](http://phantomjs.org) for generating static images for slide previews, exporting and older browsers
 
 ### Installation
+
+After cloning the repository, open a shell console, change to the GED-VIZ directory and enter these commands:
 
 - `gem install bundler`
 - `bundle install`
 - Adjust `config/database.yml` to your database configuration. You might use
   `config/database.yml.sample` as a template.
-- `rake db:create db:migrate db:seed`
+- `rake db:create db:migrate db:seed`<br>
   This creates the database and imports the data. This may take several minutes.
-- Start the local development server:
+- Start the local development server:<br>
   `rails server`
 
 If you deploy the software on an Internet or Intranet server, please replace the
@@ -49,11 +51,12 @@ for further instructions.
 ## About
 
 The “Global Economic Dynamics” (GED) project of the
-[Bertelsmann Foundation](http://www.bertelsmann-stiftung.de/) is intended to
-contribute to a better understanding of the growing complexity of economic
-developments.
+[Bertelsmann Foundation](http://www.bertelsmann-stiftung.de/) aims to contribute
+to a better understanding of the growing complexity of economic developments.
 
-Contact to the GED team: http://www.ged-project.de/contact/
+Project manager: [Dr. Jan Arpe](http://www.ged-project.de/our-team/)
+
+[Contact to the GED team](http://www.ged-project.de/contact/)
 
 Software Development: [9elements](http://9elements.com)
 
