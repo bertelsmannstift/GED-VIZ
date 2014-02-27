@@ -1,5 +1,6 @@
 define [
   'jquery'
+  'underscore'
   'raphael'
   'chaplin/mediator'
   'display_objects/display_object'
@@ -7,7 +8,10 @@ define [
   'lib/i18n'
   'lib/number_formatter'
   'lib/utils'
-], ($, Raphael, mediator, DisplayObject, Colors, I18n, numberFormatter, utils) ->
+], (
+  $, _, Raphael, mediator, DisplayObject,
+  Colors, I18n, numberFormatter, utils
+) ->
   'use strict'
 
   # Shortcuts
@@ -61,7 +65,7 @@ define [
     # animationDuration: Number
     # chartDrawn: Boolean
 
-    DRAW_OPTIONS: 'animationDuration chartDrawn'.split(' ')
+    DRAW_OPTIONS: 'paper animationDuration chartDrawn'.split(' ')
 
     constructor: (@fromId, @from, @toId, @to, @amount, @stackedAmountFrom,
       @stackedAmountTo, @missingRelations, @$container) ->
@@ -112,7 +116,6 @@ define [
     draw: (options, drawInverseFrom = false, drawInverseTo = false) ->
 
       @saveDrawOptions options
-      {paper} = options
 
       @fadeDuration = @animationDuration / 2
 
@@ -137,8 +140,8 @@ define [
           offset.y
 
       offset =
-        x: paper.width / 2
-        y: paper.height / 2
+        x: @paper.width / 2
+        y: @paper.height / 2
 
       stackedAmounts =
         from: @from.sumOut - @stackedAmountFrom
@@ -213,9 +216,6 @@ define [
           x: relationLine.end.x - degrees.end.distCos
           y: relationLine.end.y - degrees.end.distSin
 
-      @debugPoint controlPoint.start.x,controlPoint.start.y
-      @debugPoint controlPoint.end.x,controlPoint.end.y
-
       relationLine.pathString =
         # Curve from start through both control points to end
         'M' + relationLine.start.x + ',' + relationLine.start.y +
@@ -234,8 +234,10 @@ define [
       @animationDeferred = $.Deferred()
 
       # Curry the drawArrows function to use it as an animation callback
-      drawArrows = _.bind @drawArrows, @,
-        paper, sourceFace, destinationFace, stackedAmounts, degrees, offset
+      drawArrows = _.bind(
+        @drawArrows, this,
+        sourceFace, destinationFace, stackedAmounts, degrees, offset
+      )
 
       if @drawn
         # Hide the arrows during the animation
@@ -254,7 +256,7 @@ define [
         return
 
       # Path hasn’t been drawn before, create it from scratch
-      @path = paper.path(relationLine.pathString).attr(
+      @path = @paper.path(relationLine.pathString).attr(
         stroke: NORMAL_COLOR
         'stroke-opacity': if @chartDrawn then 0 else STROKE_OPACITY
         'stroke-width': strokeWidth
@@ -290,7 +292,51 @@ define [
     # Drawing the arrows
     # ------------------
 
-    drawArrows: (paper, sourceFace, destinationFace, stackedAmounts, degrees, offset) =>
+    drawArrows: (sourceFace, destinationFace, stackedAmounts, degrees, offset) =>
+
+      # Calculate path strings
+
+      deltaAmountFraction = @getDeltaAmountFraction sourceFace, destinationFace
+
+      sourcePathString = @getSourceArrowPath(
+        sourceFace, deltaAmountFraction, stackedAmounts, offset, degrees
+      )
+
+      destinationArrowPathString = @getDestinationArrowPath(
+        destinationFace, deltaAmountFraction, stackedAmounts, offset, degrees
+      )
+
+      if @sourceArrow and @destinationArrow
+        # Just move the existing arrows
+        @sourceArrow.attr path: sourcePathString
+        @destinationArrow.attr path: destinationArrowPathString
+        @animationDeferred.resolve()
+        return
+
+      # Draw arrows from scratch
+      color = Colors.magnets[@from.dataType].outgoing
+      @sourceArrow = @paper.path(sourcePathString)
+        .hide() # Start hidden
+        .attr(fill: color, 'stroke-opacity': 0)
+      @addChild @sourceArrow
+
+      # Testing a glow
+      #sourceStrokePath =
+      #  'M' + sourcePoints.one.finalX + ',' + sourcePoints.one.finalY +
+      #  'L' + sourcePoints.three.finalX + ',' + sourcePoints.three.finalY  +
+      #  'L' + sourcePoints.two.finalX + ',' + sourcePoints.two.finalY
+      #@paper.path(sourceStrokePath).attr(stroke: 'white', 'stroke-width': 2, 'stroke-linecap': 'butt')
+
+      @destinationArrow = @paper.path(destinationArrowPathString)
+        .hide() # Start hidden
+        .attr(fill: Colors.gray, 'stroke-opacity': 0)
+      @addChild @destinationArrow
+
+      @animationDeferred.resolve()
+
+      return
+
+    getDeltaAmountFraction: (sourceFace, destinationFace) ->
       delta =
         source:
           x: sourceFace.end.x - sourceFace.start.x
@@ -305,8 +351,9 @@ define [
         destinationXTo: delta.destination.x / @to.sumIn
         destinationYTo: delta.destination.y / @to.sumIn
 
-      # Source points
+      deltaAmountFraction
 
+    getSourceArrowPath: (sourceFace, deltaAmountFraction, stackedAmounts, offset, degrees) ->
       sourcePoints =
         one:
           x: sourceFace.start.x + (deltaAmountFraction.sourceXFrom * stackedAmounts.from) + offset.x
@@ -315,17 +362,28 @@ define [
           x: sourceFace.start.x + (deltaAmountFraction.sourceXFrom * (stackedAmounts.from - @amount)) + offset.x
           y: sourceFace.start.y + (deltaAmountFraction.sourceYFrom * (stackedAmounts.from - @amount)) + offset.y
 
+      # Point 1
       sourcePoints.one.finalX = sourcePoints.one.x + degrees.start.cos
       sourcePoints.one.finalY = sourcePoints.one.y + degrees.start.sin
+
+      # Point 2
       sourcePoints.two.finalX = sourcePoints.two.x + degrees.start.cos
       sourcePoints.two.finalY = sourcePoints.two.y + degrees.start.sin
 
+      # Point 3
       sourcePoints.three =
         finalX: sourcePoints.one.x + (sourcePoints.two.x - sourcePoints.one.x) / 2 - degrees.start.cos * ARROW_SIZE
         finalY: sourcePoints.one.y + (sourcePoints.two.y - sourcePoints.one.y) / 2 - degrees.start.sin * ARROW_SIZE
 
-      # Destination points
+      # Create path string
+      sourceArrowPath =
+        'M' + sourcePoints.one.finalX + ',' + sourcePoints.one.finalY +
+        'L' + sourcePoints.two.finalX + ',' + sourcePoints.two.finalY +
+        'L' + sourcePoints.three.finalX + ',' + sourcePoints.three.finalY
 
+      sourceArrowPath
+
+    getDestinationArrowPath: (destinationFace, deltaAmountFraction, stackedAmounts, offset, degrees) ->
       destinationPoints =
         one:
           x: destinationFace.start.x + (deltaAmountFraction.destinationXTo * stackedAmounts.to) + offset.x
@@ -334,60 +392,30 @@ define [
           x: destinationFace.start.x + (deltaAmountFraction.destinationXTo * (stackedAmounts.to - @amount)) + offset.x
           y: destinationFace.start.y + (deltaAmountFraction.destinationYTo * (stackedAmounts.to - @amount)) + offset.y
 
+      # Point 1
       destinationPoints.one.finalX = destinationPoints.one.x - degrees.end.cos
       destinationPoints.one.finalY = destinationPoints.one.y - degrees.end.sin
-      destinationPoints.two.x - degrees.end.cos
-      destinationPoints.two.y - degrees.end.sin
 
+      # Point 2
+      destinationPoints.two.finalX = destinationPoints.two.x - degrees.end.cos
+      destinationPoints.two.finalY = destinationPoints.two.y - degrees.end.sin
+
+      # Point 3
       destinationPoints.three =
         finalX: destinationPoints.one.x + (destinationPoints.two.x - destinationPoints.one.x) / 2 + degrees.end.cos * ARROW_SIZE
         finalY: destinationPoints.one.y + (destinationPoints.two.y - destinationPoints.one.y) / 2 + degrees.end.sin * ARROW_SIZE
 
-      # Path strings
-
-      sourcePathString =
-        'M' + sourcePoints.one.finalX + ',' + sourcePoints.one.finalY +
-        'L' + sourcePoints.two.finalX + ',' + sourcePoints.two.finalY +
-        'L' + sourcePoints.three.finalX + ',' + sourcePoints.three.finalY
-
-      destinationArrowPathString =
+      # Create path string
+      destinationArrowPath =
         'M' + destinationPoints.one.finalX + ',' + destinationPoints.one.finalY +
         'L' + destinationPoints.two.finalX + ',' + destinationPoints.two.finalY +
         'L' + destinationPoints.three.finalX + ',' + destinationPoints.three.finalY
 
-      if @sourceArrow and @destinationArrow
-        # Just move the existing arrows
-        @sourceArrow.attr path: sourcePathString
-        @destinationArrow.attr path: destinationArrowPathString
-        @animationDeferred.resolve()
-        return
-
-      # Draw arrows from scratch
-      color = Colors.magnets[@from.dataType].outgoing
-      @sourceArrow = paper.path(sourcePathString)
-        .hide() # Start hidden
-        .attr(fill: color, 'stroke-opacity': 0)
-      @addChild @sourceArrow
-
-      # Testing a glow
-      #sourceStrokePath =
-      #  'M' + sourcePoints.one.finalX + ',' + sourcePoints.one.finalY +
-      #  'L' + sourcePoints.three.finalX + ',' + sourcePoints.three.finalY  +
-      #  'L' + sourcePoints.two.finalX + ',' + sourcePoints.two.finalY
-      #paper.path(sourceStrokePath).attr(stroke: 'white', 'stroke-width': 2, 'stroke-linecap': 'butt')
-
-      @destinationArrow = paper.path(destinationArrowPathString)
-        .hide() # Start hidden
-        .attr(fill: Colors.gray, 'stroke-opacity': 0)
-      @addChild @destinationArrow
-
-      @animationDeferred.resolve()
-
-      return
+      destinationArrowPath
 
     hideArrows: ->
-      @sourceArrow?.hide()
-      @destinationArrow?.hide()
+      @sourceArrow.hide() if @sourceArrow
+      @destinationArrow.hide() if @destinationArrow
       return
 
     # Content box methods
@@ -748,15 +776,13 @@ define [
     # --------
 
     dispose: ->
-      if @disposed
-        console.log "Relation#dispose #{@id} already disposed"
-        return
+      return if @disposed
 
       # Remove references from elements
       @from.removeRelationOut this if @from
       @to.removeRelationIn    this if @to
 
       # Stop the animation Deferred
-      @animationDeferred?.reject()
+      @animationDeferred.reject() if @animationDeferred
 
       super
