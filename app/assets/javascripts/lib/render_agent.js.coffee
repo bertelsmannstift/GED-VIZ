@@ -1,8 +1,9 @@
 define [
   'display_objects/chart'
   'views/legend_view'
+  'lib/i18n'
   'lib/utils'
-], (Chart, LegendView, utils) ->
+], (Chart, LegendView, I18n, utils) ->
 
   # Manages communication between Phantom.js and the chart
   class RenderAgent
@@ -15,7 +16,7 @@ define [
     # keyframes: Array
     # keyframeQueue: Array
     # showLegend: Boolean
-    # showTitle: Boolean
+    # showTitles: Boolean
     # format: String
     # legendView: View
     # $title: jQuery
@@ -26,9 +27,14 @@ define [
       @presentation = options.presentation
       @keyframeIndex = options.keyframeIndex
       @showLegend = options.showLegend
-      @showTitle = options.showTitle
+      @showTitles = options.showTitles
       @format = options.format
 
+      @$el = $('.render')
+      # Apply class before rendering the chart
+      # so the chart gets the correct width
+      @$el.addClass 'has-legend' if @showLegend
+      
       @keyframes = @presentation.get('keyframes').toArray()
       if keyframeIndex?
         @keyframeQueue = [keyframeIndex]
@@ -38,41 +44,64 @@ define [
       console.log 'RenderAgent#constructor queue', @keyframeQueue
       @drawChart()
 
+    $: (selector) ->
+      @$el.find selector
+
     drawChart: ->
       console.log 'RenderAgent#drawChart'
-      $('.render').addClass 'has-legend' if @showLegend
       @chart = new Chart(
         container: $('.chart').get(0)
         animationDuration: 0
         format: @format
         customFont: false
       )
+      return
 
     drawKeyframe: (keyframeIndex) ->
       keyframe = @keyframes[keyframeIndex]
       console.log 'RenderAgent#drawKeyframe', keyframeIndex, keyframe
-      @drawTitle keyframe.get('title') if @showTitle
+      @drawTitle keyframe
       @drawLegend keyframe if @showLegend
       @chart.update {keyframe}
       timeout = 200
       console.log "RenderAgent#drawKeyframe: Called chart.update(). Wait #{timeout}ms."
       utils.after timeout, =>
         @notifyDrawComplete keyframeIndex
+        return
+      return
 
-    drawTitle: (title) ->
-      @$title ?= $('<div>').addClass('title').appendTo('.render')
-      if title
-        $title.text(title).show()
+    drawTitle: (keyframe) ->
+      header = @$('> .header')
+      title = keyframe.get 'title'
+      console.log 'drawTitle', @showTitles, title
+
+      if @showTitles and title.length
+        header.show()
+        header.find('.title').text title
+
+        type = keyframe.get('data_type_with_unit')[0]
+        year = keyframe.get 'year'
+        text = I18n.t('data_type', type) + ' ' + year
+        header.find('.relation').text text
       else
-        $title.hide()
+        header.hide()
+      return
 
     drawLegend: (keyframe) ->
-      @legendView?.dispose()
+      @legendView.dispose() if @legendView
+
       @legendView = new LegendView
         model: keyframe
         container: '#page-container'
         staticChart: true
-      @legendView.$el.addClass('open').removeClass('closed')
+        partsVisibility:
+          sources: true
+          explanations: true
+          about: false
+
+      @legendView.open()
+
+      return
 
     notifyDrawComplete: (keyframeIndex) ->
       finished = @keyframeQueue.length is 0
@@ -88,8 +117,10 @@ define [
           utils.after 1500, @drawNext
         else
           console.log 'RenderAgent#notifyDrawComplete: Phantom exiting'
+      return
 
     drawNext: =>
       keyframeIndex = @keyframeQueue.shift()
       console.log 'RenderAgent#drawNext', keyframeIndex, 'remaining:', @keyframeQueue
       @drawKeyframe keyframeIndex
+      return

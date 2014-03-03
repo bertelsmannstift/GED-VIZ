@@ -40,7 +40,9 @@ define [
 
     initialize: (options) ->
       # Visibility of the parts
-      if options.only
+      if options.partsVisibility
+        partsVisibility = options.partsVisibility
+      else if options.only
         partsVisibility = sources: false, explanations: false, about: false
         partsVisibility[options.only] = true
         @$el.addClass options.only + '-only'
@@ -49,8 +51,7 @@ define [
       @partsVisibility = partsVisibility
 
       # Overlay mode
-      if options.overlay
-        @$el.addClass 'overlay'
+      @$el.addClass 'overlay' if options.overlay
 
       return
 

@@ -16,6 +16,7 @@ define [
       # Create presentation and fill it with embedded JSON data
       @presentation = new Presentation presentationData, parse: true
 
+      # TODO: Why not use params.show_titles etc.?
       showTitles = /show_titles=1/.test location.href
       showLegend = /show_legend=1/.test location.href
       format = if /size=thumb/.test location.href
