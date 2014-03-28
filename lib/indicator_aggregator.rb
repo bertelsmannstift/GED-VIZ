@@ -153,7 +153,7 @@ class IndicatorAggregator < Aggregator
     end
 
     # Some values are missing
-    return Float::NAN if sum[:count] < country_ids.length
+    return BigDecimal::NAN if sum[:count] < country_ids.length
 
     # All data is available, return the calculated value
     sum[:value]
