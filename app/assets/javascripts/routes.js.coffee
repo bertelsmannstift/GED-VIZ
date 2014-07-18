@@ -5,10 +5,15 @@ define ->
   # `match` is match method of the Router
   (match) ->
 
-    match ''                                 , 'editor#show'
-    match 'edit/:id'                         , 'editor#show'
-    match 'edit/:id/:index'                  , 'editor#show'
-    match ':id'                              , 'player#show'
-    match 'render/:presentation_id'          , 'static#render'
+    # Editor
+    match '', 'editor#show'
+    match 'edit/:id', 'editor#show'
+    match 'edit/:id/:index', 'editor#show'
+
+    # Player
+    match ':id', 'player#show', constraints: { id: /^\d+$/ }
+
+    # Static presentation
+    match 'render/:presentation_id', 'static#render'
     match 'render/:presentation_id/:keyframe', 'static#render'
 

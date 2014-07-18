@@ -22,9 +22,9 @@ define [
       mouseenter: 'showRollover'
       mouseleave: 'hideRollover'
 
-    initialize: ->
+    initialize: (options) ->
       super
-      @keyframe = @options.keyframe
+      @keyframe = options.keyframe
       $(document).on 'click', @clickedOutside
 
     showRollover: ->

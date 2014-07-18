@@ -146,6 +146,18 @@ $navigation-item-height: $editor-header-height - $navigation-item-margin
     position: relative
     margin: 20px
 
+  h2
+    margin-bottom: 10px
+
+    &.subsequent
+      margin-top: 10px
+
+  p
+    margin: 5px 0
+
+  p:last-child
+    margin: 0
+
   a
     font-weight: 600
     color: black
@@ -164,8 +176,11 @@ $navigation-item-height: $editor-header-height - $navigation-item-margin
   .welcome
     width: 30%
 
-    p, li
-      margin: 5px 0
+    li
+      margin: 6px 0
+
+  .buttons
+    margin-top: 10px
 
   .buttons a
     @extend %blue-button
@@ -206,12 +221,3 @@ $navigation-item-height: $editor-header-height - $navigation-item-margin
 
     &.third
       float: right
-
-    h2
-      margin-bottom: 10px
-
-    p
-      margin: 5px 0
-
-    p:last-child
-      margin: 0

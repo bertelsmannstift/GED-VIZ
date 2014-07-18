@@ -15,7 +15,7 @@ class Unit < ActiveRecord::Base
     self.class == other.class &&
       self.key == other.key
   end
-  alias_method :==, :eql?
+  alias_method :eql?, :==
 
   def is_proportional?
     IndicatorTypes.unit_definitions[key][:representation] == PROPORTIONAL

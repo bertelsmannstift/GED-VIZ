@@ -11,15 +11,17 @@ class CountriesController < ApplicationController
       direction = params[:direction].try(&:to_sym)
 
       CountrySorter.sort_by_data_type(countries, year, data_type_with_unit, direction)
-    else
+    elsif params[:type] == 'indicator'
       indicator_type_with_unit = TypeWithUnit.new.tap do |twu|
         twu.set_indicator_type_and_unit params[:type_with_unit]
       end
 
       CountrySorter.sort_by_indicator_type(countries, year, indicator_type_with_unit)
+    else
+      []
     end
 
-    render json: sorted_countries.as_json
+    render json: sorted_countries
   end
 
   def partners
@@ -32,7 +34,7 @@ class CountriesController < ApplicationController
 
     sorted_countries = country.biggest_partners(year, data_type_with_unit, direction)
 
-    render json: sorted_countries.as_json
+    render json: sorted_countries
   end
 
 end

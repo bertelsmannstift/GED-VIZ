@@ -1,7 +1,8 @@
 class MissingData < ActiveRecord::Base
 
-  # Returns all missing relation datapoints between the given country ids
-  # as an array of { country_from_id: j, country_to_id: k}
+  # Returns all missing relation data points between the given country ids
+  # as an array of hashes:
+  # { country_from_id, country_from_iso3, country_to_id, country_to_iso3}
   def self.missing_relations(ids, type_with_unit, year)
     ids = Aggregator.normalize_ids(ids)
     Aggregator.check_type_with_unit(type_with_unit)
@@ -48,7 +49,7 @@ class MissingData < ActiveRecord::Base
   end
 
   # Returns all country ids without a single relation given a direction, type and year
-  # as an array of { country_id: j, iso3: 'jkl', direction: 'data_from|data_to' }
+  # as an array of { country_id, iso3, direction: 'data_from|data_to' }
   def self.without_relations(ids, type_with_unit, year)
     ids = Aggregator.normalize_ids(ids)
     Aggregator.check_type_with_unit(type_with_unit)
@@ -80,6 +81,9 @@ class MissingData < ActiveRecord::Base
       WHERE countries.`id` IN (#{ids_for_sql}) AND available.`present` IS NULL
     "
 
+    unless query == sanitize_sql(query)
+      raise 'sanitize_sql was necessary!'
+    end
     results = self.connection.execute(sanitize_sql(query))
     results.map do |hash|
       {

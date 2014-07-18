@@ -9,6 +9,11 @@ define [
 
   class DataView extends View
 
+    # Property declarations
+    # ---------------------
+    #
+    # model: Keyframe
+
     templateName: 'keyframe_configuration/data'
 
     tagName: 'section'

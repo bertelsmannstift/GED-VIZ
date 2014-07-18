@@ -14,6 +14,11 @@ define [
 
   class KeyframeYearView extends View
 
+    # Property declarations
+    # ---------------------
+    #
+    # model: Keyframe
+
     templateName: 'keyframe_year'
 
     className: 'keyframe-year'

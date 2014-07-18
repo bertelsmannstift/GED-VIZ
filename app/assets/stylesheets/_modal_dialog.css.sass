@@ -39,20 +39,19 @@ $modal-dialog-padding: 15px
 
   .close
     @extend %blue-button
-    $close-button-diameter: 30px
+    $close-button-diameter: 20px
     position: absolute
     top: -$close-button-diameter / 2
     right: -$close-button-diameter / 2
     display: block
-    border: 1px solid white
+    box-shadow: 0 0 2px white
     border-radius: 50%
     padding: 0
     width: $close-button-diameter
     height: $close-button-diameter
-    background-color: black
     font-weight: 400
     font-size: $close-button-diameter * 0.8
-    line-height: $close-button-diameter * 0.9
+    line-height: $close-button-diameter * 0.8
     text-decoration: none
     text-align: center
 
@@ -117,7 +116,6 @@ $modal-dialog-padding: 15px
 
   .close-button:before
     padding-right: 4px
-    width: 20px
     content: '\00D7'
     font-weight: 700
 

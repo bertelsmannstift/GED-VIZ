@@ -1,31 +1,30 @@
-require 'csv'
 class PresentationsController < ApplicationController
 
+  unless Rails.env.development?
+    after_filter :cache_page_with_locale, only: [:show, :edit]
+  end
+
+  if Rails.env.staging?
+    http_basic_authenticate_with name: 'staging', password: 'stocksnflows',
+      only: [:new, :edit]
+  end
+
   def new
-    @presentation_json = example_presentation.as_json
-    respond_to do |format|
-      format.html { render :embedded }
-      format.json { render json: @presentation_json }
-    end
+    render_presentation(ExamplePresentation.cached_instance)
   end
 
   def create
     presentation = Presentation.from_json(params)
     presentation.save!
-    render json: presentation.as_json
+    render json: presentation
   end
 
   def show
-    @presentation_json = Presentation.cached_json(params[:id])
-    respond_to do |format|
-      format.html { render :embedded }
-      format.json { render json: @presentation_json }
-    end
+    render_presentation(Presentation.find(params[:id]))
   end
 
   def edit
-    @presentation_json = Presentation.cached_json(params[:id])
-    render :embedded
+    render_presentation(Presentation.find(params[:id]))
   end
 
   def export
@@ -34,7 +33,7 @@ class PresentationsController < ApplicationController
 
     if params[:file_format] == 'csv'
       zip_string = exporter.export_csv_zip
-      filename = "#{exporter.public_filename :data}.zip"
+      filename = exporter.public_filename(:data)
       send_data zip_string, filename: filename, type: 'application/zip'
 
     elsif params[:file_format] == 'image'
@@ -47,7 +46,7 @@ class PresentationsController < ApplicationController
       }
       zip_file = exporter.export_images_zip(options)
       if zip_file
-        filename = "#{exporter.public_filename :image}.zip"
+        filename = exporter.public_filename(:image)
         send_file zip_file, filename: filename, type: 'application/zip'
       else
         render text: 'An error occurred while generating the export ZIP.',
@@ -57,67 +56,29 @@ class PresentationsController < ApplicationController
 
   end
 
+  def compare
+    presentation = Presentation.find(params[:id])
+    old_json = presentation.instance_variable_get :@keyframes_json
+    new_json = presentation.send(:duplicate_keyframes).to_json
+    @diff = Diffy::Diff.new(old_json, new_json).to_s(:html)
+  end
+
   private
 
-  # Create an example presentation, return its JSON serialization
-  def example_presentation
-    p = Rails.cache.read('example_presentation')
-    return p if p
-
-    p = Presentation.new(title: 'New Presentation')
-
-    k = Keyframe.new
-    k.title = 'Start configuration'
-    k.year = 2010
-
-    # Example country sets
-    #two_countries  = Country.where(iso3: %w(deu gbr)).all
-    #few_countries = Country.where(iso3: %w(deu ita gbr fra)).all
-    #many_countries = Country.where(iso3: %w(deu fra gbr usa grc ind jpn can)).all
-    #country_group  = CountryGroup.new("BeNeLux", Country.where(iso3: %w(bel lux nld)).all)
-    start_countries = %w(usa chn jpn deu fra).map do |iso3|
-      Country.find_by_iso3 iso3
+  def render_presentation(presentation, options = {})
+    json = presentation.to_json(options)
+    respond_to do |format|
+      format.html do
+        @presentation = presentation
+        @presentation_json = json
+        render :embedded
+      end
+      format.json { render json: json }
     end
-    k.countries = start_countries
+  end
 
-    # Bilateral data (claims, migration, import)
-    import = DataType.find_by_key 'import'
-    bln_current_dollars = Unit.find_by_key 'bln_current_dollars'
-    k.set_data_type_with_unit(import, bln_current_dollars)
-
-    # Unilateral indicators
-    gdp = IndicatorType.find_by_key 'gdp'
-    bln_real_dollars = Unit.find_by_key 'bln_real_dollars'
-    k.add_indicator_type_with_unit(gdp, bln_real_dollars)
-
-    population = IndicatorType.find_by_key 'population'
-    mln_persons = Unit.find_by_key 'mln_persons'
-    k.add_indicator_type_with_unit(population, mln_persons)
-
-    p.add_keyframe k
-
-    # k = Keyframe.new
-    # k.title = 'Trade 2008'
-    # k.year = 2008
-    # k.set_data_type_with_unit(import, bln_current_dollars
-    # k.countries = few_countries# + [country_group]
-    # k.locking = 'deu'
-    # add_indicators(k)
-    # p.add_keyframe k
-    #
-    # k = Keyframe.new
-    # k.title = 'Trade 2009'
-    # k.year = 2009
-    # k.set_data_type_with_unit(import, bln_current_dollars
-    # k.countries = many_countries + [country_group]
-    # k.locking = ['deu', 'fra']
-    # add_indicators(k)
-    # p.add_keyframe k
-
-    json = p.to_json
-    Rails.cache.write('example_presentation', json)
-
-    json
+  def cache_page_with_locale
+    cache_page nil, "/#{controller_name}_#{action_name}_#{params[:id]}_#{I18n.locale}"
   end
 
 end

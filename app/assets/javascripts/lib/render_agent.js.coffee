@@ -34,8 +34,8 @@ define [
       # Apply class before rendering the chart
       # so the chart gets the correct width
       @$el.addClass 'has-legend' if @showLegend
-      
-      @keyframes = @presentation.get('keyframes').toArray()
+
+      @keyframes = @presentation.getKeyframes().toArray()
       if keyframeIndex?
         @keyframeQueue = [keyframeIndex]
       else
@@ -92,6 +92,7 @@ define [
 
       @legendView = new LegendView
         model: keyframe
+        presentation: @presentation
         container: '#page-container'
         staticChart: true
         partsVisibility:

@@ -9,7 +9,6 @@ class Importer
   end
 
   def setup
-
   end
 
 end

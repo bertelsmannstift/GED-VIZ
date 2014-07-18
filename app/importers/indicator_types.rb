@@ -31,7 +31,7 @@ module IndicatorTypes
       unit_key = type_definition[:unit]
       converter = type_definition[:converter]
 
-      for_all_currencies unit_key do |unit_key|
+      for_all_currencies(unit_key) do |unit_key|
         twu = TypeWithUnit.new indicator_type: type_key, unit: unit_key
 
         types << {
@@ -107,7 +107,7 @@ module IndicatorTypes
 
       next unless addable
 
-      for_all_currencies unit_key do |unit_key|
+      for_all_currencies(unit_key) do |unit_key|
         twu = TypeWithUnit.new indicator_type: type_key, unit: unit_key
         types << twu
       end

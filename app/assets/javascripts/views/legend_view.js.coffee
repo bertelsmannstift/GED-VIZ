@@ -1,13 +1,17 @@
 define [
   'underscore'
+  'configuration'
   'views/base/view'
   'lib/colors'
   'lib/currency'
   'lib/i18n'
   'lib/number_formatter'
   'lib/type_data'
-], (_, View, Colors, Currency, I18n, numberFormatter, TypeData) ->
+], (_, configuration, View, Colors, Currency, I18n, numberFormatter,
+    TypeData) ->
   'use strict'
+
+  t = I18n.t
 
   # Unit representations
   REPRESENTATIONS = [
@@ -26,6 +30,9 @@ define [
     # ---------------------
     #
     # model: Keyframe
+    # presentation: Presentation
+    # staticChart: Boolean
+    # partsVisibility: Object
 
     tagName: 'section'
     templateName: 'legend'
@@ -36,9 +43,15 @@ define [
 
     events:
       'click .toggle-button': 'toggleButtonClicked'
+      'click .info-button': 'infoButtonClicked'
       'click .close-button': 'closeButtonClicked'
 
     initialize: (options) ->
+      super
+
+      @presentation = options.presentation
+      @staticChart = options.staticChart or false
+
       # Visibility of the parts
       if options.partsVisibility
         partsVisibility = options.partsVisibility
@@ -57,7 +70,14 @@ define [
 
     toggleButtonClicked: (event) ->
       event.preventDefault()
-      @toggle()
+      if @$el.hasClass(OPENED_CLASS)
+        @close()
+      else
+        @open()
+
+    infoButtonClicked: (event) ->
+      event.preventDefault()
+      @open()
       return
 
     closeButtonClicked: (event) ->
@@ -66,12 +86,12 @@ define [
       return
 
     close: ->
-      @$('.toggle-button').text I18n.t('legend', 'toggle_open')
+      @$('.toggle-button').text t('legend', 'toggle_open')
       @$el.addClass(CLOSED_CLASS).removeClass(OPENED_CLASS)
       return
 
     open: ->
-      @$('.toggle-button').text I18n.t('legend', 'toggle_close')
+      @$('.toggle-button').text t('legend', 'toggle_close')
       @$el.addClass(OPENED_CLASS).removeClass(CLOSED_CLASS)
       return
 
@@ -89,54 +109,66 @@ define [
 
     getTemplateData: ->
       data = super
+
       [typeKey, unitKey] = data.data_type_with_unit
-      data.staticChart = @options.staticChart
+      isEuro = data.currency is 'eur'
+
+      data.staticChart = @staticChart
       data.partsVisibility = @partsVisibility
 
+      # Sources
       if @partsVisibility.sources
         data.allSources = @getAllSources()
         data.dataSource = @getDataSource()
         data.indicatorSources = @getIndicatorSources()
+        if isEuro
+          data.exchangeRateSource = @getExchangeRateSource()
 
+      # Explanations
       if @partsVisibility.explanations
         data.magnetOutgoingColor = Colors.magnets[typeKey].outgoing
         data.magnetIncomingColor = Colors.magnets[typeKey].incoming
         data.indicators = @getIndicators()
+        if isEuro
+          data.usd_in_eur_current = @getEuroRate unitKey, data.year
+          # Fixed rate for real values (base 2005)
+          data.usd_in_eur_constant = @getEuroRate unitKey, 2005
 
-      if data.currency is 'eur'
-        data.exchangeRateSource = @getExchangeRateSource()
-        data.usd_in_eur_current = @getEuroRate unitKey, data.year
-        # Fixed rate for real values (base 2005)
-        data.usd_in_eur_constant = @getEuroRate unitKey, 2005
+      # About
+      if @partsVisibility.about
+        data.id = @presentation.id
+        data.data_changed = @presentation.get 'data_changed'
+        data.data_version = @presentation.get 'data_version'
+        data.latest_data_version = configuration.latest_data_version
 
       data
 
-    # All sourcs (data, indicators, currency) as an array or strings
+    # All sources (data, indicators, currency) as an array or strings
     getAllSources: ->
       sources = []
       # Data
-      typeKey = @model.get('data_type_with_unit')[0]
-      sources.push I18n.t('sources', 'data', typeKey).split(';')[0]
+      typeKey = @getTypeKey()
+      sources.push t('sources', 'data', typeKey).split(';')[0]
       # Indicators
       for twu in @model.get('indicator_types_with_unit')
         typeKey = twu[0]
-        sources.push I18n.t('sources', 'indicator', typeKey).split(';')[0]
+        sources.push t('sources', 'indicator', typeKey).split(';')[0]
       # Currency
       if @model.get('currency') is 'eur'
-        sources.push I18n.t('sources', 'exchange_rate', 'usd_eur').split(';')[0]
+        sources.push t('sources', 'exchange_rate', 'usd_eur').split(';')[0]
       _.uniq sources
 
     getDataSource: ->
-      typeKey = @model.get('data_type_with_unit')[0]
-      [name, url] = I18n.t('sources', 'data', typeKey).split(';')
+      typeKey = @getTypeKey()
+      [name, url] = t('sources', 'data', typeKey).split(';')
       {name, url}
 
     getIndicatorSources: ->
       sources = []
       for twu in @model.get('indicator_types_with_unit')
         typeKey = twu[0]
-        indicatorName =  I18n.t 'indicators', typeKey, 'short'
-        [name, url] = I18n.t('sources', 'indicator', typeKey).split(';')
+        indicatorName =  t 'indicators', typeKey, 'short'
+        [name, url] = t('sources', 'indicator', typeKey).split(';')
         source = _(sources).find (source) -> source.name is name
         unless source
           source = name: name, url: url, indicators: []
@@ -152,7 +184,7 @@ define [
         {
           representation: REPRESENTATIONS[unit.representation]
           twu: twu
-          type: I18n.t('indicators', twu[0], 'short')
+          type: t('indicators', twu[0], 'short')
           maxValue: I18n.template(
             ['units', twu[1], 'with_value']
             number: numberFormatter.formatNumber(maxValue, 2, false, true)
@@ -163,8 +195,16 @@ define [
       _(indicators).groupBy (i) -> i.representation
 
     getExchangeRateSource: ->
-      [name, url] = I18n.t('sources', 'exchange_rate', 'usd_eur').split(';')
+      [name, url] = t('sources', 'exchange_rate', 'usd_eur').split(';')
       {name, url}
 
     getEuroRate: (unitKey, year) ->
       numberFormatter.formatNumber Currency.getExchangeRate(unitKey, year), 4
+
+    getTypeKey: ->
+      @model.get('data_type_with_unit')[0]
+
+    dispose: ->
+      return if @disposed
+      delete @presentation
+      super

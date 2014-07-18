@@ -46,7 +46,7 @@ define [
     # ---------------
 
     getKeyframes: ->
-      @model.get('presentation').get('keyframes')
+      @model.getKeyframes()
 
     # Rendering the list
     # ------------------

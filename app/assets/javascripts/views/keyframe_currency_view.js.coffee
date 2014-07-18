@@ -9,6 +9,11 @@ define [
 
   class KeyframeCurrencyView extends View
 
+    # Property declarations
+    # ---------------------
+    #
+    # model: Keyframe
+
     templateName: 'keyframe_currency'
 
     className: 'keyframe-currency'
@@ -25,7 +30,7 @@ define [
       currency = $li.data 'currency'
       bubble = new Bubble
         type: 'rollover'
-        text: ['currency', currency]
+        text: ['currencies', currency]
         targetElement: $li
         position: 'above'
         positionLeftReference: $li

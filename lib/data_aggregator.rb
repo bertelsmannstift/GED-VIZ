@@ -73,7 +73,8 @@ class DataAggregator < Aggregator
   end
 
   # Calculates the five biggest outgoing relations
-  # This method has to pay attention to other country groups, so the positioning of the sparklines is correct
+  # This method has to pay attention to other country groups,
+  # so the positioning of the sparklines is correct
   def outgoing_top5(id, other_ids, type_with_unit, year)
     other_ids.sort!
     cached('outgoing_top5', id, other_ids, type_with_unit, year) do
@@ -89,7 +90,8 @@ class DataAggregator < Aggregator
   end
 
   # Calculates the five biggest incoming relations
-  # This method has to pay attention to other country groups, so the positioning of the sparklines is correct
+  # This method has to pay attention to other country groups,
+  # so the positioning of the sparklines is correct
   def incoming_top5(id, other_ids, type_with_unit, year)
     other_ids.sort!
     cached('incoming_top5', id, other_ids, type_with_unit, year) do
@@ -104,15 +106,20 @@ class DataAggregator < Aggregator
     end
   end
 
-  def missing_relations_for_countries(all_ids, type_with_unit, year)
-    cached('missing_relations', all_ids, type_with_unit, year) do
-      MissingData.missing_relations(all_ids, type_with_unit, year)
+  # Returns all missing relation data points between the given country ids
+  # as an array of hashes:
+  # { country_from_id, country_from_iso3, country_to_id, country_to_iso3}
+  def missing_relations_for_countries(ids, type_with_unit, year)
+    cached('missing_relations', ids, type_with_unit, year) do
+      MissingData.missing_relations(ids, type_with_unit, year)
     end
   end
 
-  def countries_without_relations(all_ids, type_with_unit, year)
-    cached('without_relations', all_ids, type_with_unit, year) do
-      MissingData.without_relations(all_ids, type_with_unit, year)
+  # Returns all country ids without a single relation given a direction, type and year
+  # as an array of { country_id, iso3, direction: 'data_from|data_to' }
+  def countries_without_relations(ids, type_with_unit, year)
+    cached('without_relations', ids, type_with_unit, year) do
+      MissingData.without_relations(ids, type_with_unit, year)
     end
   end
 

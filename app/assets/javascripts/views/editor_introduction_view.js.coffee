@@ -32,7 +32,7 @@ define [
       # and https://developers.google.com/youtube/youtube_player_demo)
       window.onYouTubeIframeAPIReady = @playerAPILoaded
       $.ajax
-        url: 'http://www.youtube.com/player_api'
+        url: '//www.youtube.com/player_api'
         cache: true
         dataType: 'script'
       return
@@ -54,20 +54,24 @@ define [
         @player.playVideo()
       return
 
+    closeButtonClicked: ->
+      event.preventDefault()
+      @minimize()
+      return
+
+    closeOnEscape: (event) ->
+      @minimize() if event.keyCode is 27
+      return
+
+    backgroundClicked: =>
+      @minimize() if event.target is event.currentTarget
+      return
+
     minimize: (event) ->
-      event.preventDefault() if event and event.type is 'click'
       if support.cssTransitionProperty and support.cssTransformProperty
         @player.stopVideo() if @player and @player.stopVideo
         @$('.window').addClass 'minimized'
         utils.after 1200, => @dispose()
       else
         @dispose()
-      return
-
-    closeOnEscape: @prototype.minimize
-    closeButtonClicked: @prototype.minimize
-
-    backgroundClicked: =>
-      if event.target is event.currentTarget
-        @prototype.minimize()
       return

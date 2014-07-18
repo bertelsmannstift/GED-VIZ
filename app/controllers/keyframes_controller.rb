@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 class KeyframesController < ApplicationController
 
   layout :nil
@@ -10,8 +8,9 @@ class KeyframesController < ApplicationController
   end
 
   def render_chart
-    @presentation_json = Presentation.cached_json(params[:presentation_id])
-    @keyframe_index    = params[:keyframe] ? params[:keyframe].to_i : nil
+    presentation = Presentation.find(params[:presentation_id])
+    @presentation_json = presentation.to_json
+    @keyframe_index = params[:keyframe] ? params[:keyframe].to_i : nil
     render layout: 'application'
   end
 

@@ -37,13 +37,13 @@
   color: white
   padding: 3px 5px
   +bg-gradient(darken($heading-color, 20%), darken($heading-color, 35%))
-  text-shadow: 1px 1px 1px #777
+  text-shadow: $text-shadow
 
 %red-button
   @extend %button-base
   color: white
   +bg-gradient($red-button-background, darken($red-button-background, 15%))
-  text-shadow: 1px 1px 1px #777
+  text-shadow: $text-shadow
 
 %dropdown-button
   @extend %button-base

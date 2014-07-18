@@ -11,10 +11,12 @@ define [
       # Import global params
       presentationData = window.presentation
 
-      # Create presentation and fill it with embedded JSON data
+      # Create presentation
       if presentationData and presentationData.id
+        # Fill it with embedded JSON data
         @presentation = new Presentation presentationData, parse: true
-      else
+      else if params.id
+        # Fetch it from remote
         @presentation = new Presentation id: params.id
         @presentation.fetch()
-      @view = new PlayerView model: @presentation
+      @view = new PlayerView model: @presentation if @presentation

@@ -1,4 +1,56 @@
+%noscript
+  %h1
+    - if @presentation.title.present? and not @presentation.title.empty?
+      = @presentation.title
+
+  - unless @presentation.keyframes.empty?
+    - @presentation.keyframes.each_with_index do |keyframe, index|
+      %section
+        %h2
+          Keyframe #{index}:
+          = keyframe.title
+        %p
+          Year:
+          = keyframe.year
+        %p
+          Currency:
+          = t keyframe.currency, scope: [:gedviz, :currencies]
+        %p
+          Relation:
+          - twu = keyframe.data_type_with_unit
+          - type = twu.type.key
+          - unit = twu.unit.key
+          = t "gedviz.data_type.#{type}"
+          –
+          = t "gedviz.units.#{unit}.full"
+        %p
+          Country indicators:
+        %ul
+        - keyframe.indicator_types_with_unit.each do |twu|
+          %li
+            - type = twu.type.key
+            - unit = twu.unit.key
+            = t "gedviz.indicators.#{type}.full"
+            –
+            = t "gedviz.units.#{unit}.full"
+        %p Countries:
+        %ul
+        - unless keyframe.elements.empty?
+          - keyframe.elements.each do |element|
+            %li
+              - country_or_group = element.country_group
+              - if country_or_group.is_a? CountryGroup
+                - countries = country_or_group.countries
+              - else
+                - countries = [country_or_group]
+              - countries.each do |country|
+                = t country.iso3, scope: [:gedviz, :country_names]
+        %p
+          Source:
+          - text_and_url = t(type, scope: [:gedviz, :sources, :data]).split(';')
+          = link_to text_and_url[0], text_and_url[1]
+
 :javascript
-  window.presentation = #{raw @presentation_json};
+  window.presentation = #{@presentation_json.html_safe};
 
 #page-container

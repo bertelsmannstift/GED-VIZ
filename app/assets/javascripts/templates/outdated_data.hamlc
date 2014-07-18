@@ -1,0 +1,9 @@
+%section.window
+
+  %h2= @t 'outdated_data', 'heading'
+
+  %div.message!= @template ['outdated_data', 'message'], this
+
+  %p
+    %a.button.update-button.right(href='')
+      = @t 'outdated_data', 'update'

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130909131224) do
+ActiveRecord::Schema.define(:version => 20140617000354) do
 
   create_table "countries", :force => true do |t|
     t.string "name"
@@ -42,6 +42,12 @@ ActiveRecord::Schema.define(:version => 20130909131224) do
 
   add_index "data_values", ["data_type_id", "unit_id", "year"], :name => "index_data_values_on_data_type_id_and_unit_id_and_year"
 
+  create_table "data_versions", :force => true do |t|
+    t.string   "version"
+    t.datetime "published_at"
+    t.string   "description"
+  end
+
   create_table "indicator_types", :force => true do |t|
     t.string  "key"
     t.string  "group"
@@ -69,8 +75,11 @@ ActiveRecord::Schema.define(:version => 20130909131224) do
   add_index "indicator_values", ["indicator_type_id", "unit_id", "country_id", "year"], :name => "index_value_query"
 
   create_table "presentations", :force => true do |t|
-    t.string "title"
-    t.text   "keyframes"
+    t.string   "title"
+    t.text     "keyframes",       :limit => 16777215
+    t.integer  "data_version_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "units", :force => true do |t|

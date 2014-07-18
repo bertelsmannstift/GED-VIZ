@@ -1,38 +1,32 @@
 class CountryGroup
-  include ActiveModel::Serializers::JSON
   include ::CountrySorter
 
   attr_accessor :title, :countries
 
-  self.include_root_in_json = false
-
   def initialize(title = nil, *countries)
-    @title     = title
+    @title = title
     @countries = countries.flatten
   end
 
-  def attributes
+  def as_json(options = nil)
     {
-      title: @title
+      type: 'CountryGroup',
+      title: title,
+      countries: countries
     }
   end
 
-  def serializable_hash(options={})
-    options = {} if options.nil?
-    options[:include] = [:countries]
-    hash = super(options)
-    hash['type'] = 'CountryGroup'
-    hash
-  end
-
   def country_ids
-    countries.map &:id
+    countries.map(&:id)
   end
 
+  # Returns all country ids joined by a dash
+  # Returns a string
   def group_id
     countries.map(&:id).sort.join('-')
   end
 
+  # Returns all country iso3 codes joined by a dash
   def iso3
     countries.map(&:iso3).sort.join('-')
   end

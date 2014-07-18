@@ -1,12 +1,4 @@
 module CountrySorter
-  # sort_by
-  #  data_type sum_in
-  #  data_type sum_out
-  #  data_type both
-  #
-  #  indicator_type
-  #
-  # find 5 biggest partners
 
   def self.sort_by_data_type(countries, year, type_with_unit, direction = :both)
     aggregator = DataAggregator.new

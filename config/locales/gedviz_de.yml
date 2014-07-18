@@ -13,6 +13,10 @@ de:
     enum_separator: ", "
     enum_separator_last: " und "
 
+    currencies:
+      usd: US-Dollar
+      eur: Euro
+
     country_names:
       aus: Australien
       aut: Österreich
@@ -89,13 +93,15 @@ de:
         unit: in %{unit}
 
     legend:
-      generator: Generiert mit GED VIZ (<a href="http://viz.ged-project.de">viz.ged-project.de</a>)
+      generator: Generiert mit GED VIZ (<a href="https://viz.ged-project.de">viz.ged-project.de</a>)
       sources: Quellen
       legend: Legende
       about_heading: Erzeugt mit GED VIZ
-      about_body: <p>Diese Slideshow wurde mit <a href="http://viz.ged-project.de/" target="_blank">GED VIZ</a> erzeugt, einem Webtool zur Visualisierung weltwirtschaftlicher Dynamiken aus dem Projekt <a href="http://www.ged-project.de/">Global Economic Dynamics (GED)</a>. Mehr Materialien zum Tool einschließlich Tutorial, FAQ, Pressematerial und Kontaktinformation sind unter <a href="http://www.ged-project.de/viz" target="_blank">www.ged-project.de/viz</a> verfügbar. </p>
+      about_body: <p>Diese Slideshow wurde mit <a href="https://viz.ged-project.de/" target="_blank">GED VIZ</a> erzeugt, einem Webtool zur Visualisierung weltwirtschaftlicher Dynamiken aus dem Projekt <a href="http://www.ged-project.de/">Global Economic Dynamics (GED)</a>. Mehr Materialien zum Tool einschließlich Tutorial, FAQ, Pressematerial und Kontaktinformation sind unter <a href="http://www.ged-project.de/viz" target="_blank">www.ged-project.de/viz</a> verfügbar.</p>
       partners_heading: Partner
       partners_body: "<p>Softwareentwicklung: 9elements<br>Visualisierungskonzept & UI-Design: Raureif and Prof. Boris Müller<br>Datenrecherche: Prognos</p><p>Für Entwickler: GED VIZ ist Open Source und verfügbar auf <a href='https://github.com/bertelsmannstift/GED-VIZ' target='_blank'>GitHub</a>.</p>"
+      outdated_data_heading: Aktualisierter Datensatz verfügbar
+      outdated_data_body: "Es gibt eine neue Version des Datensatzes für diese Slideshow. Sie können die <a href='/versions' target='_blank'>Auflistung der Änderungen ansehen</a> oder <a href='/edit/%{id}' target='_blank'>den GED-VIZ-Editor starten</a>, um die neuesten Daten zu sehen. (alt: %{data_version} / neu: %{latest_data_version})"
       toggle_open: mehr
       toggle_close: weniger
       data:
@@ -351,7 +357,7 @@ de:
           import: "Summe aller Warenhandelsströme der angezeigten Länder in %{year}:<br>%{number}"
           migration: "Summe aller Migrationsströme der angezeigten Länder in %{year}:<br>%{number}"
           claims: "Summe aller ausländischen Bankforderungen der angezeigten Länder in %{year}:<br>%{number}"
-        currency:
+        currencies:
            usd: US-Dollar
            eur: Euro
       notification:
@@ -469,7 +475,7 @@ de:
       about:
         name: Über GED
         description: ""
-        href: http://www.ged-project.de/de/ueber-ged/
+        href: http://www.ged-project.de/de/about/
 
     # Editor introduction dialog
     introduction_dialog:
@@ -485,7 +491,9 @@ de:
       what_is_it_heading: Das GED-Projekt
       what_is_it_body: <p>GED VIZ ist Teil des Projekts <a href="http://www.ged-project.de" target="_blank">Global Economic Dynamics (GED)</a>. Ziel des Projekts ist es, zu einem besseren Verständnis der wachsenden Komplexität ökonomischer Entwicklungen beizutragen. Hierzu stellt es Analysen, Visualisierungen, politische Handlungsempfehlungen und Werkzeuge zur Verfügung. Dabei stehen Beziehungen, Austausch und Abhängigkeiten zwischen Ländern im Vordergrund.</p>
       in_action_heading: Weitere Materialien
-      in_action_body: <p>Mehr Informationen einschließlich Videos, Presselinks, Beispielartikeln und Pressematerial unter <a href="http://www.ged-project.de/viz" target="_blank">www.ged-project.de/viz</a>.</p>
+      in_action_body: <p>Mehr Informationen einschließlich Videos, Presselinks, Beispielartikeln und Pressematerial unter <a href="http://www.ged-project.de/viz/" target="_blank">www.ged-project.de/viz/</a>.</p>
+      version_history_heading: Versoinsverlauf
+      version_history_body: <p>Wir aktualisieren die Daten, die den Visualisierungen zugrunde liegen, regelmäßig. <a href="/versions" target="_blank">Auflistung aller Änderungen</a>.</p>
       partners_heading: Partner
       partners_body: "<p>Softwareentwicklung: 9elements<br>Visualisierungskonzept & UI-Design: Raureif and Prof. Boris Müller<br>Datenrecherche: Prognos</p><p>Für Entwickler: GED VIZ ist Open Source und verfügbar auf <a href='https://github.com/bertelsmannstift/GED-VIZ' target='_blank'>GitHub</a>.</p>"
 
@@ -534,6 +542,11 @@ de:
       title: Link zu dieser Slideshow
       url: "URL:"
 
+    outdated_data:
+      heading: Aktuellere Daten verfügbar
+      message: "<p>Die Daten, die dieser Slideshow zugrunde liegen, wurden in GED VIZ aktualisiert:</p><p>Version bei der Erstellung der Slideshow: %{data_version}<br>Aktuelle Version: %{latest_data_version}</p><p>Sobald Sie diese Slideshow bearbeiten, <strong>bringen wir die Daten auf den neuesten Stand</strong> und erzeugen eine neue URL. Die alte URL <strong>bleibt mit den alten Daten bestehen</strong>. Falls Sie die alte Version anderswo eingebettet haben, ändern sich die Daten darin also nicht, ohne dass Sie den Embedding-Code austauschen.</p><p>Sie können eine <a href='/versions' target='_blank'>Auflistung aller Änderungen einsehen</a>.</p>"
+      update: Daten aktualisieren
+
     # Editor browser warning
     outdated_browser:
       heading: Veralteter Browser
@@ -547,3 +560,9 @@ de:
     # Magnet
     magnet:
       one_to_one_others: andere
+
+    version_history:
+      title: "GED VIZ: Versiongeschichte der Daten"
+      version: "Version:"
+      published: "Veröffentlicht am:"
+      description: "Beschreibung:"

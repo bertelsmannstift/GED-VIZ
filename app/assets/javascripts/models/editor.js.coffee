@@ -7,10 +7,15 @@ define [
 
   class Editor extends Model
 
+    # Attributes
+    # ----------
+    #
     # The editor governs several submodels:
-    # - keyframe: Working keyframe (not in presentation.keyframes)
+    # - keyframe: Working keyframe. This is not in presentation.keyframes,
+    #   it might be a copy of one in presentation.keyframes.
     # - presentation
     #   - keyframes: Captured keyframes are added to this collection
+    #
     # Other important attributes:
     # - index: Index of the current active keyframe
 
@@ -20,7 +25,9 @@ define [
     # _moveIndex: Number
 
     initialize: (attributes, options) ->
-      # Create the presentation
+      super
+
+      # Create the presentation model
       presentation = new Presentation options.presentationData, parse: true
       @set {presentation}
 
@@ -81,7 +88,7 @@ define [
       unless index?
         # Clone without the data
         keyframe = @getKeyframe().clone withData: false
-        draft.get('keyframes').add keyframe
+        draft.getKeyframes().add keyframe
       # Save
       draft.saveLocally()
       return
@@ -142,9 +149,7 @@ define [
       return
 
     keyframesResetted: ->
-      index = @get 'index'
       presentation = @getPresentation()
-      keyframes = @getKeyframes()
 
       if presentation.id is 'new'
         @showNewPresentation()
@@ -183,7 +188,6 @@ define [
       index = presentation.get 'index'
 
       keyframes = @getKeyframes()
-      keyframesToFetch = keyframes.toArray()
 
       if index?
         # Restore keyframe selection
@@ -195,17 +199,23 @@ define [
         keyframes.remove keyframe, silent: true
 
       # Fetch all keyframes, render when the selected keyframe was fetched
-      for keyframeToFetch in keyframesToFetch
+      keyframes.each (keyframeToFetch) =>
         deferred = keyframeToFetch.fetch()
         if keyframeToFetch is keyframe
-          deferred.done _.bind(@keyframeFetched, this, keyframe, index)
+          deferred.then _.bind(@selectDraftKeyframe, this, keyframe, index)
 
       return
 
-    keyframeFetched: (keyframe, index) ->
+    selectDraftKeyframe: (keyframe, index) ->
       clone = if index? then true else false
       @selectKeyframe keyframe, {clone}
       return
+
+    # Fetch all keyframes including the current working keyframe.
+    # Returns the fetch Deferred for the current keyframe.
+    fetchAllKeyframes: ->
+      @getKeyframes().each (keyframe) -> keyframe.fetch()
+      @getKeyframe().fetch()
 
     # The working keyframe was changed
     # --------------------------------

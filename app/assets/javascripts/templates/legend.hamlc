@@ -124,7 +124,7 @@
           %tr
             %td.icon €
             %td
-              != @template ['legend', 'eur_currency'], year: @year, usd_in_eur_current: @usd_in_eur_current, usd_in_eur_constant: @usd_in_eur_constant
+              != @template ['legend', 'eur_currency'], {@year, @usd_in_eur_current, @usd_in_eur_constant}
 
   - if @partsVisibility.about
 
@@ -135,4 +135,8 @@
       %section.section
         %h3= @t 'legend', 'partners_heading'
         %div!= @t 'legend', 'partners_body'
+      - if @data_changed
+        %section.section
+          %h3= @t 'legend', 'outdated_data_heading'
+          %p!= @template ['legend', 'outdated_data_body'], {@id, @data_version, @latest_data_version}
       .bertelsmann-foundation-logo

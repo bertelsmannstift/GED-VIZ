@@ -19,8 +19,12 @@ define [
     events:
       sortupdate: 'sortupdate'
 
+    initialize: (options) ->
+      super
+      @keyframe = options.keyframe
+
     initItemView: (model) ->
-      new @itemView {model, keyframe: @options.keyframe}
+      new @itemView {model, keyframe: @keyframe}
 
     sortupdate: (event, params) ->
       @trigger 'move', params.oldIndex, params.newIndex

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 source 'https://rubygems.org'
 
-gem 'rails', '~> 3.2.17'
+gem 'rails', '~> 3.2.19'
 gem 'haml'
 gem 'mysql2'
 
@@ -12,6 +12,7 @@ gem 'memcache-client'
 gem 'rubyzip'
 gem 'exception_notification'
 gem 'http_accept_language'
+gem 'diffy'
 
 group :assets do
   gem 'coffee-rails'
@@ -29,13 +30,18 @@ group :assets do
 end
 
 group :development do
+  gem 'pry'
+  gem 'better_errors'
   gem 'thin'
   gem 'quiet_assets'
-  gem 'debugger'
+  #gem 'ruby-debug'
+  #gem 'ruby-debug-ide'
+  gem 'byebug'
   gem 'guard'
   gem 'guard-coffeescript'
   gem 'guard-livereload'
   gem 'rb-fsevent'
+  gem 'capistrano', '~> 2.15.5'
 end
 
 #group :test do
@@ -49,7 +55,8 @@ end
   #gem 'cucumber'
   #gem 'cucumber-rails'
   #gem 'cucumber_factory'
-  #gem 'rspec-rails'
+  gem 'rspec-rails'
+  gem 'guard-rspec', require: false
   #gem 'shoulda'
   #gem 'spork'
   #gem 'webmock'

@@ -1,5 +1,10 @@
 class Aggregator
 
+  class_attribute :cache_enabled
+
+  # Cache per default
+  self.cache_enabled = true
+
   # Syntactic input checking helpers
 
   def self.normalize_id(id)
@@ -41,9 +46,34 @@ class Aggregator
     id.split('-').join(', ')
   end
 
+  # Number conversion: Convert numbers and strongs to Float so the JSON
+  # representation is always /\d+.\d+/.
+  # Also supports Arrays and Hashes, converts values on the nesting level.
+  def self.deep_to_f(obj)
+    if obj.is_a?(Array)
+      obj.map { |v| to_f(v) }
+    elsif obj.is_a?(Hash)
+      obj.hmap { |k, v| [k, to_f(v)] }
+    else
+      to_f(obj)
+    end
+  end
+
+  # Number conversion: Convert BigDecimal, Integer and String to Float
+  def self.to_f(v)
+    if v.is_a?(BigDecimal) || v.is_a?(Integer) || v.is_a?(String)
+      v.to_f
+    else
+      v
+    end
+  end
+
   private
 
   def cached(*keys)
+    unless Aggregator.cache_enabled
+      return yield
+    end
     key = "aggregate_#{keys.hash}"
     cached = Rails.cache.read(key)
     if cached

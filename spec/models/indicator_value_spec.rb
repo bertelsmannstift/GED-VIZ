@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe IndicatorValue do
   subject {IndicatorValue.new(unit: unit, tendency: 0)}

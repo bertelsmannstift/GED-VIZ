@@ -28,6 +28,14 @@ GedViz::Application.routes.draw do
       id: /\d+/
     }
 
+  get 'compare/:id' => 'presentations#compare',
+    constraints: {
+      id: /\d+/
+    }
+
+  # Version history
+  get 'versions' => 'data_versions#show'
+
   # Keyframe thumbnails
   get 'system/static/:id/keyframe_:keyframe(_:size).png' => 'keyframes#static',
     as: 'static',

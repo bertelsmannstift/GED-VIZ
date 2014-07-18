@@ -16,8 +16,7 @@ define [
     className: 'sort-countries'
     autoRender: true
 
-    options:
-      defaultSorting: 'custom'
+    defaultSorting: 'custom'
 
     events:
       'click .alphabetical': 'alphabeticalClicked'
@@ -29,9 +28,8 @@ define [
 
     render: ->
       super
-      sorting = @options.defaultSorting
-      element = @$(".#{sorting}")
-      @updateCurrentSorting element, type: sorting
+      element = @$(".#{@defaultSorting}")
+      @updateCurrentSorting element, type: @defaultSorting
 
     getDataTwu: ->
       @model.get 'data_type_with_unit'

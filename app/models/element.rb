@@ -2,16 +2,16 @@
 # which is part of a Keyframe.
 
 class Element
-  include ActiveModel::Serializers::JSON
-
-  self.include_root_in_json = false
-
-  attr_accessor :country_group, :outgoing, :incoming, :incoming_stacked,
-                :no_incoming, :no_outgoing, :missing_relations
+  attr_accessor :sum_out, :sum_in, :indicators,
+                :keyframe, :country_group,
+                :outgoing, :incoming,
+                :no_incoming, :no_outgoing,
+                :missing_relations
 
   def initialize(keyframe, country_group)
-    @keyframe      = keyframe
+    @keyframe = keyframe
     @country_group = country_group
+
     @outgoing = {}
     @incoming = {}
 
@@ -23,51 +23,77 @@ class Element
     @missing_relations = {}
   end
 
-  def attributes
-    attrs = {
-      sum_in:            sum_in,
-      sum_out:           sum_out,
-      indicators:        indicators,
-      outgoing:          outgoing,
-      no_incoming:       no_incoming,
-      no_outgoing:       no_outgoing,
+  # Expects a hash with deep symbol keys
+  def self.from_json(keyframe, country_group, hash)
+    # Convert Integers and Strings to Float
+    to_f = proc do |k, v|
+      [k, v.is_a?(Integer) || v.is_a?(String) ? v.to_f : v]
+    end
+
+    element = Element.new(keyframe, country_group)
+    # Floats
+    element.sum_in = hash[:sum_in].to_f
+    element.sum_out = hash[:sum_out].to_f
+    # Array of Hashes
+    element.indicators = hash[:indicators].map do |indicator|
+      indicator.hmap &to_f
+    end
+    # Arrays of Hashes
+    element.outgoing = hash[:outgoing].hmap &to_f
+    element.incoming = hash[:incoming].hmap &to_f
+    # Arrays of Strings
+    element.no_incoming = hash[:no_incoming]
+    element.no_outgoing = hash[:no_outgoing]
+    # Hash with Strings
+    element.missing_relations = hash[:missing_relations]
+
+    element
+  end
+
+  def as_json(options = nil)
+    hash = {
+      sum_in: sum_in,
+      sum_out: sum_out,
+      indicators: indicators,
+      outgoing: outgoing,
+      no_incoming: no_incoming,
+      no_outgoing: no_outgoing,
       missing_relations: missing_relations
     }
     if incoming
-      attrs[:incoming] = incoming
+      hash[:incoming] = incoming
     end
-    attrs
+    hash
   end
 
   # Outgoing volume as a sum of all relations,
   # even if the target countries are not currently selected
   def sum_out
+    return @sum_out if @sum_out
     aggregator = DataAggregator.new
-    value = aggregator.sum_out(country_ids, year, type_with_unit)
-    # Convert BigDecimal to Float so the JSON representation
-    # is a Number, not a String
-    value.to_f
+    @sum_out = Aggregator.deep_to_f(
+      aggregator.sum_out(country_ids, year, type_with_unit)
+    )
   end
 
   # Incoming volume as a sum of all relations,
   # even if the source countries are not currently selected
   def sum_in
+    return @sum_in if @sum_in
     aggregator = DataAggregator.new
-    value = aggregator.sum_in(country_ids, year, type_with_unit)
-    # Convert BigDecimal to Float so the JSON representation
-    # is a Number, not a String
-    value.to_f
+    @sum_in = Aggregator.deep_to_f(
+      aggregator.sum_in(country_ids, year, type_with_unit)
+    )
   end
 
-  # All indicator values with tendency and tendency percent
+  # All indicator values
   def indicators
+    return @indicators if @indicators
     aggregator = IndicatorAggregator.new
-    @keyframe.indicator_types_with_unit.map do |twu|
-      hash = aggregator.indicator_value(country_ids, year, twu)
-      # Convert BigDecimal to Float so the JSON representation
-      # is a Number, not a String
-      hash[:value] = hash[:value].to_f
-      hash
+    @indicators = @keyframe.indicator_types_with_unit.map do |twu|
+      Aggregator.deep_to_f(
+        aggregator.indicator_value(country_ids, year, twu)
+      )
     end
   end
 
@@ -77,19 +103,7 @@ class Element
     @country_group.country_ids
   end
 
-  def group_id
-    @country_group.group_id
-  end
-
-  def other_ids
-    other_countries.map do |group|
-      group.country_ids
-    end.flatten
-  end
-
-  def other_countries
-    @keyframe.countries - [@country_group]
-  end
+  private
 
   def year
     @keyframe.year
@@ -97,10 +111,6 @@ class Element
 
   def type_with_unit
     @keyframe.data_type_with_unit
-  end
-
-  def data_type
-    @keyframe.data_type
   end
 
 end

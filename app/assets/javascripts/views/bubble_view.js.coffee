@@ -37,6 +37,8 @@ define [
     # showElementHandle: Number
 
     initialize: ->
+      super
+
       active = true
 
       type = @model.get 'type'

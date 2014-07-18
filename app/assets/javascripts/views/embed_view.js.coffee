@@ -56,6 +56,7 @@ define [
       options =
         animate: @$('input.animate:checked').val() is '1'
         showTitles: @$('input.show-titles').prop('checked')
+        includeProtocol: false
 
       @model.getPlayerURL options
 

@@ -1,5 +1,6 @@
 define [
   'underscore'
+  'raphael'
   'lib/support'
   'views/base/view'
   'views/editor_header_view'
@@ -11,12 +12,14 @@ define [
   'views/contextbox_view'
   'views/loading_indicator_view'
   'views/legend_view'
+  'views/outdated_data_view'
   'views/outdated_browser_view'
   'display_objects/chart'
 ], (
-  _, support, View, EditorHeaderView, KeyframeConfigurationView, KeyframesView,
-  SharingView, KeyframeCurrencyView, KeyframeYearView, ContextboxView,
-  LoadingIndicatorView, LegendView, OutdatedBrowserView, Chart
+  _, Raphael, support, View, EditorHeaderView, KeyframeConfigurationView,
+  KeyframesView, SharingView, KeyframeCurrencyView, KeyframeYearView,
+  ContextboxView, LoadingIndicatorView, LegendView, OutdatedDataView,
+  OutdatedBrowserView, Chart
 ) ->
   'use strict'
 
@@ -25,7 +28,7 @@ define [
     # Property declarations
     # ---------------------
     #
-    # model: Presentation
+    # model: Editor
 
     templateName: 'editor'
     className: 'editor'
@@ -56,7 +59,10 @@ define [
       $('#page-container').append @el
       @createChart()
 
+      @renderOutdatedDataView()
       @renderOutdatedBrowserView()
+
+      this
 
     # Keyframe change handler
     # -----------------------
@@ -80,7 +86,7 @@ define [
 
       @adjustKeyframeListHeight()
 
-    keyframeChanged: (keyframe, options) ->
+    keyframeChanged: (keyframe) ->
       # Only update the chart when specific attributes were changed
       changes = keyframe.changedAttributes()
 
@@ -187,6 +193,7 @@ define [
       @removeSubview 'legendSources'
       @removeSubview 'legendExplanations'
 
+      presentation = @model.getPresentation()
       keyframe = @model.getKeyframe()
       return unless keyframe and keyframe.get('countries').length
 
@@ -194,28 +201,34 @@ define [
 
       legendSources = new LegendView
         model: keyframe
+        presentation: presentation
         container: chartElement
         only: 'sources'
       @subview 'legendSources', legendSources
 
       legendExplanations = new LegendView
         model: keyframe
+        presentation: presentation
         container: chartElement
         only: 'explanations'
       @subview 'legendExplanations', legendExplanations
 
       return
 
+    # Outdated data dialog
+    # --------------------
+
+    renderOutdatedDataView: ->
+      if @model.getPresentation().get('data_changed')
+        @subview 'outdatedData', new OutdatedDataView({@model})
+      return
+
     # Outdated browser dialog
     # -----------------------
 
     renderOutdatedBrowserView: ->
-      noSVGSupport = Raphael.type isnt 'SVG'
-      # notShownBefore = not support.localStorage or
-      #  not localStorage.getItem('outdated_browser_shown')
-      if noSVGSupport # and notShownBefore
+      unless Raphael.type is 'SVG'
         @subview 'outdatedBrowser', new OutdatedBrowserView()
-        # localStorage.setItem('outdated_browser_shown', '1') if support.localStorage
       return
 
     # Resize handler

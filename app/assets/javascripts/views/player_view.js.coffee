@@ -23,6 +23,11 @@ define [
 
   class PlayerView extends View
 
+    # Property declarations
+    # ---------------------
+    #
+    # model: Presentation
+
     templateName: 'player'
 
     className: 'player'
@@ -124,14 +129,16 @@ define [
       return
 
     moveToNextKeyframe: (event) ->
-      event?.preventDefault()
+      if event
+        event.preventDefault()
       unless @atLastKeyframe()
         @currentKeyframeIndex++
         @update()
       return
 
     moveToPreviousKeyframe: (event) ->
-      event?.preventDefault()
+      if event
+        event.preventDefault()
       unless @atFirstKeyframe()
         @currentKeyframeIndex--
         @update()
@@ -140,7 +147,8 @@ define [
     # Auto-play
 
     togglePlay: (event) ->
-      event?.preventDefault()
+      if event
+        event.preventDefault()
       if @isPlaying()
         @stopPlay()
       else
@@ -183,7 +191,10 @@ define [
 
     toggleFullscreen: (event) ->
       event.preventDefault()
-      fullscreen.toggleFullscreen @el
+      if fullscreen.isFullScreen()
+        fullscreen.exitFullscreen @el
+      else
+        fullscreen.requestFullscreen @el
       return
 
     # Rendering
@@ -191,7 +202,6 @@ define [
 
     render: ->
       super
-
       @$chart = @$('.chart')
 
       unless @shouldShowTitles()
@@ -258,6 +268,7 @@ define [
     createLegend: (options) ->
       view = new LegendView
         model: @getCurrentKeyframe()
+        presentation: @model
         container: @el
         only: options.only
         overlay: options.overlay
@@ -269,6 +280,9 @@ define [
         container: @el
       )
       return
+
+    # Chart intialization and updating
+    # --------------------------------
 
     initChart: ->
       # Check if the chart was created (weird IE6 timing bug)

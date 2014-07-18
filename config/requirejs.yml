@@ -1,7 +1,7 @@
 paths:
-  jquery: 'jquery-1.10.0'
-  underscore: 'lodash.underscore-1.2.1'
-  backbone: 'backbone-1.0.0'
+  jquery: 'jquery-1.11.1'
+  underscore: 'lodash.underscore-2.4.1'
+  backbone: 'backbone-1.1.0'
   chaplin: 'chaplin-0.9.0'
   raphael: 'raphael-2.1.0'
   eve: 'eve-0.3.4'

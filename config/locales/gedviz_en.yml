@@ -12,6 +12,10 @@ en:
     enum_separator: ", "
     enum_separator_last: " and "
 
+    currencies:
+      usd: U.S. dollar
+      eur: Euro
+
     country_names:
       aus: Australia
       aut: Austria
@@ -88,13 +92,15 @@ en:
         unit: in %{unit}
 
     legend:
-      generator: Generated with GED VIZ (<a href="http://viz.ged-project.de">viz.ged-project.de</a>)
+      generator: Generated with GED VIZ (<a href="https://viz.ged-project.de">viz.ged-project.de</a>)
       sources: Sources
       legend: Legend
       about_heading: Made with GED VIZ
-      about_body: <p>This slideshow has been generated with <a href="http://viz.ged-project.de/" target="_blank">GED VIZ</a>, a web-tool for visualizing <a href="http://www.ged-project.de/" target="_blank">Global Economic Dynamics (GED)</a>. For more information on the tool including tutorial, FAQ, press material and contact, please visit <a href="http://www.ged-project.de/viz" target="_blank">www.ged-project.de/viz</a>.</p>
+      about_body: <p>This slideshow has been generated with <a href="https://viz.ged-project.de/" target="_blank">GED VIZ</a>, a web-tool for visualizing <a href="http://www.ged-project.de/" target="_blank">Global Economic Dynamics (GED)</a>. For more information on the tool including tutorial, FAQ, press material and contact, please visit <a href="http://www.ged-project.de/viz" target="_blank">www.ged-project.de/viz</a>.</p>
       partners_heading: Credits
       partners_body: "<p>Software development: 9elements<br>Visualization concept & UI design: Raureif and Prof. Boris Müller<br>Data support: Prognos</p><p>For developers: GED VIZ is open source and <a href='https://github.com/bertelsmannstift/GED-VIZ' target='_blank'>available on GitHub</a>.</p>"
+      outdated_data_heading: Data update available
+      outdated_data_body: "The dataset used for this slideshow has been updated. Please refer to the <a href='/versions' target='_blank'>data change log</a> for details or <a href='/edit/%{id}' target='_blank'>visit the GED VIZ editor</a> to view the latest data. (old: %{data_version} / new: %{latest_data_version})"
       toggle_open: more
       toggle_close: less
       data:
@@ -351,7 +357,7 @@ en:
           import: "Sum of total trade flows of all displayed countries in %{year}:<br>%{number}"
           migration: "Sum of total migration flows of all displayed countries in %{year}:<br>%{number}"
           claims: "Sum of total external bank claims of all displayed countries in %{year}:<br>%{number}"
-        currency:
+        currencies:
           usd: U.S. dollar
           eur: Euro
       notification:
@@ -467,7 +473,7 @@ en:
       about:
         name: About GED
         description: ""
-        href: http://www.ged-project.de/about-ged/
+        href: http://www.ged-project.de/about/
 
     # Editor introduction dialog
     introduction_dialog:
@@ -483,7 +489,9 @@ en:
       what_is_it_heading: The GED project
       what_is_it_body: <p>GED VIZ is part of the <a href="http://www.ged-project.de/" target="_blank">Global Economic Dynamics (GED) project</a>. The project aims at contributing to a better understanding of the growing complexity of economic developments through analyses, visualizations, policy recommendations and tools. It focuses on relations, exchange and dependencies between countries.</p>
       in_action_heading: Additional material
-      in_action_body: <p>Find more information including videos, press links, example articles and press material at <a href="http://www.ged-project.de/viz" target="_blank">www.ged-project.de/viz</a>.</p>
+      in_action_body: <p>Find more information including videos, press links, example articles and press material at <a href="http://www.ged-project.de/viz/" target="_blank">www.ged-project.de/viz/</a>.</p>
+      version_history_heading: Change history
+      version_history_body: <p>We update the data that power the visualizations regularly. <a href="/versions" target="_blank">Read the data version history</a>.</p>
       partners_heading: Credits
       partners_body: "<p>Software development: 9elements<br>Visualization concept & UI design: Raureif and Prof. Boris Müller<br>Data support: Prognos</p><p>For developers: GED VIZ is open source and <a href='https://github.com/bertelsmannstift/GED-VIZ' target='_blank'>available on GitHub</a>.</p>"
 
@@ -532,6 +540,12 @@ en:
       title: Link to this slideshow
       url: "URL:"
 
+    # Editor outdated data dialog
+    outdated_data:
+      heading: New data available
+      message: "<p>The data underlying this slideshow have changed:</p><p>Version at slideshow creation: %{data_version}<br>Current version: %{latest_data_version}</p><p>As soon as you edit this slideshow, we will <strong>update the data</strong> and create a new URL. The old URL and its data <strong>remain unchanged</strong>. Your embedded version will not change until you update your embedding code.</p><p>Please refer to the <a href='/versions' target='_blank'>change log</a> for details of the data update.</p>"
+      update: Update data
+
     # Editor browser warning
     outdated_browser:
       heading: Outdated browser
@@ -545,3 +559,9 @@ en:
     # Magnet
     magnet:
       one_to_one_others: others
+
+    version_history:
+      title: "GED VIZ: Data Version History"
+      version: "Version:"
+      published: "Published:"
+      description: "Description:"

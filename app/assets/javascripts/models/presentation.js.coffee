@@ -20,7 +20,7 @@ define [
       # Flag that tracks whether the presentation changed since the last save
       changed: false
 
-    initialize: (attributes) ->
+    initialize: ->
       super
 
       # Create keyframes if they haven’t been created through parse/set
@@ -98,7 +98,8 @@ define [
       # a new one. Manually trigger a reset event later when all attributes
       # have been set.
       keyframes = @getOrCreateKeyframes()
-      data.keyframes = keyframes.reset data.keyframes, silent: true
+      keyframes.reset data.keyframes, silent: true
+      data.keyframes = keyframes
       data
 
     # Manually trigger a reset event on the keyframes collection
@@ -160,20 +161,33 @@ define [
     # URL helpers
     # -----------
 
-    getEditorURL: ->
+    KNOWN_SSL_HOSTS = ['viz.ged-project.de']
+
+    getEditorURL: (options = {}) ->
+      _.defaults options, protocol: null, includeProtocol: true
+      # Use HTTPS if available
+      if not options.protocol and location.hostname in KNOWN_SSL_HOSTS
+        options.protocol = 'https:'
       index = @get 'index'
-      params = {}
+      url = ''
+      url += (options.protocol or location.protocol) if options.includeProtocol
+      url += "//#{location.host}/edit/#{@id}"
+      url += (if index? and index isnt 0 then "/#{index}" else '')
       params = lang: configuration.locale
-      url = "#{location.protocol}//#{location.host}/edit/#{@id}" +
-        (if index? then "/#{index}" else '') + '?' + $.param(params)
+      url += '?' + $.param(params)
       url
 
     getPlayerURL: (options = {}) ->
-      url = "#{location.protocol}//#{location.host}/#{@id}"
-      params = {}
+      _.defaults options, protocol: null, includeProtocol: true
+      # Use HTTPS if available
+      if not options.protocol and location.hostname in KNOWN_SSL_HOSTS
+        options.protocol = 'https:'
+      url = ''
+      url += (options.protocol or location.protocol) if options.includeProtocol
+      url += "//#{location.host}/#{@id}"
+      params = lang: configuration.locale
       params.animate = 1 if options.animate
       params.show_titles = 0 unless options.showTitles
-      params.lang = configuration.locale
       unless _.isEmpty params
         url += '?' + $.param(params)
       url

@@ -1,6 +1,6 @@
 :javascript
-  window.presentation  = #{raw @presentation_json};
-  window.keyframeIndex = #{@keyframe_index.to_json};
+  window.presentation  = #{@presentation_json.html_safe};
+  window.keyframeIndex = #{@keyframe_index.to_json.html_safe};
 
 #page-container.render
   .header

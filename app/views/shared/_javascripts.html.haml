@@ -10,7 +10,7 @@
 
 -# Bootstrap JavaScript application
 - if Rails.env.development?
-  :javascript
+  %script
     var require = #{YAML.load_file('config/requirejs.yml').to_json.html_safe};
     require.baseUrl = '/assets/';
     require.urlArgs = 'bust=' + String(new Date().getTime()).substring(0, 10);
@@ -20,8 +20,8 @@
   = requirejs_include_tag 'application'
 
 -# Pass configuration to JavaScript app
-:javascript
-  define('configuration', { locale: '#{I18n.locale}' });
+%script
+  define('configuration', #{application_configuration.to_json.html_safe});
 
 -# Additional scripts
 = javascript_include_tag 'exception_notifier'

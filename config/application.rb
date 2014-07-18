@@ -1,12 +1,12 @@
 require File.expand_path('../boot', __FILE__)
 
 #require 'rails/all'
-require "action_controller/railtie"
-require "action_mailer/railtie"
-#require "active_resource/railtie"
-require "active_record/railtie"
-require "rails/test_unit/railtie"
-require "sprockets/railtie"
+require 'action_controller/railtie'
+require 'action_mailer/railtie'
+#require 'active_resource/railtie'
+require 'active_record/railtie'
+require 'rails/test_unit/railtie'
+require 'sprockets/railtie'
 
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line
@@ -38,6 +38,7 @@ module GedViz
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     config.i18n.default_locale = :en
+    config.i18n.enforce_available_locales = true
 
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
@@ -82,10 +83,14 @@ module GedViz
 
     config.after_initialize do
 
+      # JSON: Escape HTML in strings
+      ActiveSupport::JSON::Encoding.escape_html_entities_in_json = true
+
+      # JSON: Do not nest with model name
+      ActiveRecord::Base.include_root_in_json = false
+
       # CoffeeScript compilation: Do not wrap the code in a closure
       ::Tilt::CoffeeScriptTemplate.default_bare = true
-
-      ActiveRecord::Base.include_root_in_json = false
 
       # Asset precompilation: Use Almond instead of Require.js as AMD loader
       # (see https://github.com/jrburke/almond)

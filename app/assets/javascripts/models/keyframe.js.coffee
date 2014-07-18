@@ -21,6 +21,10 @@ define [
     # Constants
     # ---------
 
+    QUERY_ATTRIBUTES = [
+      'data_type_with_unit', 'indicator_types_with_unit',
+      'year', 'currency', 'title', 'locking'
+    ]
     DATA_ATTRIBUTES = [
       'elements', 'indicator_bounds', 'yearly_totals', 'max_overall'
     ]
@@ -48,13 +52,9 @@ define [
     #
     # fetchDeferred: jqXHR
 
-    urlRoot: '/keyframes'
-
-    # The actual data for the countries
-    elements: []
-
     initialize: (attributes) ->
       super
+
       @set @parse(attributes) if attributes
 
     # Keyframe title
@@ -82,8 +82,7 @@ define [
     # -------------------------------
 
     toJSON: ->
-      object = @pick 'data_type_with_unit', 'indicator_types_with_unit',
-        'year', 'currency', 'title', 'locking'
+      object = @pick QUERY_ATTRIBUTES
       object.countries = _(@get('countries')).map (c) -> c.toJSON()
       object
 
@@ -92,28 +91,22 @@ define [
 
       # Rebuild countries array. Transform raw objects into
       # Country/CountryGroup instances.
-      data.countries = []
-      for countryData in rawData.countries
-        country = CountryFactory.build countryData
-        data.countries.push country
+      data.countries = _.map rawData.countries, (countryData) ->
+        CountryFactory.build countryData
 
       # Rebuild elements array. Transform raw objects into Element instances.
-      rawElements = rawData.elements
-      if rawElements
-        data.elements = []
-        for elementData, index in rawElements
-          element = new Element elementData, index, data
-          data.elements.push element
+      data.elements = _.map rawData.elements, (elementData, index) ->
+        new Element elementData, index, data
 
       # Add indicator scaling
       @scaleIndicators data
 
       data
 
-    # Add the scale to the indicators tat have an absolute representation
-    scaleIndicators: (keyframe) ->
+    # Add the scale to the indicators that have an absolute representation
+    scaleIndicators: (data) ->
       # Get absolute units
-      absoluteUnits = _.chain(keyframe.indicator_types_with_unit)
+      absoluteUnits = _.chain(data.indicator_types_with_unit)
         # Create objects we can work with
         .map (typeWithUnit, index) ->
           [type, unit] = typeWithUnit
@@ -123,21 +116,18 @@ define [
           TypeData.units[obj.unit].representation is TypeData.UNIT_ABSOLUTE
         .value()
 
-      for {index, type, unit} in absoluteUnits
+      for {index} in absoluteUnits
 
         # Aggregate all indicators for this type
-        indicators = _(keyframe.elements).map (element) ->
+        for element in data.elements
           indicator = element.indicators[index]
 
-          # Option 1: Different max values for positive and negative values
-          # maxValue = if indicator.value >= 0 then keyframe.indicator_bounds[1] else keyframe.indicator_bounds[0]
-
-          # Option 2: Shared max value
-          maxValue = _.max keyframe.indicator_bounds[index], (v) ->
+          # Shared max value
+          maxValue = _.max data.indicator_bounds[index], (v) ->
             Math.abs v
 
-          indicator.scale = Math.abs(indicator.value) / Math.abs(maxValue)
-          indicator
+          # Add scale
+          indicator.scale = Math.abs(indicator.value) / maxValue
 
       return
 

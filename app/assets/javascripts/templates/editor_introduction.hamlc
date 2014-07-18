@@ -31,6 +31,8 @@
       .section.second
         %h2= @t 'introduction_dialog', 'in_action_heading'
         %div!= @t 'introduction_dialog', 'in_action_body'
+        %h2.subsequent= @t 'introduction_dialog', 'version_history_heading'
+        %div!= @t 'introduction_dialog', 'version_history_body'
       .section.third
         %h2= @t 'introduction_dialog', 'partners_heading'
         %div!= @t 'introduction_dialog', 'partners_body'

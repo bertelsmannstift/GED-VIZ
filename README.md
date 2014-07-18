@@ -1,7 +1,7 @@
 # GED VIZ – Visualizing Global Economic Relations
 
-GED VIZ lets you create and share visualizations of global economic relations -
-for research, teaching and storytelling.
+GED VIZ lets you create and share visualizations of global economic relations
+- for research, teaching and storytelling.
 
 The online version:
 
@@ -17,22 +17,27 @@ http://www.ged-project.de/contact/
 
 ## Implementation
 
-GED VIZ is a data visualization tool that uses open web technologies like HTML5, CSS, SVG, JavaScript and JSON. In particular, GED VIZ is a Ruby on Rails application using a MySQL database. The client side
-part is written in JavaScript/[CoffeeScript](http://coffeescript.org/) using
-[Backbone.js](http://backbonejs.org/), [Chaplin.js](http://chaplinjs.org) and
-[Raphael.js](http://raphaeljs.com).
+GED VIZ is a data visualization tool that uses open web technologies like
+HTML5, CSS, SVG, JavaScript and JSON. In particular, GED VIZ is a Ruby on
+Rails application using a MySQL database. The client side part is written
+ in JavaScript/[CoffeeScript](http://coffeescript.org/) using
+ [Backbone.js](http://backbonejs.org/), [Chaplin.js](http://chaplinjs.org)
+ and [Raphael.js](http://raphaeljs.com).
 
-There is a [detailed blog post on the implementation](http://9elements.com/io/index.php/ged-viz-making-of/).
+There is a
+[detailed blog post on the implementation](http://9elements.com/io/index.php/ged-viz-making-of/).
 
 ### Dependencies
 
 - Ruby 1.9.3 (MRI) with RubyGems. Also works with latest Ruby 2.1.
 - MySQL 5.1 or newer
-- [PhantomJS](http://phantomjs.org) for generating static images for slide previews, exporting and older browsers
+- [PhantomJS](http://phantomjs.org) for generating static images for slide
+  previews, exporting and older browsers
 
 ### Installation
 
-After cloning the repository, open a shell console, change to the GED-VIZ directory and enter these commands:
+After cloning the repository, open a shell console, change to the GED-VIZ
+directory and enter these commands:
 
 - `gem install bundler`
 - `bundle install`
@@ -43,16 +48,16 @@ After cloning the repository, open a shell console, change to the GED-VIZ direct
 - Start the local development server:<br>
   `rails server`
 
-If you deploy the software on an Internet or Intranet server, please replace the
-term “GED VIZ” and trademarked logos which aren’t covered by the MIT license.
-See [LICENSE.md](https://github.com/bertelsmannstift/GED-VIZ/blob/master/LICENSE.md)
+If you deploy the software on an Internet or Intranet server, please replace
+the term “GED VIZ” and trademarked logos which aren’t covered by the MIT
+license. See [LICENSE.md](https://github.com/bertelsmannstift/GED-VIZ/blob/master/LICENSE.md)
 for further instructions.
 
 ## About
 
 The “Global Economic Dynamics” (GED) project of the
-[Bertelsmann Foundation](http://www.bertelsmann-stiftung.de/) aims to contribute
-to a better understanding of the growing complexity of economic developments.
+[Bertelsmann Foundation](http://www.bertelsmann-stiftung.de/) aims to
+contribute to a better understanding of the growing complexity of economic developments.
 
 Project manager: [Dr. Jan Arpe](http://www.ged-project.de/our-team/)
 

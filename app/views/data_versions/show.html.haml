@@ -1,0 +1,16 @@
+%div.version-history
+
+  %h1= t 'gedviz.version_history.title'
+
+  %ul
+    - @data_versions.each do |data_version|
+      %li
+        %p
+          = t 'gedviz.version_history.version'
+          = data_version.version
+        %p
+          = t 'gedviz.version_history.published'
+          = l data_version.published_at, format: :long
+        %p
+          = t 'gedviz.version_history.description'
+          != data_version.description
