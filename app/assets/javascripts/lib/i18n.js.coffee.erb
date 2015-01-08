@@ -1,0 +1,107 @@
+define [
+  'underscore'
+  'configuration'
+  'translations'
+], (_, configuration, translations)->
+  'use strict'
+
+  # Import data types
+  # -----------------
+
+  data_types = {}
+
+  for dataType in <%= ViewTypeData.data_types.to_json %>
+    data_types[dataType.key] = dataType
+
+  # Internal helpers
+  # ----------------
+
+  getDerivedKeySet = (keys) ->
+    _.map keys, (key) ->
+      if data_types[key] and (parentType = data_types[key].parent)
+        "#{parentType}_derived"
+      else
+        key
+
+  getParentKeySet = (keys) ->
+    _.map keys, (key) ->
+      if data_types[key] and (parentType = data_types[key].parent)
+        parentType
+      else
+        key
+
+  # Returns the translation for the given key path (array of strings).
+  # translate(['one', 'two', 'three'])
+  translate = (keys) ->
+    tree = translations[configuration.locale]
+    for key in keys
+      tree = tree[key]
+      if typeof tree in ['string', 'number', 'boolean']
+        return tree
+      else if tree?
+        continue
+      else
+        return null
+
+  translateCascade = (keys, fallback) ->
+    translation = translate keys
+
+    unless translation?
+      translation = translate getDerivedKeySet(keys)
+
+    unless translation?
+      translation = translate getParentKeySet(keys)
+
+    unless translation?
+      if fallback
+        translation = fallback
+      else
+        message = 'I18n: Undefined translation:'
+        console.error message, keys
+        translation = "#{message} #{keys.join(' ')}"
+
+    translation
+
+  # Returns the translation for the given key path (string arguments).
+  # Automatically falls back to derived parent types.
+  # t('one', 'two', 'three')
+  t = (keys...) ->
+    translateCascade keys, false
+
+  translateWithFallback = (keys..., fallback) ->
+    translateCascade keys, true
+
+  TEMPLATE_OPTIONS = interpolate: /%\{(.+?)\}/g
+  compiledTemplates = {}
+
+  # Returns a translation using a template for the given key path
+  # template(['one', 'two', 'three'], {…})
+  template = (keys, data) ->
+    cacheKey = keys.join '.'
+    templateFunction = compiledTemplates[cacheKey]
+    unless templateFunction
+      template = t keys...
+      templateFunction = _.template template, null, TEMPLATE_OPTIONS
+      compiledTemplates[cacheKey] = templateFunction
+    templateFunction data
+
+  # For a list of strings ['a', 'b', 'c'],
+  # return a localized string 'a, b and c'.
+  joinList = (elements) ->
+    if elements.length > 1
+      _.initial(elements).join(
+        t('enum_separator')
+      ) +
+      t('enum_separator_last') +
+      _.last(elements)
+    else
+      elements[0]
+
+  # Public interface of I18n
+
+  {
+    t: t
+    translateWithFallback: translateWithFallback
+    template: template
+    joinList: joinList
+  }

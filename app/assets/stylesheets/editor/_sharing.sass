@@ -1,0 +1,192 @@
+// Sharing widget on the bottom right
+.editor .sharing
+  @extend %border-box
+  @extend %dark-background-gradient
+  position: relative
+  min-height: 50px
+  padding: 10px
+  font-size: 13px
+  line-height: 14px
+  color: white
+
+  +screen-xs-height
+    min-height: 45px
+
+  // Container for the SVG arrow
+  .arrow
+    position: absolute
+    top: -10px
+    left: 0
+    width: 100%
+    height: 10px
+    svg
+      display: block
+
+  h2
+    @extend %underlined-heading
+
+  .sharing-options
+    margin-top: 10px
+    width: 100%
+    line-height: 18px
+
+  th, td
+    text-align: left
+    padding-bottom: 10px
+    font-weight: 300
+
+  .label
+    padding-right: 5px
+
+  .controls
+
+  // All buttons
+
+  .button
+    @extend %black-button
+    display: block
+    position: relative
+
+  // Big buttons
+
+  .button.full
+    padding: 2px 0 2px 25px
+    line-height: 15px
+
+    // Icon
+    &:before
+      position: absolute
+      top: 0
+      left: 0
+      width: 25px
+      line-height: 20px
+
+  // Custom button styles
+
+  .get-url .button
+    @extend %fonticon-link
+
+  .embed .button:before
+    content: '</>'
+    font-size: 12px
+    text-align: center
+
+  .export .button
+    @extend %fonticon-download
+
+  // Smaller social sharing buttons
+
+  .button.social
+    @extend %fonticon
+    float: left
+    margin-right: 5px
+    width: 20px
+    height: 20px
+    padding: 0
+
+    &:before
+      width: 20px
+      line-height: 20px
+
+    span
+      display: inline-block
+      +hide-text()
+
+  .share-via-mail
+    @extend %fonticon-mail
+
+  .share-via-facebook
+    @extend %fonticon-facebook
+
+  .share-via-twitter
+    @extend %fonticon-twitter
+
+// Modal dialogs, sub-views of sharing
+// -----------------------------------
+
+.save-dialog
+  .url
+    width: 100%
+
+.embed-dialog,
+.export-dialog
+
+  .description
+    color: $modal-dialog-gray
+
+  input[type=radio]
+    width: 20px
+    margin: 0
+
+  .radiobuttons
+    @extend %clearfix
+    label
+      float: left
+      width: 50%
+      font-weight: 400
+
+      .description
+        font-weight: 300
+        margin-left: 23px
+
+  .options
+    margin-top: 10px
+    label
+      display: block
+      font-weight: normal
+
+// Embed dialog
+// ------------
+
+.embed-dialog
+
+  .size
+
+    label
+      font-size: 16px
+      color: $modal-dialog-gray
+
+    input
+      width: 40px
+      font-size: 16px
+      vertical-align: middle
+      margin: 0 5px 0 0
+
+    .description
+      float: right
+      width: 50%
+
+  .code .preview
+    +button-icon('preview.png', 15px)
+
+  #embed-code
+    width: 100%
+    font-family: $monospace-font-stack
+    margin: 0
+    height: 105px
+
+// Export dialog
+// -------------
+
+.export-dialog
+
+  .keyframe-select
+    @extend %clearfix
+    display: none
+    margin-top: 10px
+
+    label
+      display: block
+
+    .left-col
+      float: left
+      width: 49%
+    .right-col
+      float: right
+      width: 49%
+
+  .download-button
+    @extend %fonticon-download
+    position: relative
+    &:before
+      margin-right: 8px

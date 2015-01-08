@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 source 'https://rubygems.org'
 
-gem 'rails', '~> 3.2.19'
+gem 'rails', '~> 3.2.21'
 gem 'haml'
 gem 'mysql2'
 
@@ -17,7 +17,6 @@ gem 'diffy'
 group :assets do
   gem 'coffee-rails'
   gem 'sass-rails'
-  gem 'compass-rails'
   # Lock old version because of several bugs
   # e.g. https://github.com/netzpirat/haml_coffee_assets/issues/121
   gem 'haml_coffee_assets', '1.13.2'

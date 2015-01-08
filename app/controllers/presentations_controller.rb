@@ -41,8 +41,8 @@ class PresentationsController < ApplicationController
         base_url: request.protocol + request.host_with_port,
         locale: I18n.locale,
         size: 'large',
-        show_titles: params[:show_titles] || false,
-        show_legend: params[:show_legend] || false
+        show_titles: !!params[:show_titles],
+        show_legend: !!params[:show_legend]
       }
       zip_file = exporter.export_images_zip(options)
       if zip_file

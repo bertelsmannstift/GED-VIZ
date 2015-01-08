@@ -25,6 +25,8 @@ class Element
 
   # Expects a hash with deep symbol keys
   def self.from_json(keyframe, country_group, hash)
+    #puts "Element.from_json input\n#{hash}\n\n"
+
     # Convert Integers and Strings to Float
     to_f = proc do |k, v|
       [k, v.is_a?(Integer) || v.is_a?(String) ? v.to_f : v]
@@ -47,6 +49,7 @@ class Element
     # Hash with Strings
     element.missing_relations = hash[:missing_relations]
 
+    #puts "Element.from_json output\n#{element.inspect}\n\n"
     element
   end
 

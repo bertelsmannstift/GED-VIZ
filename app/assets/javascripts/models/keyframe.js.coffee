@@ -7,9 +7,10 @@ define [
   'models/country_factory'
   'lib/i18n'
   'lib/type_data'
+  'lib/type_text_helper'
 ], (
   _, SyncMachine, Model, CountryGroup, Element, CountryFactory,
-  I18n, TypeData
+  I18n, TypeData, TypeTextHelper
 ) ->
   'use strict'
 
@@ -60,12 +61,17 @@ define [
     # Keyframe title
     # --------------
 
+    # Returns the title if specified, otherwise the data type and the year
+    # e.g. “Trade 2010”
     getDisplayTitle: ->
       title = @get 'title'
       return title if title
       dataType = @getTranslatedDataType()
       year = @get 'year'
-      "#{dataType} #{year}"
+      I18n.template(
+        ['editor', 'keyframe_subtitle'],
+        { data_type: dataType, year: year }
+      )
 
     getSubtitle: ->
       dataType = @getTranslatedDataType()
@@ -76,7 +82,7 @@ define [
       )
 
     getTranslatedDataType: ->
-      I18n.t 'data_type', @get('data_type_with_unit')[0]
+      TypeTextHelper.shortType @get('data_type_with_unit')[0]
 
     # Serialization / Deserialization
     # -------------------------------
@@ -89,14 +95,17 @@ define [
     parse: (rawData) ->
       data = _.clone rawData
 
-      # Rebuild countries array. Transform raw objects into
-      # Country/CountryGroup instances.
+      # Rebuild countries array.
+      # Transform raw objects into Country/CountryGroup instances.
       data.countries = _.map rawData.countries, (countryData) ->
         CountryFactory.build countryData
 
-      # Rebuild elements array. Transform raw objects into Element instances.
+      # Rebuild elements array.
+      # Transform raw objects into Element instances.
+      indicatorTypesWithUnit = data.indicator_types_with_unit
       data.elements = _.map rawData.elements, (elementData, index) ->
-        new Element elementData, index, data
+        country = data.countries[index]
+        new Element elementData, index, country, indicatorTypesWithUnit
 
       # Add indicator scaling
       @scaleIndicators data
@@ -221,6 +230,9 @@ define [
     clearCountries: ->
       @set countries: []
       @fetch()
+
+    isEmpty: ->
+      @get('countries').length is 0
 
     # Country grouping
     # ----------------

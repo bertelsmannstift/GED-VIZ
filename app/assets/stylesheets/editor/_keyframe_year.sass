@@ -1,0 +1,98 @@
+// Year selection bar on the bottom
+.keyframe-year
+  $bar-color: #ababab
+  $current-bar-background: #2e2e2e
+  $current-bar-color: white
+
+  @extend %editor-bottom-bar
+  left: 120px
+  right: 0
+
+  hgroup
+    float: left
+    padding-right: 20px
+
+  .nav
+    float: left
+    padding: 10px 5px 0 0
+
+    a
+      display: inline-block
+      padding: 5px
+      &:hover
+        background-color: #999
+      &.disabled
+        opacity: 0.5
+        cursor: not-allowed
+      &.disabled:hover
+        background-color: inherit
+
+  ul
+    float: left
+
+  $item-height-sm: 45px
+  $item-height-lg: 50px
+  $item-width-sm: 26px
+  $item-width-lg: 30px
+  $item-padding-sm: 6px
+  $item-padding-lg: 10px
+
+  li
+    position: relative
+    float: left
+    width: $item-width-sm
+    height: $item-height-lg
+    padding: 0 $item-padding-sm / 2
+    color: black
+    cursor: pointer
+
+    +screen-min-lg
+      width: $item-width-lg
+      padding: 0 $item-padding-lg / 2
+
+    +screen-xs-height
+      height: $item-height-sm
+
+    &.current
+      background-color: $current-bar-background
+      .arrow
+        position: absolute
+        top: -10px
+        left: 0
+        width: 0
+        height: 0
+        border-style: solid
+        $border-width: ($item-width-sm + $item-padding-sm) / 2
+        border-width: 0 $border-width 10px $border-width
+        border-color: transparent transparent #2e2e2e
+        +screen-min-lg
+          $border-width: ($item-width-lg + $item-padding-lg) / 2
+          border-width: 0 $border-width 10px $border-width
+      .bar
+        background-color: $current-bar-color
+      .year
+        color: $current-bar-color
+
+  .fullbar
+    position: absolute
+    left: $item-padding-sm / 2
+    right: $item-padding-sm / 2
+    top: 5px
+    bottom: 20px
+
+    +screen-min-lg
+      left: $item-padding-lg / 2
+      right: $item-padding-lg / 2
+
+  .bar
+    position: absolute
+    bottom: 0
+    width: 100%
+    background-color: $bar-color
+
+  .year
+    position: absolute
+    left: 0
+    bottom: 3px
+    width: 100%
+    text-align: center

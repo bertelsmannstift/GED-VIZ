@@ -1,3 +1,4 @@
+# Please refer to gedviz_en.yml for a documentation of the format
 de:
   gedviz:
     language_name: Deutsch
@@ -12,68 +13,223 @@ de:
     not_available: "n/v"
     enum_separator: ", "
     enum_separator_last: " und "
+    value_in_unit: "in %{unit}"
 
     currencies:
       usd: US-Dollar
       eur: Euro
 
     country_names:
+      arg: Argentinien
       aus: Australien
       aut: Österreich
       bel: Belgien
       bgr: Bulgarien
+      bra: Brasilien
       can: Kanada
+      che: Schweiz
+      chl: Chile
+      chn: China
       cyp: Zypern
       cze: Tschechische Republik
+      deu: Deutschland
       dnk: Dänemark
+      esp: Spanien
       est: Estland
       fin: Finnland
       fra: Frankreich
-      deu: Deutschland
+      gbr: Vereinigtes Königreich
       grc: Griechenland
+      hrv: Kroatien
       hun: Ungarn
-      isl: Island
+      ind: Indien
       irl: Irland
+      isl: Island
+      isr: Israel
       ita: Italien
       jpn: Japan
       kor: Korea
-      lva: Lettland
       ltu: Litauen
       lux: Luxemburg
+      lva: Lettland
+      mex: Mexiko
       mlt: Malta
       nld: Niederlande
-      nzl: Neuseeland
       nor: Norwegen
+      nzl: Neuseeland
       pol: Polen
       prt: Portugal
-      rom: Rumänien
+      rou: Rumänien
+      rus: Russland
       svk: Slowakei
       svn: Slowenien
-      esp: Spanien
       swe: Schweden
-      che: Schweiz
-      gbr: Vereinigtes Königreich
+      tur: Türkei
       usa: Vereinigte Staaten
+      zaf: Südafrika
+
+    country_names_with_articles:
       arg: Argentinien
+      aus: Australien
+      aut: Österreich
+      bel: Belgien
+      bgr: Bulgarien
       bra: Brasilien
+      can: Kanada
+      che: Schweiz
       chl: Chile
       chn: China
+      cyp: Zypern
+      cze: die Tschechische Republik
+      deu: Deutschland
+      dnk: Dänemark
+      esp: Spanien
+      est: Estland
+      fin: Finnland
+      fra: Frankreich
+      gbr: das Vereinigte Königreich
+      grc: Griechenland
+      hrv: Kroatien
+      hun: Ungarn
       ind: Indien
+      irl: Irland
+      isl: Island
       isr: Israel
+      ita: Italien
+      jpn: Japan
+      kor: Korea
+      ltu: Litauen
+      lux: Luxemburg
+      lva: Lettland
       mex: Mexiko
+      mlt: Malta
+      nld: Niederlande
+      nor: Norwegen
+      nzl: Neuseeland
+      pol: Polen
+      prt: Portugal
+      rou: Rumänien
       rus: Russland
-      zaf: Südafrika
+      svk: Slowakei
+      svn: Slowenien
+      swe: Schweden
       tur: Türkei
+      usa: die Vereinigten Staaten
+      zaf: Südafrika
+
+    # Adjektiv, Nominativ Plural
+    # z.B. »die {Wort} Banken«
+    country_names_adjective_plural:
+      arg: argentischen
+      aus: australischen
+      aut: österreichischen
+      bel: belgischen
+      bgr: bulgarischen
+      bra: brasilianischen
+      can: kanadischen
+      che: schweizer
+      chl: chilenischen
+      chn: chinesischen
+      cyp: zypriotischen
+      cze: tschechischen
+      deu: deutschen
+      dnk: dänischen
+      esp: spanischen
+      est: estländischen
+      fin: finnischen
+      fra: französischen
+      gbr: britischen
+      grc: griechischen
+      hrv: kroatischen
+      hun: ungarischen
+      ind: indischen
+      irl: irischen
+      isl: isländischen
+      isr: israelischen
+      ita: italienischen
+      jpn: japanischen
+      kor: koreanischen
+      ltu: litauischen
+      lux: luxemburgischen
+      lva: lettischen
+      mex: mexikanisch
+      mlt: malteser
+      nld: niederländischen
+      nor: norwegischen
+      nzl: neuseeländischen
+      pol: polnischen
+      prt: portugiesischen
+      rou: rumänischen
+      rus: russischen
+      svk: slowakischen
+      svn: slowenischen
+      swe: schwedischen
+      tur: türkischen
+      usa: amerikanischen
+      zaf: südafrikanischen
 
     data_type:
-      import: Warenhandel
+      import: Handel
       migration: Migration
       claims: Schulden
+      beer: Bier
+      cereals: Getreide
+      chemicals: Chemikalien
+      clothing: Bekleidung
+      computers: Computer
+      coal: Kohle
+      electricity: Strom
+      steel: Eisen und Stahl
+      machinery: Maschinen
+      cars: Autos
+      gas: Erdgas
+      oil: Erdöl
+      telecommunication: Telekommunikationsgeräte
+      vegetables: Gemüse und Früchte
+
+    data_type_short:
+      import: Alle Waren
+      migration: Migration
+      claims: Schulden
+      beer: Bier
+      cereals: Getreide
+      chemicals: Chemikalien
+      clothing: Bekleidung
+      computers: Computer
+      coal: Kohle
+      electricity: Strom
+      steel: Eisen und Stahl
+      machinery: Maschinen
+      cars: Autos
+      gas: Erdgas
+      oil: Erdöl
+      telecommunication: Telekommunikation
+      vegetables: Gemüse und Früchte
+
+    data_type_additional:
+      import: Alle Waren
+      migration: Migration
+      claims: Schulden
+      beer: Bier, SITC 1123
+      cereals: Getreide, SITC 04
+      chemicals: Chemikalien, SITC 5
+      clothing: Bekleidung, SITC 84
+      computers: Computer, SITC 752
+      coal: Kohle, SITC 32
+      electricity: Strom, SITC 35
+      steel: Eisen und Stahl, SITC 67
+      machinery: Maschinen, SITC 7
+      cars: Autos, SITC 7812
+      gas: Erdgas, SITC 343
+      oil: Erdöl, SITC 333
+      telecommunication: Telekommunikationsgeräte, SITC 764
+      vegetables: Gemüse und Früchte, SITC 05
 
     relation:
-      import: exportierte %{from} nach %{to}
-      claims: schuldete %{to} an %{from}
-      migration: migrierten von %{from} nach %{to}
+      import: exportierte %{from_with_article} nach %{to_with_article}
+      import_derived: '%{data_type} exportiert<br>von %{from_with_article} nach %{to_with_article}'
+      claims: schuldete %{to_with_article} an %{from_with_article}
+      migration: migrierten von %{from_with_article} nach %{to_with_article}
 
     flow:
       import:
@@ -109,6 +265,9 @@ de:
           short: "%{year} Warenexporte/-importe aus/in alle(n) verfügbaren Länder(n) in %{unit}"
           long: gemäß Importstatistiken der Länder. Balkenlänge relativ zur größten Summe von Importen und Exporten (unter den dargestellten Ländern, über alle Jahre).
           flow: "Warenexporte/-importe in %{unit}"
+        import_derived:
+          short: "%{year} Exporte und Importe (%{data_type}) aus/in alle(n) verfügbaren Länder(n) in %{unit}"
+          flow: "Warenexporte/-importe (%{data_type}) in %{unit}"
         migration:
           short: "%{year} Aus-/Einwanderung aus/in all(n) verfügbaren Länder(n) in %{unit}"
           long: gemäß Einwanderungsstatistiken der Länder. Balkenlänge relativ zur größten Summe von Einwanderung und Auswanderung (unter den dargestellten Ländern, über alle Jahre).
@@ -232,43 +391,43 @@ de:
         short: Mrd. $
         full: Milliarden US-$ (laufende Preise)
         with_value: $ %{number} Mrd.
-        with_value_html: <span class='unit'>$</span><span class='value'>%{number}</span> <span class='suffix'>Mrd.</span>
+        with_value_html: <span class='unit'>$</span><span class='value'>%{number}</span><span class='suffix'> Mrd.</span>
       mln_current_dollars:
         short: Mio. $
         full: Millionen US-$ (laufende Preise)
         with_value: $ %{number} Mio.
-        with_value_html: <span class='unit'>$</span><span class='value'>%{number}</span> <span class='suffix'>Mio.</span>
+        with_value_html: <span class='unit'>$</span><span class='value'>%{number}</span><span class='suffix'> Mio.</span>
       bln_real_dollars:
         short: Mrd. $
         full: Milliarden US-$ (konstante Preise, Basis 2005)
         with_value: $ %{number} Mrd.
-        with_value_html: <span class='unit'>$</span><span class='value'>%{number}</span> <span class='suffix'>Mrd.</span>
+        with_value_html: <span class='unit'>$</span><span class='value'>%{number}</span><span class='suffix'> Mrd.</span>
       real_dollars_per_capita:
         short: $ p.K.
         full: US-$ pro Kopf (konstante Preise, Basis 2005)
         with_value: "$ %{number} p.K."
-        with_value_html: <span class='unit'>$</span><span class='value'>%{number}</span> <span class='suffix'>p.K.</span>
+        with_value_html: <span class='unit'>$</span><span class='value'>%{number}</span><span class='suffix'> p.K.</span>
 
       bln_current_euros:
         short: Mrd. €
         full: Milliarden EUR (laufende Preise)
         with_value: € %{number} Mrd.
-        with_value_html: <span class='unit'>€</span><span class='value'>%{number}</span> <span class='suffix'>Mrd.</span>
+        with_value_html: <span class='unit'>€</span><span class='value'>%{number}</span><span class='suffix'> Mrd.</span>
       mln_current_euros:
         short: Mio. €
         full: Millionen EUR (laufende Preise)
         with_value: € %{number} Mio.
-        with_value_html: <span class='unit'>€</span><span class='value'>%{number}</span> <span class='suffix'>Mio.</span>
+        with_value_html: <span class='unit'>€</span><span class='value'>%{number}</span><span class='suffix'> Mio.</span>
       bln_real_euros:
         short: Mrd. €
         full: Milliarden EUR (konstante Preise, Basis 2005)
         with_value: € %{number} Mrd.
-        with_value_html: <span class='unit'>€</span><span class='value'>%{number}</span> <span class='suffix'>Mrd.</span>
+        with_value_html: <span class='unit'>€</span><span class='value'>%{number}</span><span class='suffix'> Mrd.</span>
       real_euros_per_capita:
         short: € p.K.
         full: EUR pro Kopf (konstante Preise, Basis 2005)
         with_value: "€ %{number} p.K."
-        with_value_html: <span class='unit'>€</span><span class='value'>%{number}</span> <span class='suffix'>p.K.</span>
+        with_value_html: <span class='unit'>€</span><span class='value'>%{number}</span><span class='suffix'> p.K.</span>
 
       persons:
         short: ""
@@ -279,45 +438,47 @@ de:
         short: Tsd.
         full: Tausend Personen
         with_value: "%{number} Tsd."
-        with_value_html: <span class='value'>%{number}</span> <span class='suffix'>Tsd.</span>
+        with_value_html: <span class='value'>%{number}</span><span class='suffix'> Tsd.</span>
       mln_persons:
         short: Mio.
         full: Millionen Personen
         with_value: "%{number} Mio."
-        with_value_html: <span class='value'>%{number}</span> <span class='suffix'>Mio.</span>
+        with_value_html: <span class='value'>%{number}</span><span class='suffix'> Mio.</span>
 
       percent:
         short: "%"
         full: Prozent
         with_value: "%{number} %"
-        with_value_html: <span class='value'>%{number}</span> <span class='suffix'>%</span>
+        with_value_html: <span class='value'>%{number}</span><span class='suffix'> %</span>
       percent_of_gdp:
         short: "% BIP"
         full: Prozent des BIP
         with_value: "%{number} % des BIP"
-        with_value_html: <span class='value'>%{number}</span> <span class='suffix'>% des BIP</span>
+        with_value_html: <span class='value'>%{number}</span><span class='suffix'> % des BIP</span>
       percent_of_population:
         short: "% BEV"
         full: Prozent der Bevölkerung
         with_value: "%{number} % der BEV"
-        with_value_html: <span class='value'>%{number}</span> <span class='suffix'>% der BEV</span>
+        with_value_html: <span class='value'>%{number}</span><span class='suffix'> % der BEV</span>
       percent_of_labor_force:
         short: "% EPP"
         full: Prozent des Erwerbspersonenpotenzials
         with_value: "%{number} % des EPP"
-        with_value_html: <span class='value'>%{number}</span> <span class='suffix'>% des EPP</span>
+        with_value_html: <span class='value'>%{number}</span><span class='suffix'> % des EPP</span>
 
     # Context box
     contextbox:
       relation:
         import: "%{year} exportierte %{from} Waren im Wert von %{amount} %{unit} nach %{to}. Dies waren %{percentFrom} der Exporte von %{from} in alle verfügbaren Länder und %{percentTo} der Importe nach %{to} aus allen verfügbaren Ländern."
+        import_derived: "%{year} exportierte %{from} %{data_type} im Wert von %{amount} %{unit} nach %{to}. Dies waren %{percentFrom} der Exporte dieser Waren von %{from} in alle verfügbaren Länder und %{percentTo} der Importe dieser Waren nach %{to} aus allen verfügbaren Ländern."
         claims: "%{year} schuldete %{to} an Banken in %{from} %{amount} %{unit}. Dies waren %{percentFrom} der Forderungen von %{from} gegenüber allen verfügbaren Ländern und %{percentTo} der Schulden von %{to} bei allen verfügbaren Ländern."
         migration: "%{year} migrierten %{amount} %{unit} von %{from} nach %{to}. Dies waren %{percentFrom} der Auswanderer aus %{from} in alle verfügbaren Länder und %{percentTo} der Einwanderer nach %{to} aus allen verfügbaren Ländern."
         missing:
           intro: "Einige Datensätze sind nicht vorhanden:"
           entry: Von %{source} nach %{targets}
       magnet:
-        import: "%{year} importierte %{name} aus allen verfügbaren Ländern Waren im Wert von %{amountIn} %{unit} und exportierte %{name} in alle verfügbaren Länder Waren im Wert von %{amountOut} %{unit}."
+        import: "%{year} importierte %{name_with_article} aus allen verfügbaren Ländern Waren im Wert von %{amountIn} %{unit} und exportierte in alle verfügbaren Länder Waren im Wert von %{amountOut} %{unit}."
+        import_derived: "%{year} importierte %{name_with_article} aus allen verfügbaren Ländern %{data_type} im Wert von %{amountIn} %{unit} und exportierte %{data_type} in alle verfügbaren Länder %{data_type} im Wert von %{amountOut} %{unit}."
         claims: "%{year} betrugen die Forderungen von Banken in %{name} gegenüber allen verfügbaren Ländern %{amountOut} %{unit}, die Schulden bei Banken in allen verfügbaren Ländern betrugen %{amountIn} %{unit}."
         migration: "%{year} wanderten %{amountOut} %{unit} von %{name} in alle verfügbaren Länder aus, %{amountIn} %{unit} wanderten aus allen verfügbaren Ländern nach %{name} ein."
         missing:
@@ -334,8 +495,16 @@ de:
     bubbles:
       rollover:
         show_introduction: Einführung in GED VIZ
+
+        # Do not translate these titles, they should always be
+        # in the target language
         switch_to_locale_en: In English
         switch_to_locale_de: Auf Deutsch
+        switch_to_locale_fr: En Français
+        switch_to_locale_pt: Em Português
+        switch_to_locale_it: In Italiano
+        switch_to_locale_es: En Español
+
         country_sort_by: Länderliste umsortieren (im Uhrzeigersinn, auf 12 Uhr startend).
         capture: Aktuelle Visualisierung zur Slideshow hinzufügen.
         rename_slide: Zur Umbenennung in die Beschriftung klicken.
@@ -386,6 +555,7 @@ de:
 
       # Keyframe configuration, relations
       relations: Beziehungen
+      categories: Kategorien
       shown_in: "in %{unit}"
 
       # Keyframe configuration, indicators

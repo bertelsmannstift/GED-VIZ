@@ -12,12 +12,9 @@ define [
   # ------------------------------
 
   createRelations: ->
-    rawElements = @keyframe.get 'elements'
-
-    # Create outgoing relations
-    @createOutgoingRelations rawElements
-    @createIncomingRelations rawElements
-
+    elementModels = @elementModels()
+    @createOutgoingRelations elementModels
+    @createIncomingRelations elementModels
     @filterRelations()
     return
 
@@ -56,19 +53,19 @@ define [
   # Outgoing relations
   # ------------------
 
-  createOutgoingRelations: (rawElements) ->
-    for rawElement in rawElements
-      @createOutgoingRelation rawElement
+  createOutgoingRelations: (elementModels) ->
+    for elementModel in elementModels
+      @createOutgoingRelation elementModel
     return
 
-  createOutgoingRelation: (rawElement) ->
-    fromId = rawElement.id
+  createOutgoingRelation: (elementModel) ->
+    fromId = elementModel.id
     from = @elementsById[fromId]
 
-    for toId, stackedAmounts of rawElement.outgoing
+    for toId, stackedAmounts of elementModel.outgoing
       continue if stackedAmounts.value is 0
       to = @elementsById[toId] or null
-      missingRelations = rawElement.missing_relations[toId] or null
+      missingRelations = elementModel.missingRelations[toId] or null
       @createRelation(
         fromId, from,
         toId, to,
@@ -109,11 +106,11 @@ define [
 
   # Create incoming relations from countries that are not in the chart
   # (i.e. relations without a `from` element). Used in charts with 1-2 elements.
-  createIncomingRelations: (rawElements) ->
-    for rawElement in rawElements
-      incoming = rawElement.incoming
+  createIncomingRelations: (elementModels) ->
+    for elementModel in elementModels
+      incoming = elementModel.incoming
       continue unless incoming
-      toId = rawElement.id
+      toId = elementModel.id
       to = @elementsById[toId]
       for fromId, stackedAmounts of incoming when stackedAmounts.value > 0
         from = @elementsById[fromId]
@@ -140,29 +137,29 @@ define [
   # -----------------------------------
 
   updateRelations: ->
-    rawElements = @keyframe.get 'elements'
+    elementModels = @elementModels()
 
     # Update outgoing properly
-    @updateOutgoingRelations rawElements
+    @updateOutgoingRelations elementModels
 
     # Recreate incoming relations from scratch
     @removeIncomingRelations()
-    @createIncomingRelations rawElements
+    @createIncomingRelations elementModels
 
     @filterRelations()
 
     return
 
-  updateOutgoingRelations: (rawElements) ->
+  updateOutgoingRelations: (elementModels) ->
     keepRelations = {}
 
-    for rawElement in rawElements
-      fromId = rawElement.id
+    for elementModel in elementModels
+      fromId = elementModel.id
       from = @elementsById[fromId]
-      for toId, stackedAmounts of rawElement.outgoing
+      for toId, stackedAmounts of elementModel.outgoing
         keepRelations["#{fromId}>#{toId}"] = true
         to = @elementsById[toId] or null # Might be null
-        missingRelations = rawElement.missing_relations[toId] or null
+        missingRelations = elementModel.missingRelations[toId] or null
         relation = _.find from.relationsOut, (r) -> r.toId is toId
         # Update existing or create new relation
         if relation

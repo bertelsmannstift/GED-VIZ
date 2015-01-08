@@ -1,8 +1,9 @@
 define [
   'underscore'
+  'lib/i18n'
   'models/base/model'
   'models/country'
-], (_, Model, Country) ->
+], (_, I18n, Model, Country) ->
   'use strict'
 
   class CountryGroup extends Model
@@ -57,4 +58,15 @@ define [
 
     # Return the original group name without translation
     name: ->
-      @get('title')
+      @get 'title'
+
+    nameWithArticle: ->
+      @get 'title'
+
+    nameWithPrepositionAndArticle: ->
+      @get 'title'
+
+    nameAdjectivePlural: ->
+      adjectives = _(@get('countries')).map (country) ->
+        I18n.t 'country_names_adjective_plural', country.get('iso3')
+      I18n.joinList adjectives

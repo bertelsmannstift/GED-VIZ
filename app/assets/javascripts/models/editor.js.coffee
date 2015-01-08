@@ -17,7 +17,8 @@ define [
     #   - keyframes: Captured keyframes are added to this collection
     #
     # Other important attributes:
-    # - index: Index of the current active keyframe
+    # - index: Index of the current active keyframe.
+    #   Undefined if the working keyframe is a clone of a captured keyframe.
 
     # Property declarations
     # ---------------------
@@ -80,21 +81,30 @@ define [
     # ------------------------------
 
     saveDraft: ->
+      presentation = @getPresentation()
+      keyframes = @getKeyframes()
+      keyframe = @getKeyframe()
+
+      # Do not save an empty presentation and working keyframe
+      return if keyframes.isEmpty() and keyframe.isEmpty()
+
       # Create a presentation copy
-      draft = @getPresentation().clone()
+      draft = presentation.clone()
       index = @get 'index'
       draft.set {id: 'draft', index}
+
       # Add the working keyframe if it differs from existing keyframes
-      unless index?
-        # Clone without the data
-        keyframe = @getKeyframe().clone withData: false
+      if not index? and not keyframe.isEmpty()
+        # Purge data, only save the metadata
+        keyframe = keyframe.clone withData: false
         draft.getKeyframes().add keyframe
-      # Save
+
+      # Engage!
       draft.saveLocally()
       return
 
     # Limit calls to saveDraft
-    @prototype.saveDraft = _.debounce @prototype.saveDraft, 250
+    @prototype.saveDraft = _.debounce @prototype.saveDraft, 100
 
     # Locking handler
     # ---------------
@@ -108,7 +118,7 @@ define [
 
     moveKeyframe: (oldIndex, newIndex) ->
       @_moveIndex = newIndex
-      @getKeyframes().moveKeyframe(oldIndex, newIndex)
+      @getKeyframes().moveKeyframe oldIndex, newIndex
       return
 
     # Capture a keyframe
@@ -116,6 +126,8 @@ define [
 
     captureKeyframe: (attributes) ->
       keyframe = @getKeyframe()
+      # Do not capture empty keyframes
+      return if keyframe.isEmpty()
       keyframe.set attributes
       @getKeyframes().add keyframe
       @selectKeyframe keyframe
@@ -162,6 +174,9 @@ define [
 
       return
 
+    # Shiw different types of presentations
+    # -------------------------------------
+
     showExistingPresentation: ->
       # Presentation is an existing one from the server.
       # Select the keyframe at the known index, or just the first.
@@ -186,40 +201,38 @@ define [
 
       presentation = @getPresentation()
       index = presentation.get 'index'
-
       keyframes = @getKeyframes()
 
       if index?
         # Restore keyframe selection
         keyframe = keyframes.at index
-
       else
         # Make the last the working keyframe and remove it.
         keyframe = keyframes.last()
         keyframes.remove keyframe, silent: true
 
-      # Fetch all keyframes, render when the selected keyframe was fetched
-      keyframes.each (keyframeToFetch) =>
-        deferred = keyframeToFetch.fetch()
-        if keyframeToFetch is keyframe
-          deferred.then _.bind(@selectDraftKeyframe, this, keyframe, index)
+      # Fetch the data, then select working keyframe
+      for capturedKeyframe in keyframes.without(keyframe)
+        capturedKeyframe.fetch()
 
-      return
+      # Fetch, then select working keyframe
+      keyframe.fetch().then =>
+        @selectKeyframe keyframe,
+          clone: if index? then true else false
+        return
 
-    selectDraftKeyframe: (keyframe, index) ->
-      clone = if index? then true else false
-      @selectKeyframe keyframe, {clone}
       return
 
     # Fetch all keyframes including the current working keyframe.
     # Returns the fetch Deferred for the current keyframe.
     fetchAllKeyframes: ->
-      @getKeyframes().each (keyframe) -> keyframe.fetch()
+      @getKeyframes().invoke 'fetch'
       @getKeyframe().fetch()
 
-    # The working keyframe was changed
-    # --------------------------------
+    # Handlers for keyframe events
+    # ----------------------------
 
+    # The working keyframe was changed
     keyframeChanged: (keyframe) ->
       @unset 'index'
       changes = keyframe.changedAttributes()
@@ -227,9 +240,7 @@ define [
       @saveDraft() unless changes.elements
       return
 
-    # A captured keyframe was changed
-    # -------------------------------
-
+    # A captured keyframe (from keyframes the collection) was changed
     keyframeTitleChanged: ->
       @saveDraft()
       return
@@ -237,8 +248,8 @@ define [
     # Select a keyframe, use it as the working keyframe
     # -------------------------------------------------
 
-    selectKeyframe: (keyframe, options = {}) ->
-      _.defaults options, clone: true
+    selectKeyframe: (keyframe, options) ->
+      options = _.extend clone: true, options
 
       oldIndex = @get 'index'
       oldKeyframe = @getKeyframe()
@@ -247,7 +258,7 @@ define [
       # Already selected
       return if oldKeyframe and (index is oldIndex)
 
-      # Create a clone of the keyframe
+      # Clone the keyframe
       keyframe = keyframe.clone() if options.clone
 
       # Setup/teardown listening for changes

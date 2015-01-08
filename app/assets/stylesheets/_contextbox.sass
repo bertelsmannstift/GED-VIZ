@@ -1,0 +1,29 @@
+.contextbox
+  $padding: 10px
+
+  display: none
+  position: absolute
+  top: 5px
+  right: 5px
+  border-radius: 4px
+  padding: 0 $padding
+  width: 200px
+  background-color: #f7f7f7
+  font-size: 12px
+  line-height: 1.2
+  font-weight: 300
+  color: #505050
+
+  &.visible
+    display: block
+
+    // Stay hidden when viewport is too small
+    @media screen and (max-width: 300px)
+      display: none
+
+  p, ul
+    margin: $padding 0
+
+  ul
+    list-style: circle
+    margin-left: 15px

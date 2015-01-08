@@ -2,8 +2,8 @@ require 'currency_converter'
 
 class DataValueImporter < Importer
 
-  # The main import file
-  INPUT_FILENAME = 'Prognos_out_bilateral_12maerz13.csv'
+  # The main import files
+  INPUT_FILENAMES = ['Prognos_out_bilateral-2014-06-11.csv', 'comtrade_bilateral_2014-06-11.csv']
 
   attr_reader :country_id_by_iso3,
               :type_id_by_name, :type_key_by_id,
@@ -15,8 +15,8 @@ class DataValueImporter < Importer
     end
 
     @type_id_by_name ||= Hash.new do |hash, name|
-      key = DataTypeImporter::TYPE_NAME_TO_KEY.fetch(name)
-      hash[name] = DataType.where(key: key).pluck(:id).first
+      type_info = DataTypeImporter::TYPE_NAME_TO_KEY.fetch(name)
+      hash[name] = DataType.where(key: type_info[:key]).pluck(:id).first
     end
 
     @type_key_by_id ||= Hash.new do |hash, id|
@@ -43,48 +43,50 @@ class DataValueImporter < Importer
     puts 'DataValue.delete_all'
     DataValue.delete_all
 
-    puts 'process CSV'
-    last_type_name = ''
-    file = folder.join(INPUT_FILENAME)
-    CSV.foreach(file, headers: true, return_headers: false, col_sep: ';') do |row|
-      # Land;Partner;Variable;Einheit;Jahr;Wert;
-      # ARG;World;Import;Mrd. US-$;2000;25.3;
-      break unless row[0] and row[1]
+    INPUT_FILENAMES.each do |input_filename|
+      puts "process CSV: #{input_filename}"
+      last_type_name = ''
+      file = folder.join(input_filename)
+      CSV.foreach(file, headers: true, return_headers: false, col_sep: ';') do |row|
+        # Land;Partner;Variable;Einheit;Jahr;Wert;
+        # ARG;World;Import;Mrd. US-$;2000;25.3;
+        break unless row[0] and row[1]
 
-      to_iso3 = row[0].downcase
-      from_iso3 = row[1].downcase
-      next if from_iso3 == '' || to_iso3 == ''
+        to_iso3 = row[0].downcase
+        from_iso3 = row[1].downcase
+        next if from_iso3 == '' || to_iso3 == ''
 
-      # Ignore empty sums
-      next if from_iso3 == 'world' || from_iso3 == 'total'
+        # Ignore empty sums
+        next if from_iso3 == 'world' || from_iso3 == 'total'
 
-      type_name = row[2]
-      unit_name = row[3]
+        type_name = row[2]
+        unit_name = row[3]
 
-      year = row[4]
-      value = row[5].to_f
+        year = row[4]
+        value = row[5].gsub(',', '.').to_f
 
-      record = {
-        year:            year,
-        data_type_id:    type_id_by_name[type_name],
-        unit_id:         unit_id_by_name[unit_name],
-        country_from_id: country_id_by_iso3[from_iso3],
-        country_to_id:   country_id_by_iso3[to_iso3],
-        value:           value
-      }
+        record = {
+          year:            year,
+          data_type_id:    type_id_by_name[type_name],
+          unit_id:         unit_id_by_name[unit_name],
+          country_from_id: country_id_by_iso3[from_iso3],
+          country_to_id:   country_id_by_iso3[to_iso3],
+          value:           value
+        }
 
-      begin
-        import_value(record)
-      rescue Exception => e
-        puts "Error importing #{row.inspect}"
-        raise e
+        begin
+          import_value(record)
+        rescue => e
+          puts "Error importing #{row.inspect}"
+          raise e
+        end
+
+        if type_name != last_type_name
+          last_type_name = type_name
+          puts "Importing data type: #{type_name}"
+        end
+
       end
-
-      if type_name != last_type_name
-        last_type_name = type_name
-        puts "Importing data type: #{type_name}"
-      end
-
     end
   end
 

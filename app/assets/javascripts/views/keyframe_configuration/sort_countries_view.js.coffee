@@ -2,7 +2,8 @@ define [
   'jquery'
   'views/base/view'
   'lib/i18n'
-], ($, View, I18n) ->
+  'lib/type_text_helper'
+], ($, View, I18n, TypeTextHelper) ->
   'use strict'
 
   class SortCountriesView extends View
@@ -86,24 +87,24 @@ define [
       @$('li').removeClass 'active'
       $(element).closest('li').addClass 'active'
 
-      key = switch options.type
+      newCaption = switch options.type
         when 'custom'
-          ['editor', 'custom_sorting']
+          I18n.t 'editor', 'custom_sorting'
         when 'alphabetical'
-          ['editor', 'alphabetical_sorting']
+          I18n.t 'editor', 'alphabetical_sorting'
         when 'data'
           dataType = options.type_with_unit[0]
           switch options.direction
             when 'both'
-              ['data_type', dataType]
+              TypeTextHelper.shortType(dataType)
             when 'in'
-              ['flow', dataType, 'incoming']
+              I18n.t('flow', dataType, 'incoming') + TypeTextHelper.shortOptionalType(dataType)
             when 'out'
-              ['flow', dataType, 'outgoing']
+              I18n.t('flow', dataType, 'outgoing') + TypeTextHelper.shortOptionalType(dataType)
         when 'indicator'
           type = options.type_with_unit[0]
-          ['indicators', type, 'short']
+          I18n.t 'indicators', type, 'short'
 
-      @$('.current-sorting').text I18n.t(key...)
+      @$('.current-sorting').text newCaption
 
       return

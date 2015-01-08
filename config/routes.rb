@@ -25,7 +25,8 @@ GedViz::Application.routes.draw do
   get 'edit/:id(/:index)' => 'presentations#edit',
     as: 'editor',
     constraints: {
-      id: /\d+/
+      id: /\d+/,
+      index: /\d+/
     }
 
   get 'compare/:id' => 'presentations#compare',

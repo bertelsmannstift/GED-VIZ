@@ -18,13 +18,15 @@
   %ul.data
     %li
       %a.data-both(href='')
-        = @t 'data_type', type
+        = @dh.shortType(type)
     %li
       %a.data-out(href='')
         = @t 'flow', type, 'outgoing'
+        = @dh.shortOptionalType(type)
     %li
       %a.data-in(href='')
         = @t 'flow', type, 'incoming'
+        = @dh.shortOptionalType(type)
 
   - if @indicator_types_with_unit?.length > 0
     %h3= @t 'editor', 'sort_by_indicator'

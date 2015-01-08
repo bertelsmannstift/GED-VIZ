@@ -202,6 +202,7 @@ define [
 
     render: ->
       super
+
       @$chart = @$('.chart')
 
       unless @shouldShowTitles()
@@ -326,13 +327,12 @@ define [
 
       keyframe = @getCurrentKeyframe()
       title = keyframe.get 'title'
+      subtitle = keyframe.getSubtitle()
       type = keyframe.get('data_type_with_unit')[0]
       year = keyframe.get 'year'
 
       header.find('.title').text title
-
-      text = I18n.t('data_type', type) + ' ' + year
-      header.find('.relation').text text
+      header.find('.relation').text subtitle
       return
 
     updateFooter: ->

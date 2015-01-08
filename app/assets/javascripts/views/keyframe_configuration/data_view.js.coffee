@@ -1,10 +1,11 @@
 define [
+  'underscore'
   'jquery'
   'views/base/view'
   'lib/currency'
   'lib/i18n'
   'lib/type_data'
-], ($, View, Currency, I18n, TypeData) ->
+], (_, $, View, Currency, I18n, TypeData) ->
   'use strict'
 
   class DataView extends View
@@ -21,16 +22,29 @@ define [
 
     events:
       'change input[type=radio]': 'unitChanged'
+      'click .main-type-opener': 'openDerivedTypes'
 
     initialize: ->
       super
       @listenTo @model, 'change:currency', @modelUpdated
       @listenTo @model, 'change:data_type_with_unit', @modelUpdated
 
+      $(document).on 'click', @clickedOutside
+
     render: ->
       super
       @modelUpdated()
       this
+
+    openDerivedTypes: (event) ->
+      $elem = $(event.target)
+
+      return unless $elem.parents('.derived-types').length is 0
+
+      unless $elem.hasClass('main-type-opener')
+        $elem = $elem.parents('.main-type-opener')
+
+      $elem.toggleClass('open')
 
     modelUpdated: ->
       return unless @model
@@ -46,7 +60,7 @@ define [
         $input = $(element)
         unit = $input.data 'unit'
         visible = Currency.isVisible unit, @model.get('currency')
-        $input.parent().css 'display', if visible then '' else 'none'
+        $input.parents('.main-type-container').css 'display', if visible then '' else 'none'
 
       return
 
@@ -63,9 +77,15 @@ define [
       return
 
     activateItem: ($radio) ->
-      $radio
-        .parent().addClass('active')
-        .siblings().removeClass('active')
+      $('.main-type, .derived-type').removeClass('active')
+      $('.main-type-opener').removeClass('open')
+
+      $radio.siblings('.main-type').addClass('active')
+
+      if ($radio.data('text')?)
+        $radio.siblings('.derived-type').addClass('active')
+        $radio.parents('.main-type-opener').find('.main-type').addClass('active').text($radio.data('text'))
+
       return
 
     updateUnit: (unit) ->
@@ -78,5 +98,16 @@ define [
 
     getTemplateData: ->
       data = super
-      data.TypeData = TypeData
+      data.dataTypes = _.groupBy TypeData.data_types, (dataType) -> dataType.parent or 'root'
       data
+
+    clickedOutside: (event)->
+      $elem = $('.main-types')
+      $parents = $(event.target).parents()
+
+      # Country context
+      outsideView = $parents.index($elem) is -1
+
+      if outsideView
+        $('.main-type-opener').removeClass('open')
+

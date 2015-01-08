@@ -7,99 +7,129 @@ define [
 ], (_, View, I18n, utils, numberFormatter) ->
   'use strict'
 
+  {t, template, joinList} = I18n
+
+  countryWithArticle = _.partial(
+    t, 'country_names_with_articles'
+  )
+  countryWithPrepositionAndArticle = _.partial(
+    t, 'country_names_with_preposition_and_article'
+  )
+
   class ContextboxView extends View
     className: 'contextbox'
     autoRender: true
 
     initialize: ->
       super
-
-      @subscribeEvent 'contextbox:explainRelation', @handleShowEventForRelation
-      @subscribeEvent 'contextbox:explainMagnet', @handleShowEventForMagnet
-
+      @subscribeEvent 'contextbox:explainRelation', @explainRelation
+      @subscribeEvent 'contextbox:explainMagnet', @explainMagnet
       @subscribeEvent 'contextbox:hide', @handleHideEvent
 
-    handleShowEventForRelation: (info) ->
-      text = '<p>'
-      text += I18n.template(
-        ['contextbox', 'relation', info.dataType]
-        from: info.fromName
-        to: info.toName
-        percentFrom: info.percentFrom
-        percentTo: info.percentTo
-        amount: numberFormatter.formatValue(
-          info.amount, info.dataType, info.unit, true
-        )
-        unit: I18n.t('units', info.unit, 'full')
-        year: info.year
+    explainRelation: (options) ->
+      {from, to, amount} = options
+      {dataType, unit} = from
+      formattedUnit = t 'units', unit, 'full'
+
+      percentFrom = numberFormatter.formatValue(
+        (100 / from.sumOut * amount).toFixed(1),
+        'percentage', 'percent', true
+      ) + '%'
+      percentTo = numberFormatter.formatValue(
+        (100 / to.sumIn * amount).toFixed(1),
+        'percentage', 'percent', true
+      ) + '%'
+
+      formattedAmount = numberFormatter.formatValue(
+        amount, dataType, unit, true
       )
+
+      templateData =
+        from: from.name
+        from_with_article: from.nameWithArticle
+        from_with_preposition_and_article: from.nameWithPrepositionAndArticle
+        from_adjective_plural: from.nameAdjectivePlural
+        to: to.name
+        to_with_article: to.nameWithArticle
+        to_with_preposition_and_article: to.nameWithPrepositionAndArticle
+        to_adjective_plural: to.nameAdjectivePlural
+        percentFrom: percentFrom
+        percentTo: percentTo
+        amount: formattedAmount
+        unit: formattedUnit
+        year: from.year
+        data_type: t('data_type', dataType)
+
+      text = '<p>'
+      text += template ['contextbox', 'relation', dataType], templateData
       text += '</p>'
 
-      if info.missingRelations?
-        text += '<p>' + I18n.t('contextbox', 'relation', 'missing', 'intro') + '</p>'
+      # Missing relations
+      if options.missingRelations
+        text += '<p>' + t('contextbox', 'relation', 'missing', 'intro') + '</p>'
         text += '<ul>'
-
-        for fromCountry, toCountries of info.missingRelations
-          toCountries = _(toCountries).map (iso3) ->
-            I18n.t('country_names', iso3)
-
-          targets = @joinList toCountries
+        for fromCountry, toCountries of options.missingRelations
+          templateData =
+            source: countryWithArticle(fromCountry)
+            source_with_preposition_and_article:
+              countryWithPrepositionAndArticle(fromCountry)
+            targets: joinList(_(toCountries).map(countryWithArticle))
 
           text += '<li>'
-          text += I18n.template(
+          text += template(
             ['contextbox', 'relation', 'missing', 'entry']
-            source: I18n.t('country_names', fromCountry)
-            targets: targets
+            templateData
           )
           text += '</li>'
-
         text += '</ul>'
 
       @showBox text
+      return
 
-    handleShowEventForMagnet: (info) ->
-      text = '<p>'
-      text += I18n.template(
-        ['contextbox', 'magnet', info.dataType]
+    explainMagnet: (element) ->
+      {dataType} = element
+      templateData =
+        name: element.name
+        name_with_article: element.nameWithArticle
+        name_with_preposition_and_article:
+          element.nameWithPrepositionAndArticle
+        name_adjective_plural: element.nameAdjectivePlural
         amountIn: numberFormatter.formatValue(
-          info.amountIn, info.dataType, info.unit, true
+          element.sumIn, dataType, element.unit, true
         )
         amountOut: numberFormatter.formatValue(
-          info.amountOut, info.dataType, info.unit, true
+          element.sumOut, dataType, element.unit, true
         )
-        unit: I18n.t('units', info.unit, 'full')
-        name: info.name
-        year: info.year
-      )
+        unit: t('units', element.unit, 'full')
+        year: element.year
+        data_type: t('data_type', dataType)
+
+      text = '<p>'
+      text += template ['contextbox', 'magnet', dataType], templateData
       text += '</p>'
 
-      if info.noIncoming.length > 0
-        noIncoming = info.noIncoming.map (iso3) ->
-          I18n.t('country_names', iso3)
-
-        elements = @joinList noIncoming
-
+      # Missing incoming relations
+      if element.noIncoming.length > 0
+        noIncoming = _(element.noIncoming).map countryWithArticle
         text += '<p>'
-        text += I18n.template(
-          ['contextbox', 'magnet', 'missing', 'incoming', info.dataType]
-          list: elements
+        text += template(
+          ['contextbox', 'magnet', 'missing', 'incoming', dataType]
+          list: joinList(noIncoming)
         )
         text += '</p>'
 
-      if info.noOutgoing.length > 0
-        noOutgoing = _(info.noOutgoing).map (iso3) ->
-          I18n.t('country_names', iso3)
-
-        elements = @joinList noOutgoing
-
+      # Missing outgoing relations
+      if element.noOutgoing.length > 0
+        noOutgoing = _(element.noOutgoing).map countryWithArticle
         text += '<p>'
-        text += I18n.template(
-          ['contextbox', 'magnet', 'missing', 'outgoing', info.dataType]
-          list: elements
+        text += template(
+          ['contextbox', 'magnet', 'missing', 'outgoing', dataType]
+          list: joinList(noOutgoing)
         )
         text += '</p>'
 
       @showBox text
+      return
 
     showBox: (html) ->
       # When in editor, position below the header
@@ -110,19 +140,8 @@ define [
         @$el.css 'top', diff + 5
 
       @$el.html(html).addClass('visible')
+      return
 
     handleHideEvent: ->
       @$el.removeClass 'visible'
-
-    # For a list of strings ['a', 'b', 'c'],
-    # return a localized string 'a, b and c'.
-    joinList: (elements) ->
-      if elements.length > 1
-        _.initial(elements).join(
-          I18n.t('enum_separator')
-        ) +
-        I18n.t('enum_separator_last') +
-        _.last(elements)
-      else
-        elements[0]
-
+      return

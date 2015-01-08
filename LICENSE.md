@@ -79,4 +79,4 @@ If you would like to use the original font, please
 and support the type designer.
 
 You need to place the fonts files in `app/assets/fonts/` and enable them in
-`app/assets/stylesheets/_typography.css.sass`.
+`app/assets/stylesheets/_typography.sass`.

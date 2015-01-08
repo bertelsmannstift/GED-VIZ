@@ -45,7 +45,14 @@ conversions:
       2010: 0.8038
       2011: 0.8038
       2012: 0.8038
+      2013: 0.8038
 
+  # Exchange rates from USA to EUR
+  # Yearly average
+  # Source: UNECE Statistical Database, compiled from national and
+  # international (EUROSTAT and IMF) official sources.
+  # http://w3.unece.org/pxweb/dialog/varval.asp?ma=30_MECCExchPPPsNEWY_r&path=../database/STAT/20-ME/6-MEER/&lang=1&ti=Exchange+Rates+and+PPPs+by+Country%2C+Indicator+and+Year
+  # Also available in the Prognos_out_unilateral_*.csv file.
   - rule:
     from:
       - bln_current_dollars
@@ -66,4 +73,5 @@ conversions:
       2009: 0.7170
       2010: 0.7543
       2011: 0.7184
-      #2012: 0.778488
+      2012: 0.7783
+      2013: 0.7530

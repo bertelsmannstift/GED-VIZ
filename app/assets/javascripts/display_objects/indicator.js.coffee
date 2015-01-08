@@ -15,6 +15,8 @@ define [
 ) ->
   'use strict'
 
+  {t, template} = I18n
+
   class Indicator extends DisplayObject
 
     ANIMATION_DURATION = 1000
@@ -165,9 +167,9 @@ define [
         number = numberFormatter.formatValue(
           @data.value, @data.type, @data.unit, true
         )
-        value = I18n.template ['units', @data.unit, 'with_value_html'], {number}
+        value = template ['units', @data.unit, 'with_value_html'], {number}
       else
-        value = I18n.t 'not_available'
+        value = t 'not_available'
 
       if @valueContainer
         # Fill existing
@@ -316,11 +318,10 @@ define [
 
       # Get label strings
 
-      shortLabelText = I18n.t 'indicators', type, 'short'
-      fullLabelText = I18n.t 'indicators', type, 'full'
-      descriptionText = I18n.t 'units', unit, 'full'
-      # TODO I18n. Only works for EN and DE.
-      descriptionText = "in #{descriptionText}" if descriptionText
+      shortLabelText = t 'indicators', type, 'short'
+      fullLabelText = t 'indicators', type, 'full'
+      descriptionText = template ['value_in_unit'],
+        unit: t('units', unit, 'full')
 
       # Create/update the elements
       texts = {shortLabelText, fullLabelText, descriptionText}

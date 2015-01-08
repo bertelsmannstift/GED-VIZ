@@ -11,39 +11,46 @@ define [
 
     # Property declarations
     # --------------------
-
+    #
     # id: String
     # index: Number
     # name: String
     #   Translated country name or original group name
+    # nameWithArticle: String
+    #   Translated country name with article
+    # nameAdjectivePlural: String
+    #   Translated country name as adjective in nominative plural
     # sum: String
-    # indicators: Array.<Indicator>
-    #
-    # From raw data:
-    #
-    # sum_in: Number
-    # sum_out: Number
+    # sumIn: Number
+    # sumOut: Number
     # incoming: Object
     # outgoing: Object
-    # missing_relations: Object
-    # no_incoming: Array
-    # no_outgoing: Array
+    # missingRelations: Object
+    # noIncoming: Array
+    # noOutgoing: Array
+    # indicators: Array.<Indicator>
 
-    constructor: (elementData, index, keyframeData) ->
-      # Copy properties from raw data
-      _.extend this, elementData
-
-      # Create derived properties
-      country = keyframeData.countries[index]
-      @id    = country.get('iso3')
+    constructor: (data, index, country, indicatorTypesWithUnit) ->
+      @id = country.get 'iso3'
       @index = index
-      # Convert TemplateString to normal string
-      @name  = String country.name()
-      @sum   = elementData.sum_out + elementData.sum_in
 
-      # Convert indicator objects
-      typesWithUnit = keyframeData.indicator_types_with_unit
-      @indicators = _(@indicators).map (indicatorData, index) ->
-        typeWithUnit = typesWithUnit[index]
-        new Indicator typeWithUnit, indicatorData.value,
-          indicatorData.tendency, indicatorData.tendency_percent, indicatorData.missing,
+      @name = country.name()
+      @nameWithArticle = country.nameWithArticle()
+      @nameWithPrepositionAndArticle = country.nameWithPrepositionAndArticle()
+      @nameAdjectivePlural = country.nameAdjectivePlural()
+      # Translate underscores to camelCase
+      @sumIn = data.sum_in
+      @sumOut = data.sum_out
+      @sum = data.sum_out + data.sum_in
+      {@incoming, @outgoing} = data
+      @missingRelations = data.missing_relations
+      @noIncoming = data.no_incoming
+      @noOutgoing = data.no_outgoing
+
+      # Convert indicator objects to Indicator instances
+      @indicators = _(data.indicators).map (indicatorData, index) ->
+        typeWithUnit = indicatorTypesWithUnit[index]
+        new Indicator(
+          typeWithUnit, indicatorData.value, indicatorData.tendency,
+          indicatorData.tendency_percent, indicatorData.missing
+        )

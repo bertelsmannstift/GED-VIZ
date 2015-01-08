@@ -1,0 +1,115 @@
+// Indicator labels
+// ----------------
+
+$label-blue: rgb(42, 86, 104)
+
+.chart .indicator
+  position: absolute
+  font-weight: 700
+  color: $label-blue
+  white-space: nowrap
+
+  &.side-right
+    text-align: left
+  &.side-left
+    text-align: right
+
+  &.open
+    z-index: 100
+
+.indicator-visualization,
+.indicator-labels
+  display: inline-block
+  vertical-align: top
+  white-space: nowrap
+
+  .side-right &
+    text-align: left
+
+  .side-left &
+    text-align: right
+
+  .ie7 &
+    display: inline
+    zoom: 1
+
+.indicator-labels
+  border-radius: 4px
+  padding: 0 4px
+  text-align: left
+
+  .side-right &
+    margin-left: 3px
+
+  .side-left &
+    margin-right: 3px
+
+.open .indicator-labels
+  background-color: #F0F0F0
+
+.indicator-value-and-unit,
+.indicator-short-label,
+.indicator-tendency-arrow,
+.indicator-tendency-percent
+
+  .side-right &
+    float: left
+    margin-right: 3px
+
+  .side-left &
+    float: right
+    margin-left: 3px
+
+// Correctly align SVG/VML paper
+.indicator-visualization > svg,
+.indicator-visualization > div,
+.indicator-tendency-arrow > svg,
+.indicator-tendency-arrow > div
+  display: block
+
+.indicator-value-and-unit
+
+  .unit, .suffix, .separated-suffix
+    // Percent value because the parent’s font-size is set via JS
+    font-size: 90%
+
+  .unit
+    margin-right: 2px
+
+  .separated-suffix
+    margin-left: 2px
+
+.indicator-tendency-percent
+  display: none
+  // Percent value because the parent’s font-size is set via JS
+  font-size: 90%
+  font-weight: 300
+  color: #12859C
+
+  .open &
+    display: block
+
+  .narrow-space
+    font-size: 60%
+
+.indicator-full-label-and-description
+  display: none
+  clear: both
+  // Show with JavaScript
+
+.indicator-short-label,
+.indicator-full-label,
+.indicator-description
+  font-weight: 300
+  color: rgb(45, 45, 45)
+
+.open .indicator-short-label
+  display: none
+
+.indicator-full-label
+  clear: both
+  padding: 4px 0 2px
+  text-transform: uppercase
+
+.indicator-description
+  padding-bottom: 3px

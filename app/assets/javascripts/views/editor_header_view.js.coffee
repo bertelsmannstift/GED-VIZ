@@ -63,6 +63,6 @@ define [
         { key: 'viz', prefix: true, selected: true }
         { key: 'about' }
       ]
-      data.locales = ['de', 'en']
+      data.locales = configuration.available_locales
       data.locale = configuration.locale
       data

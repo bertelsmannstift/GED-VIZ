@@ -11,7 +11,7 @@ define [
   # -------
 
   # Get the element models from the keyframe
-  getElements: ->
+  elementModels: ->
     @keyframe.get 'elements'
 
   getElementCount: ->
@@ -24,10 +24,8 @@ define [
     @elements = []
     @elementsById = {}
 
-    elements = @getElements()
-
-    for elementData in elements
-      @addElement elementData
+    for elementModel in @elementModels()
+      @addElement elementModel
 
     # Update elementIdsChanged flag
     @elementIdsChanged = true
@@ -38,20 +36,20 @@ define [
   # ----------------------------
 
   updateElements: ->
-    elements = @getElements()
+    elementModels = @elementModels()
     oldElementIds = _(@elements).pluck('id').join()
 
     keepElements = {}
 
-    for elementData in elements
-      keepElements[elementData.id] = true
-      element = @elementsById[elementData.id]
+    for elementModel in elementModels
+      keepElements[elementModel.id] = true
+      element = @elementsById[elementModel.id]
       if element
         # Update existing element
-        element.update elementData, @dataTypeWithUnit
+        element.update elementModel, @dataTypeWithUnit
       else
         # Add new element
-        @addElement elementData
+        @addElement elementModel
 
     # Remove old elements
     for element in @elements
@@ -61,22 +59,22 @@ define [
     @sortElements()
 
     # Update elementIdsChanged flag
-    newElementIds = _(elements).pluck('id').join()
+    newElementIds = _(elementModels).pluck('id').join()
     @elementIdsChanged = newElementIds isnt oldElementIds
 
     return
 
   # Sort elements in the order they appear in the keyframe
   sortElements: ->
-    @elements = _(@getElements()).map (elementData) =>
-      @elementsById[elementData.id]
+    @elements = _.map @elementModels(), (elementModel) =>
+      @elementsById[elementModel.id]
     return
 
   # Adds another element to the chart
   # ---------------------------------
 
-  addElement: (elementData) ->
-    element = new Element elementData, @dataTypeWithUnit
+  addElement: (elementModel) ->
+    element = new Element elementModel, @dataTypeWithUnit
     @addMagnetHandlers element.magnet
     @elementsById[element.id] = element
     @elements.push element

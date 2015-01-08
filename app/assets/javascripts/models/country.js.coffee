@@ -33,6 +33,18 @@ define [
     name: ->
       I18n.t 'country_names', @get('iso3')
 
+    nameWithArticle: ->
+      I18n.t 'country_names_with_articles', @get('iso3')
+
+    nameWithPrepositionAndArticle: ->
+      I18n.translateWithFallback(
+        'country_names_with_preposition_and_article', @get('iso3'),
+        ''
+      )
+
+    nameAdjectivePlural: ->
+      I18n.t 'country_names_adjective_plural', @get('iso3')
+
     toJSON: ->
       {
         type: 'Country',

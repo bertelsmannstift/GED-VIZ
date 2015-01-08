@@ -6,10 +6,14 @@ class CountryImporter < Importer
   def import
     puts 'CountryImporter#import'
 
-    Country.delete_all
-
     COUNTRY_CSV.each do |line|
-      Country.create(name: line[0], iso3: line[1].downcase)
+      name = line[0]
+      iso3 = line[1].downcase
+
+      country = Country.where(iso3: iso3).first_or_initialize
+      country.name = name
+      puts "Update/create country #{country.inspect}"
+      country.save!
     end
   end
 
@@ -34,7 +38,7 @@ class CountryImporter < Importer
 # Constants
 # ---------
 
-GROUPNAMES = ['OECD', 'EU-27', 'Eurozone', 'BRIC']
+GROUPNAMES = %w(OECD EU Eurozone BRIC)
 
 # x means that the country is part of the groups above
 COUNTRY_CSV = CSV.parse(<<-CSV, col_sep: "\t")
@@ -43,6 +47,7 @@ Austria	AUT	x	x	x
 Belgium	BEL	x	x	x
 Bulgaria	BGR		x
 Canada	CAN	x
+Croatia	HRV		x
 Cyprus	CYP		x	x
 Czech Republic	CZE	x	x
 Denmark	DNK	x	x
@@ -66,7 +71,7 @@ New Zealand	NZL	x
 Norway	NOR	x
 Poland	POL	x	x
 Portugal	PRT	x	x	x
-Romania	ROM		x
+Romania	ROU		x
 Slovakia	SVK	x	x	x
 Slovenia	SVN	x	x	x
 Spain	ESP	x	x	x

@@ -32,13 +32,6 @@ define [
     after: (wait, fn) ->
       setTimeout fn, wait
 
-    # requestAnimationFrame: do ->
-    #   w = window
-    #   raf = w.requestAnimationFrame or w.mozRequestAnimationFrame or
-    #     w.webkitRequestAnimationFrame or w.msRequestAnimationFrame or
-    #     (fn) -> setTimeout fn, 1000 / 60
-    #   (fn) -> raf fn
-
     # Sorts elements by their volume (descending)
     elementsSorter: (a, b) ->
       b.sum - a.sum

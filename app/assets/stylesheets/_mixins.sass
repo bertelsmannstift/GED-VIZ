@@ -1,0 +1,212 @@
+// Vertical gradient without fallback
+// Conforms to the latest CSS3 Backgrounds specification.
+@mixin additional-bg-gradient($stops...)
+  background-image: -moz-linear-gradient(top, $stops)
+  background-image: -webkit-linear-gradient(top, $stops)
+  background-image: linear-gradient(to bottom, $stops)
+
+// Vertical gradient with background-color fallback
+// Uses the last stop as fallback (usally the darkest color
+// if the light source is on the top).
+@mixin bg-gradient($stops...)
+  $last_stop: nth($stops, length($stops))
+  background-color: $last_stop
+  +additional-bg-gradient($stops...)
+
+@mixin svg-bg-with-fallback($name)
+  background-image: image-url('#{$name}.png')
+  // Use multiple background images as feature detection
+  background-image: none, image-url('#{$name}.svg')
+
+// Keyframe animation
+
+// http://caniuse.com/css-animation
+@mixin keyframes($name)
+  @-webkit-keyframes #{$name}
+    @content
+  @keyframes #{$name}
+    @content
+
+@mixin animation($animations...)
+  -webkit-animation: $animations
+  animation: $animations
+
+// Transitions
+
+// http://caniuse.com/transforms2d
+@mixin transform($transformations...)
+  -webkit-transform: $transformations
+  -ms-transform: $transformations
+  transform: $transformations
+
+@mixin transform-origin($value)
+  -moz-transform-origin: $value
+  -webkit-transform-origin: $value
+  -ms-transform-origin: $value
+  transform-origin: $value
+
+// http://caniuse.com/css-transitions
+@mixin transition($transitions...)
+  -webkit-transition: $transitions
+  transition: $transitions
+
+@mixin transition-property($properties...)
+  -webkit-transition-property: $properties
+  transition-property: $properties
+
+@mixin transition-duration($durations...)
+  -webkit-transition-duration: $durations
+  transition-duration: $durations
+
+@mixin transition-delay($delays...)
+  -webkit-transition-delay: $delays
+  transition-delay: $delays
+
+@mixin transition-timing-function($functions...)
+  -webkit-transition-timing-function: $functions
+  transition-timing-function: $functions
+
+// http://caniuse.com/background-size
+@mixin background-size($value)
+  -webkit-background-size: $value
+  background-size: $value
+
+// http://caniuse.com/user-select-none
+@mixin user-select-none
+  -moz-user-select: none
+  -webkit-user-select: none
+  -ms-user-select: none
+  user-select: none
+
+%user-select-none
+  +user-select-none
+
+@mixin hide-text
+  text-indent: -100000px
+  overflow: hidden
+  text-align: left
+
+// Layout abstract classes
+
+// Clearfix that contains the top and bottom margins of children
+// http://nicolasgallagher.com/micro-clearfix-hack/
+@mixin clearfix
+  &:before,
+  &:after
+    content: ''
+    display: table
+  &:after
+    clear: both
+  &
+    zoom: 1
+
+%clearfix
+  +clearfix
+
+@mixin off-left()
+  position: absolute
+  left: -10000px
+  top: 0
+  width: 0
+  height: 0
+  overflow: hidden
+
+%off-left
+  +off-left
+
+// Change the standard box model so width includes border and padding
+%border-box
+  -webkit-box-sizing: border-box
+  -moz-box-sizing: border-box
+  box-sizing: border-box
+
+// Content abstract classes
+
+%dark-background-gradient
+  +bg-gradient($light-background-gradient-color, $dark-background-gradient-color)
+
+%heading
+  font-weight: 300
+  font-size: 17px
+  line-height: 17px
+  color: $heading-color
+  text-transform: uppercase
+
+  +screen-xs-sm
+    font-size: 15px
+
+%underlined-heading
+  @extend %heading
+  border-bottom: 1px solid $heading-color
+  padding-bottom: 4px
+  text-shadow: $text-shadow
+
+%dialog
+  border: 1px solid #666
+  background-color: $dialog-background-color
+  font-size: 13px
+  border-radius: 2px
+  box-shadow: 1px 1px 3px #888
+
+%menu
+  padding: 5px 0
+  line-height: 1.7
+
+  h3
+    border-top: 1px dotted #c0c0c0
+    margin: 0 10px
+    // Don’t use line-height but padding so the text is positioned correctly
+    padding: 7px 0 3px
+    line-height: 1
+    font-weight: 400
+    color: #444
+
+  h3:first-child
+    border: 0
+
+  ul
+    margin-bottom: 5px
+    &:last-child
+      margin-bottom: 0
+
+  a, label
+    display: block
+    padding: 0 10px 0 20px
+    color: #444
+    cursor: pointer
+
+    &:hover, &:focus
+      color: white
+      background-color: #444
+
+  .disabled a
+    cursor: not-allowed
+    color: #b0b0b0
+
+    &:hover
+      color: #b0b0b0
+      background-color: transparent
+
+%editor-bottom-bar
+  @extend %dark-background-gradient
+  position: absolute
+  bottom: 0
+  z-index: 200
+  height: 50px
+  font-weight: 300
+  font-size: 13px
+  color: white
+
+  +screen-xs-height
+    height: 45px
+
+  hgroup
+    width: 120px
+
+  h2
+    @extend %underlined-heading
+    margin: 4px 0
+
+    +screen-xs-height
+      margin: 3px 0 4px
+      padding-bottom: 2px

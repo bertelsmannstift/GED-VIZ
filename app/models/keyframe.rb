@@ -13,6 +13,7 @@ class Keyframe
 
   def self.from_json(hash)
     hash = hash.recursive_symbolize_keys
+    #puts "Keyframe.from_json input\n#{hash}\n\n"
 
     keyframe = Keyframe.new
 
@@ -72,10 +73,12 @@ class Keyframe
       end
     end
 
+    #puts "Keyframe.from_json output\n#{keyframe.inspect}\n\n"
     keyframe
   end
 
   def as_json(options = nil)
+    #puts 'Keyframe#as_json'
     {
       year: year,
       title: title,
@@ -133,8 +136,10 @@ class Keyframe
 
   def elements
     if @elements
+      #puts 'Keyframe#elements: reuse elements'
       @elements
     else
+      #puts 'Keyframe#elements: create new elements'
       @elements = calculate_elements
     end
   end

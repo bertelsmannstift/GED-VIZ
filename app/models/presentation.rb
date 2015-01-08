@@ -35,6 +35,7 @@ class Presentation < ActiveRecord::Base
   end
 
   def as_json(options = nil)
+    #puts "Presentation#as_json #{options}"
     {
       id: id,
       title: title,
@@ -48,6 +49,7 @@ class Presentation < ActiveRecord::Base
 
   # Create proper Keyframe objects from an array of hashes
   def create_keyframes(raw_keyframes)
+    #puts "Presentation#create_keyframes\n\t#{raw_keyframes.to_s[0, 100]}"
     keyframes = raw_keyframes.map do |keyframe_hash|
       Keyframe.from_json(keyframe_hash)
     end
@@ -56,6 +58,7 @@ class Presentation < ActiveRecord::Base
   end
 
   def data_changed?
+    #puts "Presentation#data_changed? new_record? #{new_record?} keyframes_json #{@keyframes_json.to_s[0, 30]}"
     return false if new_record? || !@keyframes_json
 
     cache_key = "presentation_data_changed_#{id}"
@@ -64,13 +67,18 @@ class Presentation < ActiveRecord::Base
     else
       data_changed = nil
     end
+    #puts "Presentation#data_changed? from cache: #{data_changed.inspect}"
 
     if data_changed.nil?
       # Fetch data again and compare the result
+      #puts 'Presentation#data_changed? calculate'
 
       old_json = @keyframes_json
       new_json = duplicate_keyframes.to_json
+      #puts "Presentation#data_changed? old_json:\n\n#{old_json}\n\n"
+      #puts "Presentation#data_changed? new_json:\n\n#{new_json}\n\n"
       data_changed = old_json != new_json
+      #puts "Presentation#data_changed? data_changed #{data_changed}"
 
       # Cache forever, the cache needs to the purged after
       # a data update anyway to get fresh DataValue/IndicatorValue.
@@ -91,6 +99,7 @@ class Presentation < ActiveRecord::Base
 
   # Manually serializes the keyframe and saves the original array
   def serialize_keyframes
+    #puts "Presentation#serialize_keyframes\n\t#{keyframes.to_s[0, 100]}"
     @keyframes_array = keyframes
     @keyframes_json = keyframes.to_json
     # Overwrite the attribute temporarily
@@ -99,6 +108,7 @@ class Presentation < ActiveRecord::Base
 
   # Restores the keyframes array after serialization
   def restore_keyframes
+    #puts "Presentation#restore_keyframes\n\t#{@keyframes_array.to_s[0, 100]}"
     self.keyframes = @keyframes_array
   end
 
@@ -106,6 +116,7 @@ class Presentation < ActiveRecord::Base
   # *_before_type_cast cannot be used, see
   # https://github.com/rails/rails/issues/15046
   def deserialize_keyframes
+    #puts "Presentation#deserialize_keyframes\n\tkeyframes #{keyframes.to_s[0, 100]}"
     @keyframes_json = keyframes
     raw_keyframes = JSON.parse(
       @keyframes_json, symbolize_names: true, create_additions: false

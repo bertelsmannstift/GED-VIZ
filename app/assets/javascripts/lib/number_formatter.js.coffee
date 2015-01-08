@@ -15,12 +15,6 @@ define [
       persons:
         decimals: 0
 
-    #hdi:
-    #  hdi:
-    #    customFormatter: (value) ->
-    #      value = value - Math.floor(value)
-    #      @formatNumber(value, 2, true)
-
   # Methods
   # -------
 

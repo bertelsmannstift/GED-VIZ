@@ -2,27 +2,27 @@
 
 %h2= @t 'editor', 'sharing_title'
 
-%ul.sharing-options
+%table.sharing-options
 
-  %li.get-url
-    .label= @t 'editor', 'save'
-    .controls
+  %tr.get-url
+    %th.label= @t 'editor', 'save'
+    %td.controls
       %a.button.full(href='')= @t 'editor', 'get_url'
 
-  %li.social-sharing
-    .label= @t 'editor', 'social_sharing'
-    .controls
+  %tr.social-sharing
+    %th.label= @t 'editor', 'social_sharing'
+    %td.controls
       - for service in ['mail', 'facebook', 'twitter']
         - title = @t 'editor', "share_via_#{service}"
         %a(href='' title=title class="button social share-via-#{service}")
           %span= title
 
-  %li.embed
-    .label= @t 'editor', 'embed'
-    .controls
+  %tr.embed
+    %th.label= @t 'editor', 'embed'
+    %td.controls
       %a.button.full(href='')= @t 'editor', 'get_embed_code'
 
-  %li.export
-    .label= @t 'editor', 'export'
-    .controls
+  %tr.export
+    %th.label= @t 'editor', 'export'
+    %td.controls
       %a.button.full(href='') .png .csv

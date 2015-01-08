@@ -1,11 +1,34 @@
 %h2= @t 'editor', 'relations'
-%ul
-  - for key, data_type of @TypeData.data_types
+.main-types
+  - for key, data_type of @dataTypes.root
     - for unit in data_type.units
-      %li
-        %input{ type: 'radio', name: "data-type-with-unit", id: "radio-data-#{data_type.key}-#{unit.key}", data: { type: data_type.key, unit: unit.key } }
-        %label{ for: "radio-data-#{data_type.key}-#{unit.key}" }
-          = @t('data_type', data_type.key)
+      - if @dataTypes[data_type.key]
+        .main-type-container.main-type-opener
+          %label.main-type
+            = @dh.shortType(data_type.key)
+          .derived-types
+            %ul
+              %li
+                %input{ type: 'radio', name: "data-type-with-unit", id: "radio-data-#{data_type.key}-#{unit.key}", data: { type: data_type.key, unit: unit.key, text: @dh.shortType(data_type.key) } }
+                %label.derived-type{ for: "radio-data-#{data_type.key}-#{unit.key}" }
+                  = @t('data_type_short', data_type.key)
+
+            %h3= @t 'editor', 'categories'
+            %ul
+              - translate = @t
+              - @dataTypes[data_type.key] = _.sortBy(@dataTypes[data_type.key], (elem) -> translate('data_type_short', elem.key) )
+              - for derivedKey, derivedData_type of @dataTypes[data_type.key]
+                %li
+                  %input{ type: 'radio', name: "data-type-with-unit", id: "radio-data-#{data_type.key}-#{derivedData_type.key}-#{unit.key}", data: { type: derivedData_type.key, unit: unit.key, parent-type: data_type.key, text: @dh.shortType(derivedData_type.key) } }
+                  %label.derived-type{ for: "radio-data-#{data_type.key}-#{derivedData_type.key}-#{unit.key}" }
+                    = @t('data_type', derivedData_type.key)
+
+      - else
+        .main-type-container
+          %input{ type: 'radio', name: "data-type-with-unit", id: "radio-data-#{data_type.key}-#{unit.key}", data: { type: data_type.key, unit: unit.key } }
+          %label.main-type{ for: "radio-data-#{data_type.key}-#{unit.key}" }
+            = @t('data_type', data_type.key)
+
 
 %p.unit
   -# Filled by JavaScript

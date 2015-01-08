@@ -19,29 +19,30 @@ define [
     # ---------------------
     #
     # id: String
-    # name: String
     #
-    # magnet: Magnet
-    # indicators: Indicators
+    # index: Number
+    #   The index of the element in the chart
+    #
+    # name: String
+    # nameWithArticle: String
+    # nameWithPrepositionAndArticle: String
+    # nameAdjectivePlural: String
+    #
+    # dataType: String
+    # unit: String
+    #
+    # sum: Number
+    #   Total volume of all relations from all countries,
+    #   even if they aren’t in the current selection
+    # sumIn: Number
+    #   Incoming volume
+    # sumOut: Number
+    #   Outgoing volume
     #
     # relationsOut: Array
     #   Outgoing relations
     # relationsIn: Array
     #   Incoming relations
-    #
-    # index: Number
-    #
-    # dataType: String
-    # unit: String
-    #
-    #
-    # sum: Number
-    #   Total volume of all relations from all countries,
-    #   even if they aren’t in the current selection
-    # sum_in: Number
-    #   Incoming volume
-    # sumOut: Number
-    #   Outgoing volume
     #
     # noIncoming: Array
     # noOutgoing: Array
@@ -53,6 +54,11 @@ define [
     #   Incoming volume
     # totalOut: Number
     #   Outgoing volume
+    #
+    # Children:
+    #
+    # magnet: Magnet
+    # indicators: Indicators
     #
     # Drawing variables which are passed in:
     #
@@ -71,10 +77,10 @@ define [
       ('paper $container animationDuration chartFormat chartDrawn ' +
       'chartRadius elementCount elementIdsChanged year').split(' ')
 
-    constructor: (data, dataTypeWithUnit) ->
+    constructor: (elementModel, dataTypeWithUnit) ->
       super
 
-      {@id, @name} = data
+      @id = elementModel.id
 
       # Create relations
       @relationsIn = []
@@ -82,29 +88,24 @@ define [
 
       # Init/save data
       @resetTotalVolume()
-      @update arguments...
+      @update elementModel, dataTypeWithUnit
 
       # Create child display objects
       @createMagnet()
-      @createIndicators data.indicators
+      @createIndicators elementModel.indicators
 
     # Updating
     # --------
 
-    update: (data, dataTypeWithUnit) ->
+    update: (elementModel, dataTypeWithUnit) ->
       [@dataType, @unit] = dataTypeWithUnit
 
-      @name = data.name
-      @index = data.index
+      # Copy over properties from the element model
+      {@index, @name, @nameWithArticle, @nameAdjectivePlural,
+      @nameWithPrepositionAndArticle, @sumIn, @sumOut, @sum,
+      @noIncoming, @noOutgoing} = elementModel
 
-      @sumIn = data.sum_in
-      @sumOut = data.sum_out
-      @sum = @sumIn + @sumOut
-
-      @noIncoming = data.no_incoming
-      @noOutgoing = data.no_outgoing
-
-      @updateIndicators data.indicators
+      @updateIndicators elementModel.indicators
 
       return
 

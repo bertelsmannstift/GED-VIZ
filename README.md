@@ -1,7 +1,7 @@
 # GED VIZ – Visualizing Global Economic Relations
 
-GED VIZ lets you create and share visualizations of global economic relations
-- for research, teaching and storytelling.
+GED VIZ lets you create and share visualizations of global economic relations -
+for research, teaching and storytelling.
 
 The online version:
 
@@ -29,7 +29,7 @@ There is a
 
 ### Dependencies
 
-- Ruby 1.9.3 (MRI) with RubyGems. Also works with latest Ruby 2.1.
+- Ruby 1.9.3 (MRI) with RubyGems. Also works with Ruby 2.1.
 - MySQL 5.1 or newer
 - [PhantomJS](http://phantomjs.org) for generating static images for slide
   previews, exporting and older browsers

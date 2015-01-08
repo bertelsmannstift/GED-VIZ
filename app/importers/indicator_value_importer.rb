@@ -3,18 +3,21 @@ require 'currency_converter'
 class IndicatorValueImporter < Importer
 
   # The main input file
-  INPUT_FILENAME = 'Prognos_out_unilateral_12maerz13.csv'
+  INPUT_FILENAME = 'Prognos_out_unilateral_2014-06-06.csv'
 
   attr_reader :all_country_ids, :country_id_by_iso3, :type_id_by_key, :unit_id_by_key
 
   def setup
     @all_country_ids = Country.pluck(:id).sort
+
     @country_id_by_iso3 = Hash.new do |hash, key|
       hash[key] = Country.find_by_iso3!(key).id
     end
+
     @type_id_by_key = Hash.new do |hash, key|
       hash[key] = IndicatorType.find_by_key!(key).id
     end
+
     @unit_id_by_key = Hash.new do |hash, key|
       hash[key] = Unit.find_by_key!(key).id
     end
@@ -36,34 +39,62 @@ class IndicatorValueImporter < Importer
   def import_base_values
     puts 'IndicatorValueImporter#import_base_values'
     file = folder.join(INPUT_FILENAME)
-    CSV.foreach(file, headers: true, return_headers: false, col_sep: ';') do |row|
+    options = { headers: true, return_headers: false, col_sep: ';' }
+    CSV.foreach(file, options) do |row|
       # Ignore currency conversion
-      next if row[0] == '?_ex_$'
-      import_base_value(row)
+      next if exchange_rate?(row)
+      begin
+        import_base_value(row)
+      rescue => e
+        puts "Error importing row #{$.} #{row.inspect}"
+        #raise e
+      end
     end
+  end
+
+  def exchange_rate?(row)
+    row[0] == '?_ex_$' || row[0].match(/_vn531_\$$/)
   end
 
   def import_base_value(row)
     # Row schema:
     # VarCode;Country;Variable;Unit;Year;Value;Source
+    #puts "import_base_value #{row.inspect}"
+
+    # Type and unit
     prognos_name = row[0].split('_')[1]
-    type_key, unit_key = IndicatorTypes.prognos_key_to_type_and_unit[prognos_name]
-    iso3  = row[1].downcase
-    year  = row[4]
-    country_id = country_id_by_iso3[iso3]
-
-    value = Float(row[5]) rescue false
-    return unless value
-
-    type_id = type_id_by_key[type_key]
-    unit_id = unit_id_by_key[unit_key]
-
-    if type_id.nil? || unit_id.nil?
-      puts "\tCould not find IndicatorType for type #{type_key} or unit #{unit_key}."
-      puts "\trow #{row.index} #{row.inspect}"
-      puts "\t#{prognos_name}, #{type_key}, #{unit_key}, #{iso3}, #{year}, #{value}"
-      return
+    begin
+      type_key, unit_key = IndicatorTypes.prognos_key_to_type_and_unit.fetch(prognos_name)
+      type_id = type_id_by_key[type_key]
+      unit_id = unit_id_by_key[unit_key]
+    rescue KeyError, ActiveRecord::RecordNotFound => e
+      puts "\tCould not find type “#{type_key}” or unit “#{unit_key}” " +
+        "for Prognos name “#{prognos_name}”"
+      raise e
     end
+
+    # Country ISO3
+    iso3 = row[1].downcase
+    begin
+      country_id = country_id_by_iso3[iso3]
+    rescue ActiveRecord::RecordNotFound => e
+      puts "\tCould not find country #{iso3}"
+      raise e
+    end
+
+    # Year
+    year = row[4]
+
+    # Value
+    value = row[5]
+    begin
+      value = Float(value)
+    rescue ArgumentError => e
+      puts "\tCould not process value #{value}"
+      raise e
+    end
+
+    #puts "#{prognos_name} #{type_key} #{unit_key} #{year} #{country_id}"
 
     IndicatorValue.create!(
       indicator_type_id: type_id,

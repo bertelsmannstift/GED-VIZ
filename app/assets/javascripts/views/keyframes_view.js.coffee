@@ -10,6 +10,8 @@ define [
 ], (Raphael, _, Bubble, View, KeyframeView, NewKeyframeView, BubbleView) ->
   'use strict'
 
+  ARROW_WIDTH = 15
+
   # This isn’t a CollectionView because we need specific logic.
   # The item views are added to the DOM in the opposite order.
 
@@ -91,11 +93,12 @@ define [
       # Draw the marker arrow using Raphael
       unless @arrowContainer
         @arrowContainer = @$('.arrow')
-        width = 15
-        height = 50
-        Raphael(@arrowContainer.get(0), width, height)
-          .path("M #{width} 0 V #{height} L 0 #{height / 2} z")
-          .attr(fill: '#e6e6e6', 'stroke-opacity': 0)
+      @arrowContainer.empty()
+      width = ARROW_WIDTH
+      height = $item.outerHeight()
+      Raphael(@arrowContainer.get(0), width, height)
+        .path("M #{width} 0 V #{height} L 0 #{height / 2} z")
+        .attr(fill: '#e6e6e6', 'stroke-opacity': 0)
       $item.append @arrowContainer
 
       return
@@ -194,4 +197,3 @@ define [
       oldIndex = length - 1 - params.oldIndex
       newIndex = length - 1 - params.newIndex
       @model.moveKeyframe oldIndex, newIndex
-

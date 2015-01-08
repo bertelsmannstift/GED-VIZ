@@ -1,0 +1,104 @@
+// Introduction dialog
+
+.editor-introduction
+
+  .window
+    // Do not center horizontally
+    margin: 0
+    padding: 0
+    width: 800px
+    +transform(scale(1) translate3d(0, 0, 0))
+    +transform-origin(left top)
+
+    &.minimized
+      opacity: 0.1
+      +transform(scale(0.03) translate3d(0, 0, 0))
+      +transition(all 1s)
+      // Override inline styles
+      left: 630px !important
+      top: 10px !important
+
+  .content-wrapper
+    position: relative
+    margin: 20px
+
+  h2
+    margin-bottom: 10px
+
+    &.subsequent
+      margin-top: 10px
+
+  p
+    margin: 5px 0
+
+  p:last-child
+    margin: 0
+
+  a
+    font-weight: 400
+    color: black
+
+  .welcome-and-video
+    position: relative
+
+  iframe
+    position: absolute
+    right: 0
+    top: 0
+    border: 0
+    width: 65%
+    height: 100%
+
+  .welcome
+    width: 30%
+
+    li
+      margin: 6px 0
+
+  .buttons
+    margin-top: 10px
+
+  .buttons a
+    @extend %blue-button
+    position: relative
+    display: block
+    padding: 6px 10px 6px 30px
+    font-size: 14px
+
+    &:before
+      position: absolute
+      left: 0
+      top: 0
+      bottom: 0
+      width: 30px
+      line-height: 26px
+      text-align: center
+
+  a.tutorial
+    @extend %fonticon-play
+
+  a.feedback
+    @extend %fonticon-feedback
+
+  a.start
+    @extend %red-button
+
+    &:before
+      content: '\203a'
+      font-size: 22px
+      line-height: 1
+
+  .about
+    @extend %clearfix
+    margin-top: 20px
+
+  .section
+    @extend %border-box
+    float: left
+    width: 30%
+
+    &.second
+      margin-left: 5%
+
+    &.third
+      float: right

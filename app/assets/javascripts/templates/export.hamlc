@@ -21,7 +21,7 @@
         %label
           %input(type='checkbox' name='keyframes[]' disabled='disabled' value=index)
           = @t 'export_dialog', 'keyframe'
-          #{index + 1}: #{keyframe.title}
+          = "#{index + 1}: #{keyframe.title}"
       .left-col
         - for keyframe, index in keyframes when index <= keyframes.length / 2
           = createKeyframeEntry.call this, keyframe, index

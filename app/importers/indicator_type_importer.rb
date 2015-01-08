@@ -20,11 +20,22 @@ class IndicatorTypeImporter < Importer
     type_key = type_definition[:type]
     unit_key = type_definition[:unit]
     group = type_definition[:group]
-    external = type_definition[:external]
     position = type_definition[:position]
+    external = type_definition[:external]
 
-    # Create/update type
-    type = IndicatorType.where(key: type_key).first_or_initialize
+    # Create/update type and connect units
+    type = import_type(type_key, group, position, external)
+    import_unit(unit_key, type)
+
+    # Convert unit
+    converted_unit_key = CurrencyConverter.other_unit(unit_key)
+    if converted_unit_key
+      import_unit(converted_unit_key, type)
+    end
+  end
+
+  def import_type(key, group, position, external)
+    type = IndicatorType.where(key: key).first_or_initialize
     type.attributes = {
       group: group,
       position: position,
@@ -32,28 +43,24 @@ class IndicatorTypeImporter < Importer
     }
     type.save!
     puts "Created indicator type #{type.key}"
-
-    # Create/update type
-    import_unit(unit_key, type)
-
-    converted_unit_key = CurrencyConverter.other_unit(unit_key)
-    if converted_unit_key
-      import_unit(converted_unit_key, type)
-    end
+    type
   end
 
-  def import_unit(unit_key, type)
-    unit = Unit.where(key: unit_key).first_or_initialize
-    unit_definition = IndicatorTypes.unit_definitions[unit_key]
+  # Creates/updates a unit for a given key and indicator type
+  def import_unit(key, indicator_type)
+    unit_definition = IndicatorTypes.unit_definitions[key]
+
+    unit = Unit.where(key: key).first_or_initialize
     unit.attributes = {
       representation: unit_definition[:representation],
       position: unit_definition[:position]
     }
-    if unit.new_record? || !type.units.exists?(id: unit.id)
-      type.units << unit
+    if unit.new_record? || !indicator_type.units.exists?(id: unit.id)
+      indicator_type.units << unit
     end
     unit.save!
     puts "Created indicator unit #{unit.key}"
+    unit
   end
 
 end

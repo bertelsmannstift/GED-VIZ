@@ -13,12 +13,14 @@ define [
     typeof JSON.parse is 'function' and
     typeof JSON.stringify is 'function'
 
+  # Fetches an object by key and then REMOVES it from the storage.
   fetch = (storageKey) ->
     serialization = localStorage.getItem storageKey
     return false unless serialization
     localStorage.removeItem storageKey
     JSON.parse serialization
 
+  # Saves an object under a given key.
   save = (storageKey, object) ->
     serialization = JSON.stringify object
     localStorage.setItem storageKey, serialization

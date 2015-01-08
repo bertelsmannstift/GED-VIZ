@@ -9,9 +9,6 @@ define [
 ], (_, $, Bubble, View, BubbleView, I18n, numberFormatter) ->
   'use strict'
 
-  MARKER_WIDTH = 40
-  MARKER_HEIGHT = 10
-
   class KeyframeYearView extends View
 
     # Property declarations
@@ -143,18 +140,8 @@ define [
 
     render: ->
       super
-      @drawMarker()
       @drawArrows()
       @updateNavigation()
-      return
-
-    # Draw the marker arrow using Raphael
-    drawMarker: ->
-      arrowContainer = @$('.current .arrow').get 0
-      return unless arrowContainer
-      Raphael(arrowContainer, MARKER_WIDTH, MARKER_HEIGHT)
-        .path("M 0 #{MARKER_HEIGHT} 0 L #{MARKER_WIDTH / 2} 0 L #{MARKER_WIDTH} #{MARKER_HEIGHT} z")
-        .attr(fill: '#2e2e2e', 'stroke-opacity': 0)
       return
 
     # Draw the navigation arrows using Raphael

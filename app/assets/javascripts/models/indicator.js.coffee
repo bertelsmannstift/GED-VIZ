@@ -28,8 +28,6 @@ define [
     #   0: ABSOLUTE
     #   1: PROPORTIONAL
     #   2: RANKING
-    # ranking: Number
-    #   HDI country ranking (Integer)
 
     # The percent scale of the value relative to
     # the maximum value in the whole chart
@@ -39,8 +37,3 @@ define [
       [@type, @unit] = typeWithUnit
       typeData = TypeData.units[@unit]
       @representation = typeData.representation
-
-      # Split up HDI value into ranking and value
-      # if @type is 'hdi'
-      #   @ranking = Math.floor value
-      #   @value   = value - @ranking

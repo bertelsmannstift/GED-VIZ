@@ -33,9 +33,12 @@
         = @t 'flow', @data_type_with_unit[0], 'outgoing'
         \+
         = @t 'flow', @data_type_with_unit[0], 'incoming'
+        = @dh.shortOptionalType(@data_type_with_unit[0])
     %li.related
       %a{ href: '', data: { direction: 'out' } }
         = @t 'flow', @data_type_with_unit[0], 'outgoing'
+        = @dh.shortOptionalType(@data_type_with_unit[0])
     %li.related
       %a{ href: '', data: { direction: 'in' } }
         = @t 'flow', @data_type_with_unit[0], 'incoming'
+        = @dh.shortOptionalType(@data_type_with_unit[0])

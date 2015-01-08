@@ -1,0 +1,83 @@
+// Abstract classes for buttons
+
+// Mixin for quadratic button icons
+@mixin button-icon($url, $size, $padding: 4px)
+  padding-left: $size + (2 * $padding)
+  position: relative
+  &:before
+    content: ''
+    display: block
+    position: absolute
+    top: 0
+    bottom: 0
+    left: 0
+    width: $size + (2 * $padding)
+    background-image: image-url($url)
+    background-repeat: no-repeat
+    +background-size($size $size)
+    background-position: center center
+
+%button-base
+  display: inline-block
+  text-decoration: none
+  border-radius: 2px
+  line-height: 1
+
+  &.disabled
+    opacity: 0.6
+    cursor: not-allowed
+
+%black-button
+  @extend %button-base
+  color: white
+  +bg-gradient($black-button-highlight, $black-button-background)
+
+%blue-button
+  @extend %button-base
+  color: white
+  padding: 3px 5px
+  +bg-gradient(darken($heading-color, 20%), darken($heading-color, 35%))
+  text-shadow: $text-shadow
+
+%red-button
+  @extend %button-base
+  color: white
+  +bg-gradient($red-button-background, darken($red-button-background, 15%))
+  text-shadow: $text-shadow
+
+%dropdown-button
+  @extend %button-base
+  border: 1px solid $dropdown-button-color
+  padding: 2px 20px 2px 6px
+  background-color: $dropdown-button-color
+  color: $inverted-text-color
+  position: relative
+
+  &:after
+    position: absolute
+    right: 5px
+    top: 2px
+    content: '\25BE' // '\25BC'
+    font-family: Arial, Helvetica, sans-serif
+
+%dropdown-button-open
+  position: relative
+  border-bottom-style: none
+  border-radius: 2px 2px 0 0
+  background-color: $dialog-background-color
+  color: $dropdown-button-color
+
+%add-button
+  position: relative
+  text-decoration: none
+
+  &:after
+    @extend %blue-button
+    content: '+'
+    display: inline-block
+    margin-left: 6px
+    border-radius: 2px
+    padding: 0 5px 2px
+    font-size: 19px
+    line-height: 1
+    font-family: Georgia, 'Times New Roman', serif

@@ -13,7 +13,7 @@
     - [typeKey, unitKey] = twu
     %strong>= @t 'indicators', typeKey, 'short'
     :
-    #{@t 'indicators', typeKey, 'full'}, in #{@t 'units', unitKey, 'full'}
+    = "#{@t 'indicators', typeKey, 'full'}, in #{@t 'units', unitKey, 'full'}"
   %p
     = @t 'legend', 'maximum_size'
     != indicator.maxValue
@@ -37,7 +37,7 @@
         %ul
           -# Data source
           %li
-            = @t('data_type', type) + ':'
+            = @dh.additionalType(type) + ':'
             %a.source{ href: @dataSource.url, target: '_blank' }
               = @dataSource.name
 
@@ -65,7 +65,9 @@
           %span.magnet-outgoing-part(style="background-color: #{@magnetOutgoingColor}")
           %span.relation-arrow
           %span.magnet-incoming-part(style="background-color: #{@magnetIncomingColor}")
-          %span.incoming-label= @t 'flow', type, 'incoming'
+          %span.incoming-label
+            = @t 'flow', type, 'incoming'
+            = @dh.shortOptionalType type
         %p
           %span.source= @year
           in
@@ -79,7 +81,7 @@
             .magnet-outgoing-part(style="background-color: #{@magnetOutgoingColor}")
             .magnet-incoming-part(style="background-color: #{@magnetIncomingColor}")
           %td
-            = @template ['legend', 'data', type, 'short'], year: @year, unit: @t('units', unit, 'full')
+            = @template ['legend', 'data', type, 'short'], year: @year, unit: @t('units', unit, 'full'), data_type: @t('data_type_additional', type)
             = @t 'legend', 'data', type, 'long'
 
         -# Relations splines
@@ -87,7 +89,7 @@
           %td.icon
             %span.relation-arrow
           %td
-            = @template ['legend', 'data', type, 'flow'], unit: @t('units', unit, 'full')
+            = @template ['legend', 'data', type, 'flow'], unit: @t('units', unit, 'full'), data_type: @t('data_type_additional', type)
 
         -# Indicator visualization
         - if @indicators.absolute

@@ -68,7 +68,8 @@ define [
       @triggerReset()
       @finishSync()
 
-    # Fetch presentation from localStorage synchronously
+    # Fetch presentation metadata from localStorage, then
+    # fetch the presentation data
     # Returns true if successful and false otherwise
     fetchLocally: ->
       @beginSync()

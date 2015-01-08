@@ -1,0 +1,35 @@
+// Currency selector at the bottom
+.keyframe-currency
+  @extend %editor-bottom-bar
+  left: 0
+  padding: 0 20px
+
+  hgroup
+    width: 80px
+
+  ul
+    line-height: 20px
+
+    +screen-xs-height
+      line-height: 18px
+
+  li
+    display: inline-block
+
+  input
+    @extend %off-left
+
+  label
+    display: block
+    border-top-left-radius: 3px
+    border-top-right-radius: 3px
+    padding: 0 10px
+    cursor: pointer
+    color: black
+    &:hover
+      background-color: #999
+
+  li.active label
+    color: black
+    font-weight: 600
+    +bg-gradient(white, $dialog-background-color)

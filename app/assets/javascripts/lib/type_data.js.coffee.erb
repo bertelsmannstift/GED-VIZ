@@ -66,6 +66,7 @@ define [
     country = new Country rawCountry
     TypeData.countries[rawCountry.iso3] = country
     # We can’t freeze the countries since they will be added to collections
+    # which sets a `collection` property.
   freeze TypeData.countries
 
   # Create country groups

@@ -8,6 +8,7 @@ module ViewTypeData
     DataType.all.map do |data_type|
       {
         key: data_type.key,
+        parent: data_type.parent_key,
         units: data_type.units.ordered_by_position.pluck(:key)
       }
     end

@@ -2,12 +2,14 @@ define [
   'jquery'
   'chaplin/mediator'
   'display_objects/display_object'
+  'lib/type_data'
   'lib/colors'
+  'lib/magnet_colors'
   'lib/i18n'
   'lib/number_formatter'
   'lib/scale'
   'lib/utils'
-], ($, mediator, DisplayObject, Colors, I18n, numberFormatter, scale, utils) ->
+], ($, mediator, DisplayObject, TypeData, Colors, magnetColors, I18n, numberFormatter, scale, utils) ->
   'use strict'
 
   # Shortcuts
@@ -316,7 +318,7 @@ define [
       color = if @element.valueIsMissing(part)
         '#ddd'
       else
-        Colors.magnets[@element.dataType][part]
+        magnetColors(@element.dataType)[part]
 
       if @drawn
         # Animate existing path, ensure the color is correct
@@ -585,7 +587,7 @@ define [
         textColor = if @element.valueIsMissing(part)
           Colors.gray
         else if @labelPosition is OUTSIDE
-          Colors.magnets[@element.dataType][part]
+          magnetColors(@element.dataType)[part]
         else
           Colors.white
 
@@ -874,19 +876,12 @@ define [
     # -------------------
 
     showContextBox: ->
-      element = @element
-      mediator.publish 'contextbox:explainMagnet',
-        name: element.name
-        dataType: element.dataType
-        amountOut: element.sumOut
-        amountIn: element.sumIn
-        unit: element.unit
-        noIncoming: element.noIncoming
-        noOutgoing: element.noOutgoing
-        year: element.year
+      mediator.publish 'contextbox:explainMagnet', @element
+      return
 
     hideContextBox: ->
       mediator.publish 'contextbox:hide'
+      return
 
     # Mouse event handling
     # --------------------

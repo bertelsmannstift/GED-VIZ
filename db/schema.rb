@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140617000354) do
+ActiveRecord::Schema.define(:version => 20140922175759) do
 
   create_table "countries", :force => true do |t|
     t.string "name"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(:version => 20140617000354) do
 
   create_table "data_types", :force => true do |t|
     t.string "key"
+    t.string "parent_key"
   end
 
   add_index "data_types", ["key"], :name => "index_data_types_on_key", :unique => true

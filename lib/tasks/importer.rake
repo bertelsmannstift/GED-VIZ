@@ -43,6 +43,14 @@ namespace :importer do
     flush_caches
   end
 
+  # Countries
+
+  desc 'Import countries'
+  task :import_countries => :environment do
+    CountryImporter.new.import
+    flush_caches
+  end
+
   # Cache
 
   desc 'Flush caches'

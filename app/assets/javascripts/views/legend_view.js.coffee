@@ -3,11 +3,12 @@ define [
   'configuration'
   'views/base/view'
   'lib/colors'
+  'lib/magnet_colors'
   'lib/currency'
   'lib/i18n'
   'lib/number_formatter'
   'lib/type_data'
-], (_, configuration, View, Colors, Currency, I18n, numberFormatter,
+], (_, configuration, View, Colors, magnetColors, Currency, I18n, numberFormatter,
     TypeData) ->
   'use strict'
 
@@ -126,8 +127,9 @@ define [
 
       # Explanations
       if @partsVisibility.explanations
-        data.magnetOutgoingColor = Colors.magnets[typeKey].outgoing
-        data.magnetIncomingColor = Colors.magnets[typeKey].incoming
+        colors = magnetColors typeKey
+        data.magnetOutgoingColor = colors.outgoing
+        data.magnetIncomingColor = colors.incoming
         data.indicators = @getIndicators()
         if isEuro
           data.usd_in_eur_current = @getEuroRate unitKey, data.year

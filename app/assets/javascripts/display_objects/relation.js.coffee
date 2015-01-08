@@ -4,13 +4,15 @@ define [
   'raphael'
   'chaplin/mediator'
   'display_objects/display_object'
+  'lib/type_data'
   'lib/colors'
+  'lib/magnet_colors'
   'lib/i18n'
   'lib/number_formatter'
   'lib/utils'
 ], (
   $, _, Raphael, mediator, DisplayObject,
-  Colors, I18n, numberFormatter, utils
+  TypeData, Colors, magnetColors, I18n, numberFormatter, utils
 ) ->
   'use strict'
 
@@ -55,7 +57,13 @@ define [
     # path: Raphael.Element
     # destinationArrow: Raphael.Element
     # sourceArrow: Raphael.Element
+    #
     # labelContainer: jQuery
+    # sourceLabel: jQuery
+    # destinationLabel: jQuery
+    # valueBox: Object
+    # descriptionBox: Object
+    #
     # fadeDuration: Number
     # lookAnimation: Raphael.Animation
     #   Current animation of the path look, not the position
@@ -314,7 +322,7 @@ define [
         return
 
       # Draw arrows from scratch
-      color = Colors.magnets[@from.dataType].outgoing
+      color = magnetColors(@from.dataType).outgoing
       @sourceArrow = @paper.path(sourcePathString)
         .hide() # Start hidden
         .attr(fill: color, 'stroke-opacity': 0)
@@ -423,18 +431,12 @@ define [
 
     showContextBox: ->
       mediator.publish 'contextbox:explainRelation',
-        fromName: @from.name
-        toName: @to.name
-        dataType: @from.dataType
-        amount: @amount
-        unit: @from.unit
-        percentFrom: (100 / @from.sumOut * @amount).toFixed(1) + '%'
-        percentTo: (100 / @to.sumIn * @amount).toFixed(1) + '%'
-        missingRelations: @missingRelations
-        year: @from.year
+        {@from, @to, @amount, @missingRelations}
+      return
 
     hideContextBox: ->
       mediator.publish 'contextbox:hide'
+      return
 
     # Mouse event handling
     # --------------------
@@ -557,7 +559,7 @@ define [
     # Active in: Red translucent path, only show source arrow
     setActiveInLook: ->
       @animationDeferred.done =>
-        color = Colors.magnets[@from.dataType].incoming
+        color = magnetColors(@from.dataType).incoming
         @animatePathLook(
           { stroke: color, 'stroke-opacity': ACTIVE_OPACITY },
           @fadeDuration,
@@ -576,7 +578,7 @@ define [
     # green destination arrow
     setActiveOutLook: ->
       @animationDeferred.done =>
-        color = Colors.magnets[@from.dataType].outgoing
+        color = magnetColors(@from.dataType).outgoing
         @animatePathLook(
           { stroke: color, 'stroke-opacity': ACTIVE_OPACITY },
           @fadeDuration,
@@ -611,7 +613,21 @@ define [
       # Don’t create the labels twice
       return if @labelContainer
 
-      # Create the container
+      {from, to} = this
+
+      # Get a point at the middle of the path to position the labels
+      pathLength = @path.getTotalLength()
+      middleOfPath = @path.getPointAtLength pathLength / 2
+
+      @createLabelContainer()
+      @createValueLabel middleOfPath
+      @createDescriptionLabel middleOfPath
+      @createSourceLabel()
+      @createDestinationLabel()
+      @positionSourceDestinationLabels pathLength
+      return
+
+    createLabelContainer: ->
       @labelContainer = $('<div>')
         .addClass('relation-labels')
         # Check target when the mouse leaves the labels
@@ -621,21 +637,16 @@ define [
         # Append to DOM
         .appendTo(@$container)
       @addChild @labelContainer
+      return
 
-      # Get a point at the middle of the path to position the labels
-      pathLength = @path.getTotalLength()
-      middleOfPath = @path.getPointAtLength(pathLength / 2)
-      x = middleOfPath.x
-      y = middleOfPath.y
-
-      # Create the value label
-      # ----------------------
+    createValueLabel: (middleOfPath) ->
+      from = @from
 
       number = numberFormatter.formatValue(
-        @amount, @from.dataType, @from.unit, true
+        @amount, from.dataType, from.unit, true
       )
       text = I18n.template(
-        ['units', @from.unit, 'with_value_html']
+        ['units', from.unit, 'with_value_html']
         number: number
       )
 
@@ -649,24 +660,35 @@ define [
       valueBox =
         width: value.outerWidth()
         height: value.outerHeight()
-      valueBox.x = x - valueBox.width / 2
-      valueBox.y = y - valueBox.height - 1.5
+      valueBox.x = middleOfPath.x - valueBox.width / 2
+      valueBox.y = middleOfPath.y - valueBox.height - 1.5
       valueBox.x2 = valueBox.x + valueBox.width
       valueBox.y2 = valueBox.y + valueBox.height
+      @valueBox = valueBox
 
-      value.css(left: valueBox.x, top: valueBox.y)
+      value.css left: valueBox.x, top: valueBox.y
+      return
 
-      # Create the description label
-      # ----------------------------
+    createDescriptionLabel: (middleOfPath) ->
+      {from, to} = this
 
-      text = I18n.template(
-        ['relation', @from.dataType],
-        from: @from.name, to: @to.name
-      )
+      templateData = {
+        from: from.name
+        from_with_article: from.nameWithArticle
+        from_with_preposition_and_article: from.nameWithPrepositionAndArticle
+        from_adjective_plural: from.nameAdjectivePlural
+        to: to.name
+        to_with_article: to.nameWithArticle
+        to_with_preposition_and_article: to.nameWithPrepositionAndArticle
+        to_adjective_plural: to.nameAdjectivePlural
+        data_type: I18n.t('data_type', from.dataType)
+      }
+
+      text = I18n.template ['relation', from.dataType], templateData
 
       description = $('<div>')
         .addClass('relation-description-label')
-        .text(text)
+        .html(text)
         # Append immediately to get the size
         .appendTo(@labelContainer)
 
@@ -674,88 +696,82 @@ define [
       descriptionBox =
         width: description.outerWidth()
         height: description.outerHeight()
-      descriptionBox.x = x - descriptionBox.width / 2
-      descriptionBox.y = y + 1.5
+      descriptionBox.x = middleOfPath.x - descriptionBox.width / 2
+      descriptionBox.y = middleOfPath.y + 1.5
       descriptionBox.x2 = descriptionBox.x + descriptionBox.width
       descriptionBox.y2 = descriptionBox.y + descriptionBox.height
+      @descriptionBox = descriptionBox
 
-      description.css(left: descriptionBox.x, top: descriptionBox.y)
+      description.css left: descriptionBox.x, top: descriptionBox.y
+      return
 
-      # Create the source percent label
-      # -------------------------------
+    createSourceLabel: ->
+      @sourceLabel = @createSourceDestinationLabel @from.sumOut
+      return
 
-      text = (100 / @from.sumOut * @amount).toFixed(1) + ' %'
+    createDestinationLabel: ->
+      @destinationLabel = @createSourceDestinationLabel @to.sumIn
+      return
 
-      source = $('<div>')
+    createSourceDestinationLabel: (value) ->
+      text = (100 / value * @amount).toFixed(1) + ' %'
+      $('<div>')
         .addClass('relation-percentage-label')
         .text(text)
         # Append immediately to get the size
         .appendTo(@labelContainer)
 
-      # Calculate bounding box
-      point = @path.getPointAtLength PERCENT_LABEL_DISTANCE
-      srcBox =
-        width: source.outerWidth()
-        height: source.outerHeight()
-      srcBox.x = point.x - srcBox.width / 2
-      srcBox.y = point.y - srcBox.height / 2
-      srcBox.x2 = srcBox.x + srcBox.width
-      srcBox.y2 = srcBox.y + srcBox.height
+    positionSourceDestinationLabels: (pathLength) ->
+      {from, to, path} = this
 
-      # Create the destination percent label
-      # ------------------------------------
+      # Calculate source bounding box
+      point = path.getPointAtLength PERCENT_LABEL_DISTANCE
+      srcBox = @labelBoundingBox @sourceLabel, point
 
-      text = (100 / @to.sumIn * @amount).toFixed(1) + ' %'
-
-      destination = $('<div>')
-        .addClass('relation-percentage-label')
-        .text(text)
-        # Append immediately to get the size
-        .appendTo(@labelContainer)
-
-      # Calculate bounding box
-      point = @path.getPointAtLength pathLength - PERCENT_LABEL_DISTANCE
-      destBox =
-        width: destination.outerWidth()
-        height: destination.outerHeight()
-      destBox.x = point.x - destBox.width / 2
-      destBox.y = point.y - destBox.height / 2
-      destBox.x2 = destBox.x + destBox.width
-      destBox.y2 = destBox.y + destBox.height
-
-      # Position the percent labels
-      # ---------------------------
+      # Calculate destination bounding box
+      point = path.getPointAtLength pathLength - PERCENT_LABEL_DISTANCE
+      destBox = @labelBoundingBox @destinationLabel, point
 
       # If one box intersects with value/description,
       # move both over their magnets
 
-      percentLabelsIntersect =
-        Raphael.isBBoxIntersect(srcBox, valueBox) or
-        Raphael.isBBoxIntersect(srcBox, descriptionBox) or
-        Raphael.isBBoxIntersect(destBox, valueBox) or
-        Raphael.isBBoxIntersect(destBox, descriptionBox)
+      labelsIntersect =
+        Raphael.isBBoxIntersect(srcBox, @valueBox) or
+        Raphael.isBBoxIntersect(srcBox, @descriptionBox) or
+        Raphael.isBBoxIntersect(destBox, @valueBox) or
+        Raphael.isBBoxIntersect(destBox, @descriptionBox)
 
-      if percentLabelsIntersect
+      if labelsIntersect
 
         dist = PERCENT_LABEL_DISTANCE
 
         # Move source label
-        point = @path.getPointAtLength 0
-        deg = @from.magnet.deg
+        point = path.getPointAtLength 0
+        deg = from.magnet.deg
         srcBox.x = point.x + cos(deg) * dist - srcBox.width / 2
         srcBox.y = point.y + sin(deg) * dist - srcBox.height / 2
 
         # Move destination label
-        point = @path.getPointAtLength pathLength
-        deg = @to.magnet.deg
+        point = path.getPointAtLength pathLength
+        deg = to.magnet.deg
         destBox.x = point.x + cos(deg) * dist - destBox.width / 2
         destBox.y = point.y + sin(deg) * dist - destBox.height / 2
 
       # Finally set their position
-      source.css(left: srcBox.x, top: srcBox.y)
-      destination.css(left: destBox.x, top: destBox.y)
+      @sourceLabel.css left: srcBox.x, top: srcBox.y
+      @destinationLabel.css left: destBox.x, top: destBox.y
 
       return
+
+    labelBoundingBox: (label, point) ->
+      box =
+        width: label.outerWidth()
+        height: label.outerHeight()
+      box.x = point.x - box.width / 2
+      box.y = point.y - box.height / 2
+      box.x2 = box.x + box.width
+      box.y2 = box.y + box.height
+      box
 
     # Remove labels
     # -------------

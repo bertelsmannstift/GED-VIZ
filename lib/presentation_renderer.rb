@@ -3,6 +3,7 @@ class PresentationRenderer
   PHANTOMSCRIPT = Rails.root.join('script', 'render_presentation.js')
   BASEDIR = Rails.root.join('public', 'system', 'static')
 
+  VALID_LOCALE = /^[a-z]+(-[a-z]+)?$/
   VALID_SIZES = /^(large|medium|small|thumb)$/
 
   attr_reader :presentation
@@ -15,7 +16,7 @@ class PresentationRenderer
   end
 
   def render(options)
-    raise "Invalid size #{options[:size]}" unless options[:size] =~ VALID_SIZES
+    check_options(options)
 
     @logger.info "**** Start rendering #{presentation.id} ****"
     @logger.info "Options: #{options}"
@@ -38,8 +39,8 @@ class PresentationRenderer
     raise 'PhantomJS exited with an error' if $?.exitstatus != 0
 
     true
-  rescue Exception => exception
-    @logger.error "Rendering error: #{exception}"
+  rescue => e
+    @logger.error "Rendering error: #{e}"
     clear!(options)
     false
   ensure
@@ -61,7 +62,7 @@ class PresentationRenderer
 
   def image_path(keyframe_index, options)
     options_string = options_to_string(options)
-    filename = "keyframe_%04d_#{options_string}.png" % keyframe_index
+    filename = 'keyframe_%04d_%s.png' % [keyframe_index, options_string]
     directory.join(filename)
   end
 
@@ -87,12 +88,22 @@ class PresentationRenderer
   end
 
   def options_to_string(options)
+    check_options(options)
     [
       options[:locale],
       options[:size],
       options[:show_titles] ? 1 : 0,
       options[:show_legend] ? 1 : 0
     ].join('_')
+  end
+
+  def check_options(options)
+    unless options[:locale] =~ VALID_LOCALE
+      raise "Invalid locale #{options[:locale]}"
+    end
+    unless options[:size] =~ VALID_SIZES
+      raise "Invalid size #{options[:size]}"
+    end
   end
 
 end

@@ -21,11 +21,14 @@ class ApplicationController < ActionController::Base
   end
 
   def get_locale
-    forced = params[:lang].try(:to_sym)
+    forced = params[:lang]
     default = I18n.default_locale
     available = I18n.available_locales
-    return forced if forced.present? and available.include?(forced)
-    http_accept_language.compatible_language_from(available) || default
+    if forced.present? and available.map(&:to_s).include?(forced.to_s)
+      forced.to_sym
+    else
+      http_accept_language.compatible_language_from(available) || default
+    end
   end
 
   def disable_session_cookies

@@ -1,6 +1,6 @@
 %hgroup
   %h2= @t 'year_list', 'year'
-  %h3= @t 'data_type', @data_type_with_unit[0]
+  %h3= @t 'data_type_short', @data_type_with_unit[0]
 
 .nav
   %a.prev(href='')

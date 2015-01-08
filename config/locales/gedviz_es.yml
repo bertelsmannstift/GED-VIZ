@@ -1,0 +1,774 @@
+# Please refer to gedviz_en.yml for a documentation of the format
+es:
+  gedviz:
+    language_name: Español
+
+    site_title: GED VIZ – Visualizando las Relaciones Económicas Globales
+    site_description: Creando visualizaciones interactivas de las relaciones económicas entre países y entidades
+
+    # General number formatting e.g. 1.234.567,89
+    decimal_mark: "."
+    thousands_separator: ","
+    thousands_separator_html: ","
+    # Data is not available
+    not_available: "N/A"
+    # Separators in a enumeration. Example: “France, USA and Italy”.
+    enum_separator: ", "
+    enum_separator_last: " y "
+
+    currencies:
+      usd: Dólar Americano
+      eur: Euro
+
+    country_names:
+      arg: Argentina
+      aus: Australia
+      aut: Austria
+      bel: Bélgica
+      bgr: Bulgaria
+      bra: Brasil
+      can: Canadá
+      che: Suiza
+      chl: Chile
+      chn: China
+      cyp: Chipre
+      cze: República Checa
+      deu: Alemania
+      dnk: Dinamarca
+      esp: España
+      est: Estonia
+      fin: Finlandia
+      fra: Francia
+      gbr: Reino Unido
+      grc: Grecia
+      hrv: Croacia
+      hun: Hungría
+      ind: India
+      irl: Irlanda
+      isl: Islandia
+      isr: Israel
+      ita: Italia
+      jpn: Japón
+      kor: Corea
+      ltu: Lituania
+      lux: Luxemburgo
+      lva: Latvia
+      mex: México
+      mlt: Malta
+      nld: Países Bajos
+      nor: Noruega
+      nzl: Nueva Zelanda
+      pol: Polonia
+      prt: Portugal
+      rou: Rumania
+      rus: Federación Rusa
+      svk: Eslovaquia
+      svn: Eslovenia
+      swe: Suecia
+      tur: Turquía
+      usa: Estados Unidos
+      zaf: Sud África
+
+    # In some languages, we need country names with definite articles
+    # to use them in a sentence. Examples for French: l’Argentina,
+    # les États-Unis, la République tchèque
+    # They are not necessary in English.
+    country_names_with_articles:
+      arg: Argentina
+      aus: Australia
+      aut: Austria
+      bel: Bélgica
+      bgr: Bulgaria
+      bra: Brasil
+      can: Canadá
+      che: Suiza
+      chl: Chile
+      chn: China
+      cyp: Chipre
+      cze: República Checa
+      deu: Alemania
+      dnk: Dinamarca
+      esp: España
+      est: Estonia
+      fin: Finlandia
+      fra: Francia
+      gbr: Reino Unido
+      grc: Grecia
+      hrv: Croacia
+      hun: Hungría
+      ind: India
+      irl: Irlanda
+      isl: Islandia
+      isr: Israel
+      ita: Italia
+      jpn: Japón
+      kor: Corea
+      ltu: Lituania
+      lux: Luxemburgo
+      lva: Latvia
+      mex: México
+      mlt: Malta
+      nld: Países Bajos
+      nor: Noruega
+      nzl: Nueva Zelanda
+      pol: Polonia
+      prt: Portugal
+      rou: Rumania
+      rus: Federación Rusa
+      svk: Eslovaquia
+      svn: Eslovenia
+      swe: Suecia
+      tur: Turquía
+      usa: Estados Unidos
+      zaf: Sud Africa
+
+    # The main types of bilateral data.
+    data_type:
+      import: Comercio
+      migration: Migración
+      claims: Certificados bancarios
+      beer: Cerveza
+      cereals: Cereales
+      chemicals: Químicos
+      clothing: Vestimenta
+      computers: Computadoras
+      coal: Carbón
+      electricity: Corriente Eléctrica
+      steel: Hierro y acero
+      machinery: Maquinaria y Equipo de Transporte
+      cars: Automóviles
+      gas: Gas Neutro
+      oil: Petróleo
+      telecommunication: Equipo de Telecomunicaciones
+      vegetables: Frutas y Vegetales
+
+    data_type_short:
+      import: Todas las Mercancías
+      migration: Migración
+      claims: Certificados Bancarios
+      beer: Cerveza
+      cereals: Cereales
+      chemicals: Químicos
+      clothing: Vestimenta
+      computers: Computadoras
+      coal: Carbón
+      electricity: Corriente Eléctrica
+      steel: Hierro y Acero
+      machinery: Maquinaria
+      cars: Automóviles
+      gas: Gas Natural
+      oil: Petróleo
+      telecommunication: Telecomunicaciones
+      vegetables: Frutas y Vegetales
+
+    data_type_additional:
+      import: Todas las Mercancías
+      migration: Migración
+      claims: Certificados Bancarios
+      beer: Cerveza, SITC 1123
+      cereals: Cereales, SITC 04
+      chemicals: Químicos, SITC 5
+      clothing: Vestimenta, SITC 84
+      computers: Computadoras, SITC 752
+      coal: Carbón, SITC 32
+      electricity: Corriente Eléctrica, SITC 35
+      steel: Hierro y acero, SITC 67
+      machinery: Maquinaria y Equipo de Transporte, SITC 7
+      cars: Automóviles, SITC 7812
+      gas: Gas natural, SITC 343
+      oil: Petróleo, SITC 333
+      telecommunication: Equipo de Telecomunicaciones, SITC 764
+      vegetables: Frutas y Vegetales, SITC 05
+
+    # How the connection is described in the chart. Hover over the
+    # connection to show the tooltip. The tooltip contains the number
+    # and then this text.
+    # Example: “123 millions exported from Germany to France”.
+    relation:
+      import: Exportado de %{from} a %{to}
+      import_derived: '%{name} exportado<br>de %{from} a %{to}'
+      claims: adeudado por %{to} a %{from}
+      migration: migrado desde %{from} a %{to}
+
+    # Bilateral flow naming
+    flow:
+      import:
+        incoming: Importaciones
+        outgoing: Exportaciones
+        # e.g. “Imports/exports in 2012”
+        year: Importaciones/Exportaciones in %{year}
+        # e.g. “in million US dollars”
+        unit: En %{unit}
+      claims:
+        incoming: Deuda
+        outgoing: Certificados de Crédito
+        year: Deuda/Credito en %{year}
+        unit: en %{unit}
+      migration:
+        incoming: Inmigración
+        outgoing: Emigración
+        year: Inmigración/Emigración en %{year}
+        unit: en %{unit}
+
+    # The chart legend that is shown at the bottom right of the chart.
+    # Translator's note: Used the synonym Label (in spanish "etiqueta")
+    legend:
+      generator: Generado con GED VIZ (<a href="https://viz.ged-project.de">viz.ged-project.de</a>)
+      sources: Fuentes
+      legend: Etiqueta
+      about_heading: Hecho con GED VIZ
+      about_body: <p>Esta presentación ha sido generada con <a href="https://viz.ged-project.de/" target="_blank">GED VIZ</a>, una herramienta web para visualizar <a href="http://www.ged-project.de/" target="_blank">la Dinámica Económica Global (GED)</a>. Para más información sobre la herramienta, incluyendo tutoriales, preguntas frecuentes, material de prensa y contacto, por favor visite <a href="http://www.ged-project.de/viz" target="_blank">www.ged-project.de/viz</a>.</p>
+      partners_heading: Creditos
+      partners_body: "<p>Desarollo de software: 9elements<br>Concepto de visualización y diseño de interfaz de usuario: Raureif y el Profesor Boris Müller<br>Soporte de datos: Prognos</p><p>For Desarolladores: GED VIZ es de codigo abierto y <a href='https://github.com/bertelsmannstift/GED-VIZ' target='_blank'>disponible en GitHub</a>.</p>"
+      outdated_data_heading: Actualización de datos disponible
+      outdated_data_body: "La información usada para esta presentación ha sido actualizada. Por favor remitase al <a href='/versions' target='_blank'>registro de cambio de datos</a> para mayor información, <a href='/edit/%{id}' target='_blank'>visite el editor GED VIZ</a> para obtener la información más actualizada. (old: %{data_version} / new: %{latest_data_version})"
+      toggle_open: mostrar más
+      toggle_close: mostrar menos
+      # Description of the bilateral data
+      data:
+        import:
+          short: "%{year} Exportaciones/Importaciones de mercancía a/de todos los países disponibles en %{unit}"
+          long: estadísticas como fueron informadas por países importadores. Longitud de las barras relativa a la suma máxima de importaciones y exportaciones (entre los países mostrados para todos los años).
+          flow: "Exportaciones/Importaciones de mercancía en %{unit}"
+        import_derived:
+          short: "%{year} Exportaciones/Importaciones de (%{name}) para/de todos los países disponibles en %{unit}"
+          flow: "Exportaciones/Importaciones de (%{name}) en %{unit}"
+        migration:
+          short: "%{year} Emigración/Inmigración de/desde todos los paises disponibles en %{unit}"
+          long: estadisticas como fueron informadas por paises con migración (flujos de entrada de población extranjera por nacionalidad). Longitud de las barras relativa al valor maximo de inmigración y emigración (entre los paises mostrados para todos los años).
+          flow: "Emigración/Inmigración en %{unit}"
+        claims:
+          short: "%{year}  Crédito/Deuda a todos los países disponibles en %{unit}"
+          long: Como fue reportado por bancos otorgantes de crédito. Longitud de las barras relativa al valor máximo de deudas y créditos (entre los paises mostrados para todos los años).
+          flow: "Creditos/Deudas en %{unit}"
+      # Legend for the visualization of the unilateral data.
+      indicator-icon:
+        # Absolute values are visualized using a bubble.
+        absolute: Tamaño de burbuja relativo al indicador más grande.
+        # Relative values (e.g. percent) are visualized using a ring / pie chart.
+        percent: El tamaño del segmento del anillo indica porcentaje.
+        # Ranking values (e.g. rank 5) are visualized using a circle with a number in it.
+        ranking: La burbuja muestra el rango entre todos de los países del mundo
+      # Tendency arrows up, right, down
+      tendency: "Las flechas de tendencia indican el cambio al valor del año anterior (i) para valores absolutos: cambio relativo; (ii) Para valores percentiles: diferencia en puntos porcentuales."
+      maximum_size: Tamaño máximo
+      # Currency exchange rate us Dollar / Euro
+      exchange_rate: Tipo de cambio
+      eur_currency: "Datos originales en dólares americanos. Tipo de cambio promedio en el %{year}: $1 = €%{usd_in_eur_current}. Para precios constantes (para el 2005): $1 = €%{usd_in_eur_constant}."
+
+    # The sources consist of a name and a link / URL,
+    # separated by a semicolon “;”
+    sources:
+      # Bilateral data
+      data:
+        import: UN Comtrade (comercio de mercancías);http://comtrade.un.org/
+        migration: OECD Base de datos de migración;http://www.oecd.org/els/mig/keystat.htm
+        claims: Banco para Liquidaciones Internacionales (BIS);http://www.bis.org/
+      # Unilateral data
+      indicator:
+        cons_pvt: OECD/Comisión Europea;http://www.oecd.org/statistics/
+        cons_gvt: OECD/Comisión Europea;http://www.oecd.org/statistics/
+        cap_form: OECD/Comisión Europea;http://www.oecd.org/statistics/
+        export: OECD/Comisión Europea;http://www.oecd.org/statistics/
+        import: OECD/Comisión Europea;http://www.oecd.org/statistics/
+        gdp: OECD/Comisión Europea;http://www.oecd.org/statistics/
+        budget_balance: OECD/Comisión Europea;http://www.oecd.org/statistics/
+        gross_debt_gvt: OECD/Comisión Europea;http://www.oecd.org/statistics/
+        gross_savings_total: OECD/Comisión Europea;http://www.oecd.org/statistics/
+        account: OECD/Comisión Europea;http://www.oecd.org/statistics/
+        capital_stock_total: OECD/Comisión Europea;http://www.oecd.org/statistics/
+        population: OECD/Comisión Europea;http://www.oecd.org/statistics/
+        labor_force: OECD/Comisión Europea;http://www.oecd.org/statistics/
+        employment: OECD/Comisión Europea;http://www.oecd.org/statistics/
+        unemployment: OECD/Comisión Europea;http://www.oecd.org/statistics/
+        inflation: OECD/Comisión Europea;http://www.oecd.org/statistics/
+        stir: OECD/Comisión Europea;http://www.oecd.org/statistics/
+        unemp_rate: OECD/Comisión Europea;http://www.oecd.org/statistics/
+        oadr: OECD/Comisión Europea;http://www.oecd.org/statistics/
+      exchange_rate:
+        usd_eur: OECD/Comisión Europea;http://www.oecd.org/statistics/
+
+    # The unilateral indicators are grouped
+    indicator_groups:
+      consumption: Consumo
+      capital: Capital
+      trade: Comercio
+      debt_gvt: Presupuesto Gubernamental
+      labor: Mercado Laboral
+
+    # Names of the unilateral indicators
+    indicators:
+      cons_pvt:
+        # Abbreviation, shown in the chart
+        short: CONS_PRIV
+        # Full name
+        full: Consumo Privado
+      cons_gvt:
+        short: CONS_GOV
+        full: Consumo Gubernamental
+      cap_form:
+        short: FBCF
+        full: Formación Bruta de Capital Fijo
+      export:
+        short: EXP
+        full: Exportaciones Totales
+      import:
+        short: IMP
+        full: Importaciones Totales
+      gdp:
+        short: PIB
+        full: Producto Interno Bruto
+      budget_balance:
+        short: PRES_GUB
+        full: Presupuesto Gubernamental
+      gross_debt_gvt:
+        short: DEUDA_GUB
+        full: Deuda Gubernamental
+      gross_savings_total:
+        short: AHR
+        full: Ahorros
+      account:
+        short: SAC
+        full: Saldo Actual en Cuenta
+      capital_stock_total:
+        short: CAP
+        full: Capital Social
+      population:
+        short: POB
+        full: Población
+      labor_force:
+        short: TRA
+        full: Fuerza Laboral
+      employment:
+        short: EMP
+        full: Empleo
+      unemployment:
+        short: DESEMP
+        full: Desempleo
+      inflation:
+        short: INFL
+        full: Tasa de Inflación (consumo privado)
+      stir:
+        short: INT_C_P
+        full: Tasa de Interés (al corto plazo)
+      unemp_rate:
+        short: T_DESEMP
+        full: Tasa de Desempleo
+      oadr:
+        short: OADR
+        full: Razón de Dependencia de la Senectud
+
+    # Data units
+    units:
+      # short: Used in current indicators list
+      # full: Shown on indicator mouseover and in the legends
+      # with_value: Used for magnets
+      # with_value_html: Used for indicators and relations labels in the chart
+
+      bln_current_dollars:
+        short: billones de $
+        full: billones de US-$ (precios actuales)
+        with_value: $ %{number}bn
+        with_value_html: <span class='unit'>$</span><span class='value'>%{number}</span><span class='suffix'>bn</span>
+      mln_current_dollars:
+        short: millones de $
+        full: millones de US-$ (precios actuales)
+        with_value: $ %{number}m
+        with_value_html: <span class='unit'>$</span><span class='value'>%{number}</span><span class='suffix'>m</span>
+      bln_real_dollars:
+        short: billones de $
+        full: billones de US-$ (precios constantes, para el 2005)
+        with_value: $ %{number}bn
+        with_value_html: <span class='unit'>$</span><span class='value'>%{number}</span><span class='suffix'>bn</span>
+      real_dollars_per_capita:
+        short: $ p.c.
+        full: US-$ per capita (precios constantes, para el 2005)
+        with_value: "$ %{number} p.c."
+        with_value_html: <span class='unit'>$</span><span class='value'>%{number}</span><span class='suffix'> p.c.</span>
+
+      bln_current_euros:
+        short: billones de €
+        full: billones de EUR (precios actuales)
+        with_value: € %{number}bn
+        with_value_html: <span class='unit'>€</span><span class='value'>%{number}</span><span class='suffix'>bn</span>
+      mln_current_euros:
+        short: millones de €
+        full: millones de EUR (precios actuales)
+        with_value: € %{number}m
+        with_value_html: <span class='unit'>€</span><span class='value'>%{number}</span><span class='suffix'>m</span>
+      bln_real_euros:
+        short: billones de €
+        full: billones de EUR (precios constantes, para el 2005)
+        with_value: € %{number}bn
+        with_value_html: <span class='unit'>€</span><span class='value'>%{number}</span><span class='suffix'>bn</span>
+      real_euros_per_capita:
+        short: € p.c.
+        full: EUR per capita (precios constantes, para el 2005)
+        with_value: "€ %{number} p.c."
+        with_value_html: <span class='unit'>€</span><span class='value'>%{number}</span><span class='suffix'> p.c.</span>
+
+      persons:
+        short: ""
+        full: personas
+        with_value: "%{number}"
+        with_value_html: <span class='value'>%{number} personas</span>
+      tsd_persons:
+        short: mil
+        full: mil personas
+        with_value: "%{number}k"
+        with_value_html: <span class='value'>%{number}</span><span class='suffix'>k personas</span>
+      mln_persons:
+        short: millones
+        full: millones de personas
+        with_value: "%{number}m"
+        with_value_html: <span class='value'>%{number}</span><span class='suffix'>m personas</span>
+
+      percent:
+        short: "%"
+        full: porciento
+        with_value: "%{number} %"
+        with_value_html: <span class='value'>%{number}</span><span class='suffix'>%</span>
+      percent_of_gdp:
+        short: "% of PIB"
+        full: porcentaje del PIB
+        with_value: "%{number} % del PIB"
+        with_value_html: <span class='value'>%{number}</span><span class='suffix'>% del PIB</span>
+      percent_of_population:
+        short: "% PDP"
+        full: porcentaje de población
+        with_value: "%{number} % del PDP"
+        with_value_html: <span class='value'>%{number}</span><span class='suffix'>% del PDP</span>
+      percent_of_labor_force:
+        short: "% TRA"
+        full: porcentaje de la fuerza laboral
+        with_value: "%{number} % de TRA"
+        with_value_html: <span class='value'>%{number}</span><span class='suffix'>% de TRA</span>
+
+    # Context box
+    # This box is shown in the top right corner when a magnet or connection
+    # is hovered using the mouse. It contains a textual explanation.
+    contextbox:
+      # Texts shown when the connection is hovered
+      relation:
+        # Example: “In 2010 United States imported 1,561 billion US-$
+        # (current prices) worth of goods from all available countries
+        # and exported 963.20 billion US-$ (current prices) worth of
+        # goods to all available countries.”
+        import: En %{year} %{from} exportó %{amount} %{unit} en valor de mercancías a %{to}. Esto representó un %{percentFrom} de exportaciones a %{from} todos los países disponibles y %{percentTo} de importaciones a %{to} desde todos los países disponibles.
+        import_derived: En %{year} %{from} exportó %{amount} %{unit} con un valor de %{data_type} a %{to}. Esto representó %{percentFrom} de dichas exportaciones de %{from} en todos los países disponibles y %{percentTo} de dichas importaciones a %{to} desde todos los países disponibles.
+        claims: En %{year} %{to} debió %{amount} %{unit} a bancos en %{from}. Esto representó %{percentFrom} de los certificados bancarios de %{from} contra todos los países disponibles y %{percentTo} de la deuda de %{to} a bancos en todos los países disponibles.
+        migration: En %{year} %{amount} %{unit} migraron de %{from} a %{to}. Esto representó %{percentFrom} de los emigrantes de %{from} a todos los países disponibles y %{percentTo} de los inmigrantes de  %{to} de todos los países disponibles.
+        # Missing unilateral data
+        missing:
+          intro: "Algunos grupos de información no están disponibles:"
+          entry: De %{source} a %{targets}
+      # Texts shown when the magnet is hovered
+      magnet:
+        import: En %{year} %{name} importó %{amountIn} %{unit} en valor de mercancías de todos los países disponibles y exportó %{amountOut} %{unit} en valor de mercancías a todos los países disponibles.
+        import_derived: En %{year} %{name} importó %{amountIn} %{unit} con un valor de %{data_type} de todos los países disponibles y exportó %{amountOut} %{unit} con un valor de %{data_type} a todos los países disponibles.
+        claims: En %{year} bancos en %{name} acreditaron %{amountOut} %{unit} contra todos los países disponibles, la deuda total de %{name} a bancos en todos los demas países fue de %{amountIn} %{unit}.
+        migration: En %{year} %{amountOut} %{unit} migraron de %{name} a todos los países disponibles, %{amountIn} %{unit} migraron de todos los países disponibles a %{name}.
+        # Missing bilateral data
+        missing:
+          outgoing:
+            # Example: “No export data available for France, USA and Italy.”
+            import: No hay datos disponibles de las exportaciones para %{list}.
+            claims: No hay datos disponibles de acreditaciones para %{list}.
+            migration: No hay datos disponibles de emigración para %{list}.
+          incoming:
+            import: No hay datos disponibles de las importaciones para %{list}.
+            claims: No hay datos disponibles de la deuda para %{list}.
+            migration: No hay datos disponibles de la inmigración para %{list}.
+
+    # Content for the rollover and notification tooltips
+    bubbles:
+      rollover:
+        show_introduction: Introducción a GED VIZ
+
+        # Do not translate these titles, they should always be
+        # in the target language
+        switch_to_locale_en: In English
+        switch_to_locale_de: Auf Deutsch
+        switch_to_locale_fr: En Français
+        switch_to_locale_pt: Em Português
+        switch_to_locale_it: In Italiano
+        switch_to_locale_es: En Español
+
+        country_sort_by: De click para reordenar los países (en sentido de las manecillas del reloj, iniciando a las 12 en punto).
+        capture: De click para agregar la visualización actual a la presentación.
+        rename_slide: De click en el titulo para renombrar la diapositiva actual.
+        # Indicator tooltip
+        # Example: GDP / Gross Domestic Product / in billion US-$ (constant prices, base 2005)
+        indicator_exp: <span class='bubble-acronym'>%{acronym}</span><span class='bubble-description'>%{description}</span><span class='bubble-unit'>en %{unit}</span>
+        # Country list actions. ${name} refers to the country name.
+        # Example: “Click to select France, drag and drop to reorder.”
+        country_select: De click para elegir %{name}, arrastre y suelte para reordenar.
+        country_unselect: De click para deseleccionar %{name}, arrastre y suelte para reordenar.
+        country_remove: De click para borrar %{name}
+        picker_add_all: Todos los países arriba ya han sido agregados previamente.
+        picker_as_group: Todos los países arriba ya han sido agregados previamente.
+        picker_remaining: Todos los países arriba ya han sido agregados previamente.
+        # Country menu, creating country groups
+        country_context:
+          group: Seleccione al menos dos países para agruparlos.
+          ungroup: Seleccione al menos dos países para desagruparlos.
+          rename_group: Seleccione un grupo solamente para renombrarlo.
+          top5: Seleccione un país o grupo para agregar los 5 países más relacionados.
+        # Year list at the bottom of the editor
+        year_list:
+          previous_year: Año anterior
+          next_year: Año proximo
+          import: "Suma del total de flujos comerciales de todos los países mostrados en %{year}:<br>%{number}"
+          migration: "Suma del total de flujos migratorios de todos los países mostrados en %{year}:<br>%{number}"
+          claims: "Suma del total de las acreditaciones bancarias externas de todos los países mostrados en %{year}:<br>%{number}"
+        currencies:
+          usd: U.S. dollar
+          eur: Euro
+      # Notifications are automatic tooltips that help the user
+      # to start with GED VIZ
+      notification:
+        default: Burbuja de notificación
+        capture_slide_1: Tome una diapositiva para comenzar a crear una presentación que podrá compartir, incrustar o exportar.
+        capture_slide_2: Agregue una segunda diapositiva para crear una presentación animada.
+        capture_slide_3: Link a esta presentación, Incrústela en su sitio web o exporte las gráficas / datos.
+        group_countries: Elija la “Selección de Grupo” de este menú para combinar los países seleccionados en un grupo.
+        hidden_country: Este indicador no aparece por el momento en la visualización debido a restricciones de espacio.
+
+    # Player button tooltips (navigation bar on the bottom of the player)
+    player:
+      play: Reproducir
+      previous_keyframe: Anterior
+      next_keyframe: Siguiente
+      fullscreen: Pantalla Completa
+      visit_ged_viz: Explore en la herramienta GED VIZ
+
+    # Editor
+    editor:
+
+      loading_indicator: Cargando, por favor espere...
+      element_count_error: Por favor elija al menos un país o grupo de países.
+
+      # Relations menu at the top left
+      relations: Relaciones
+      categories: Categorías
+      shown_in: Mostrar en %{unit}
+
+      # Indicators menu at the top middle
+      country_indicators: Indicadores de país
+      # Add/remove indicator button
+      add_indicator: De click para agregar indicador
+      remove_indicator: De click para quitar indicador
+
+      # Country list at the bottom right
+      countries: Países
+      add_countries: Agregue países
+      enter_group_title: "Tecleé el nombre para el grupo:"
+      enter_new_group_title: "Tecleé el nombre del nuevo grupo:"
+      default_group_title: Sin titulo
+      all_countries_group: Todos los países
+      # When adding the remaining countries of a group as a group
+      # Example: “Rest of EU”
+      rest_of_group: El resto de %{title}
+      search_countries: Buscar
+      add_all_countries: Agregar todos los paises
+      # Example: “Add EU as group”
+      add_as_group: Agregue a <span class='group-name'></span> como grupo
+      add_remaining_as_group: Agregue los restantes como un grupo
+      remove_country: Remover país
+      # When searching for a country by name
+      no_countries_available: No hay países disponibles.
+
+      # Country context menu
+      country_options: Acciones
+      country_selection: Seleccionar
+      select_all_countries: Seleccionar todos los países
+      unselect_all_countries: Deseleccionar todos los países
+      country_group: Grupo
+      group_selected_countries: Selección de grupo
+      ungroup_selected_countries: Desagrupar selección
+      rename_group: Renombrar grupo
+      delete_countries: Borrar
+      delete_selected_countries: Borrar países seleccionados
+      delete_all_countries: Borrar todos los países
+      add_related: Agregar a 5 relacionados
+
+      # Sort countries menu
+      sort_countries_by: "Acomodando:"
+      alphabetical_sorting: A-Z
+      custom_sorting: selección manual
+      sort_by_relation: "por relación seleccionada:"
+      sort_by_indicator: "Por indicador seleccionado:"
+
+      # Keyframe list in the right sidebar of the editor
+      keyframes_title: Presentación
+      # Capture button: Save the current working slide,
+      # add it to the list of slides
+      capture_keyframe: Capturar
+      # Remove slide (x button title)
+      remove_keyframe: Borrar diapositiva
+      # Editing the slide title
+      untitled_keyframe: Agregar título...
+      # Slide subtitle, e.g. “Import 2010”
+      keyframe_subtitle: "%{data_type} %{year}"
+
+      # Sharing box in the right sidebar
+      sharing_title: Compartir, Incrustar, Exportar
+      save: Compartir
+      # URL = the permanent address of the presentation
+      get_url: Obtener URL
+      social_sharing: Comparte por
+      share_via_mail: Comparte por mail
+      share_via_facebook: Compartir en Facebook
+      share_via_twitter: Compartir en Twitter
+      # Sharing text for email, Twitter and Facebook
+      sharing_text: "GED VIZ: Visualizando las relaciones económicas globales"
+      # Embed the presentation into another website
+      embed: Incrustar en sitio web
+      get_embed_code: Obtener el código
+      # Export the presentation as CSV, PNG
+      export: Exportar
+
+      # Button in all modal dialogs
+      okay_button: OK
+      cancel_button: Cancelar
+      close_dialog: Cerrar
+
+    # Main editor navigation at the top
+    navigation:
+      home:
+        name: Página principal
+        description: Dinámica Económica Global
+        href: http://www.ged-project.de/
+      shorts:
+        name: Cortos
+        description: Historias, videos, visualizaciones
+        href: http://www.ged-project.de/shorts/
+      studies:
+        name: Estudios
+        description: Resumenes y descargas
+        href: http://www.ged-project.de/studies/
+      viz:
+        name: VIZ
+        description: Creando visualizaciones
+        href: http://www.ged-project.de/viz/
+      about:
+        name: Sobre GED
+        description: ""
+        href: http://www.ged-project.de/about/
+
+    # Editor introduction dialog
+    # This dialog is shown when the user clicks on the (I) info button
+    # in the main navigation.
+    introduction_dialog:
+      introduction: Introducción
+      video_id: FNUT-KwKd58
+      welcome_heading: Bienvenidos a GED VIZ
+      welcome_p1: "GED VIZ te permite crear y compartir visualizaciones de las relaciones económicas globales - para investigación, docencia y relatar argumentos."
+      welcome_p2: Mira el video para entender cómo funciona. ¿Preguntas o sugerencias? ¡Envíanos tu retroalimentación!
+      watch_tutorial: Ver el tutorial
+      feedback: Retroalimentación
+      feedback_url: http://www.ged-project.de/contact/
+      start_tool: Iniciar la herramienta
+      what_is_it_heading: El proyecto GED
+      what_is_it_body: <p>GED VIZ es parte del <a href="http://www.ged-project.de/" target="_blank">proyecto Dinámica Económica Global (GED) project</a>. El proyecto aspira a contribuir a un mejor entendimiento de la creciente complejidad del desarrollo económico a través de analisis, visualizaciones, políticas, recomendaciones y herramientas. Se enfoca en las relaciones, comercio y dependencias entre países.</p>
+      in_action_heading: Material adicional
+      in_action_body: <p>Encuentre más información, incluyendo videos, enlaces de prensa, artículos ejemplo y material de prensa en <a href="http://www.ged-project.de/viz/" target="_blank">www.ged-project.de/viz/</a>.</p>
+      version_history_heading: Historial de cambios
+      version_history_body: <p>Actualizamos los datos que alimentan a las visualizaciones regularmente. <a href="/versions" target="_blank">Lea el historial de versión de datos</a>.</p>
+      partners_heading: Creditos
+      partners_body: "<p>Desarollo de software: 9elements<br>Concepto de visualización e interfaz de usuario: Raureif y el Prof. Boris Müller<br>Soporte de datos: Prognos</p><p>Para desarrolladores: GED VIZ es de codigo abierto y <a href='https://github.com/bertelsmannstift/GED-VIZ' target='_blank'>disponible en GitHub</a>.</p>"
+
+    # Keyframe year list at the bottom of the editor
+    year_list:
+      year: Año
+
+    # Keyframe currency select (bottom left)
+    currency_select:
+      currency: Moneda
+      currencies:
+        usd: $
+        eur: €
+
+    # Editor embed dialog
+    # This dialog is shown when the user clicks on “Get the code”
+    embed_dialog:
+      title: Incrustar presentación
+      width: "Ancho de incorporación:"
+      width_recommendation: Un tamaño de 800 pixeles o más es recomendado para ver correctamente.
+      keyframes: "Transision de diapositivas:"
+      # There are two modes how the presentation plays:
+      # - Manual navigation between the slides using back/foward buttons
+      frame_by_frame: Botones de Siguiente / Anterior
+      # - Automated playback. The browser changes
+      # to the next slide after some seconds
+      animation: Animación automática
+      play_button: reproducir
+      show_titles: Incluir título de diapositiva
+      show_preview: Mostrar pre visualización
+      code_label: "Incrustar código:"
+
+    # Editor export dialog
+    # This dialog is shown when the user clicks on “Export .png .csv”
+    export_dialog:
+      title: Exportar
+      keyframes: "Diapositivas:"
+      all_keyframes: Todas las diapositivas
+      specific_keyframes: Solo las diapositivas seleccionadas
+      select_keyframes: elija las diapositivas a ser exportadas
+      # The internal name for a slide is “keyframe”
+      keyframe: diapositiva
+      # Whether to show the slide titles in the exported images
+      show_titles: Incluir etiquetas de las diapositivas como títulos
+      show_legend: Incluir etiqueta completa y fuente
+      file_format: "Formato de archivo:"
+      png_description: 800px de ancho
+      # For CSV download
+      csv_description: todos los datos mostrados en la diapositiva
+      download: Descargar
+      please_wait: Por favor espere…
+
+    # Editor save dialog
+    # This dialog is shown when the user clicks on “Get the URL”
+    save_dialog:
+      title: Enlace a esta presentación
+      url: "URL:"
+
+    # Editor outdated data dialog
+    # This dialog isn’t directly accessible. It is opened automatically
+    # when an old presentation is opened in the editor and
+    # new data in the database is available.
+    outdated_data:
+      heading: Nuevos datos disponibles
+      message: "<p>Los datos subyacentes de esta presentación han cambiado:</p><p>Versión a la creación de la presentación: %{data_version}<br>Versión actual: %{latest_data_version}</p><p>Tan pronto como edite esta presentación, nosotros <strong>actualizaremos los datos</strong> y crearemos un nuevo URL. La URL anterior y sus datos <strong>permanecerán sin cambios</strong>. Su versión incrustada no cambiará hasta que actualice su código de incrustación.</p><p>Por favor diríjase al <a href='/versions' target='_blank'>historial de cambios</a> para detalles respecto a la actualización de datos.</p>"
+      update: Actualizar datos
+
+    # Editor browser warning
+    # This dialog isn’t directly accessible. It is opened automatically
+    # when the editor is opened with an outdated browser (for example,
+    # Internet Explorer 8). GED VIZ works in IE 8, but it’s slow.
+    outdated_browser:
+      heading: Navegador ya obsoleto
+      message: El editor GED VIZ hace uso de tecnologías web recientes, como Graficas de Vectores Escalables (SVG). Usted está usando un navegador que no soporta estas tecnologías. Para un mejor rendimiento, por favor use un navegador más reciente.
+      msie: Actualice Internet Explorer en Windows
+      safari: Actualice Safari en MacOS
+      firefox: Descargue Mozilla Firefox
+      chrome: "Descargue Google Chrome: www.google.com/chrome/"
+      opera: "Descargue Opera: www.opera.com"
+
+    # Magnet (rectangle that represents a country in the chart)
+    magnet:
+      # When two or one countries are shown, the magnet is divided by the
+      # incoming/outgoing partners. Only five countries are shown, the rest
+      # is grouped under “others”. This means all other countries.
+      one_to_one_others: ver otros
+
+    # The data version history. From time to time, we’re importing new data
+    # into to tool. With each update, we create a history entry.
+    # See https://viz.ged-project.de/versions
+    version_history:
+      title: "GED VIZ: Historial de Versiones de Datos"
+      # Example: “Version: 3.0”
+      version: "Versión:"
+      # Example: “Published: July 31, 2014 20:00”
+      published: "Publicada el:"
+      description: "Descripción:"
