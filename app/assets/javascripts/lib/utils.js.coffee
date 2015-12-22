@@ -1,9 +1,8 @@
-define [
-  'underscore'
-  'chaplin/lib/utils'
-  'lib/i18n'
-], (_, chaplinUtils, I18n) ->
+define (require) ->
   'use strict'
+  _ = require 'underscore'
+  chaplinUtils = require 'chaplin/lib/utils'
+  I18n = require 'lib/i18n'
 
   # Application-specific utilities
   # ------------------------------

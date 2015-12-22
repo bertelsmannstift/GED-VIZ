@@ -1,10 +1,9 @@
-define [
-  'controllers/base/controller'
-  'models/presentation'
-  'lib/render_agent'
-  'lib/utils'
-], (Controller, Presentation, RenderAgent, utils) ->
+define (require) ->
   'use strict'
+  Controller = require 'controllers/base/controller'
+  Presentation = require 'models/presentation'
+  RenderAgent = require 'lib/render_agent'
+  utils = require 'lib/utils'
 
   class StaticController extends Controller
 

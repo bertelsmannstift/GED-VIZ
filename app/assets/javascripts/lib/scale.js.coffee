@@ -1,7 +1,6 @@
-define [
-  'underscore'
-], (_) ->
+define (require) ->
   'use strict'
+  _ = require 'underscore'
 
   # Scaling maps
 

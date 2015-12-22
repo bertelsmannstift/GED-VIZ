@@ -1,8 +1,7 @@
-define [
-  'underscore'
-  'lib/support'
-], (_, support)->
+define (require) ->
   'use strict'
+  _ = require 'underscore'
+  support = require 'lib/support'
 
   # Store JavaScript objects in localStorage as JSON
 

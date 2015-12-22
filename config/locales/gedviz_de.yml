@@ -253,7 +253,7 @@ de:
       sources: Quellen
       legend: Legende
       about_heading: Erzeugt mit GED VIZ
-      about_body: <p>Diese Slideshow wurde mit <a href="https://viz.ged-project.de/" target="_blank">GED VIZ</a> erzeugt, einem Webtool zur Visualisierung weltwirtschaftlicher Dynamiken aus dem Projekt <a href="http://www.ged-project.de/">Global Economic Dynamics (GED)</a>. Mehr Materialien zum Tool einschließlich Tutorial, FAQ, Pressematerial und Kontaktinformation sind unter <a href="http://www.ged-project.de/viz" target="_blank">www.ged-project.de/viz</a> verfügbar.</p>
+      about_body: <p>Diese Slideshow wurde mit <a href="https://viz.ged-project.de/" target="_blank">GED VIZ</a> erzeugt, einem Webtool zur Visualisierung weltwirtschaftlicher Dynamiken aus dem Projekt <a href="http://www.ged-project.de/">Global Economic Dynamics (GED)</a>. Mehr Materialien zum Tool einschließlich Tutorial, FAQ, Pressematerial und Kontaktinformation sind unter <a href="http://ged-project.de/category/viz/" target="_blank">ged-project.de</a> verfügbar.</p>
       partners_heading: Partner
       partners_body: "<p>Softwareentwicklung: 9elements<br>Visualisierungskonzept & UI-Design: Raureif and Prof. Boris Müller<br>Datenrecherche: Prognos</p><p>Für Entwickler: GED VIZ ist Open Source und verfügbar auf <a href='https://github.com/bertelsmannstift/GED-VIZ' target='_blank'>GitHub</a>.</p>"
       outdated_data_heading: Aktualisierter Datensatz verfügbar
@@ -283,7 +283,7 @@ de:
       tendency: "Tendenzpfeile zeigen Veränderung gegenüber Vorjahr (i) für absolute Werte: relative Veränderung; (ii) für Prozentwerte: Differenz in Prozentpunkten."
       maximum_size: Maximalgröße
       exchange_rate: Wechselkurs
-      eur_currency: "Ursprungsdaten liegen in US-$ vor. Gemittelter Wechselkurs in %{year}: $1 = €%{usd_in_eur_current}. Bei konstanten Preisen (Basis 2005): $1 = €%{usd_in_eur_constant}."
+      eur_currency: "Ursprungsdaten liegen in US-$ vor. Gemittelter Wechselkurs in %{year}: $1 = €%{usd_in_eur_current}. Bei konstanten Preisen (Basis 2010): $1 = €%{usd_in_eur_constant}."
 
     sources:
       # Bilateral data
@@ -399,12 +399,12 @@ de:
         with_value_html: <span class='unit'>$</span><span class='value'>%{number}</span><span class='suffix'> Mio.</span>
       bln_real_dollars:
         short: Mrd. $
-        full: Milliarden US-$ (konstante Preise, Basis 2005)
+        full: Milliarden US-$ (konstante Preise, Basis 2010)
         with_value: $ %{number} Mrd.
         with_value_html: <span class='unit'>$</span><span class='value'>%{number}</span><span class='suffix'> Mrd.</span>
       real_dollars_per_capita:
         short: $ p.K.
-        full: US-$ pro Kopf (konstante Preise, Basis 2005)
+        full: US-$ pro Kopf (konstante Preise, Basis 2010)
         with_value: "$ %{number} p.K."
         with_value_html: <span class='unit'>$</span><span class='value'>%{number}</span><span class='suffix'> p.K.</span>
 
@@ -420,12 +420,12 @@ de:
         with_value_html: <span class='unit'>€</span><span class='value'>%{number}</span><span class='suffix'> Mio.</span>
       bln_real_euros:
         short: Mrd. €
-        full: Milliarden EUR (konstante Preise, Basis 2005)
+        full: Milliarden EUR (konstante Preise, Basis 2010)
         with_value: € %{number} Mrd.
         with_value_html: <span class='unit'>€</span><span class='value'>%{number}</span><span class='suffix'> Mrd.</span>
       real_euros_per_capita:
         short: € p.K.
-        full: EUR pro Kopf (konstante Preise, Basis 2005)
+        full: EUR pro Kopf (konstante Preise, Basis 2010)
         with_value: "€ %{number} p.K."
         with_value_html: <span class='unit'>€</span><span class='value'>%{number}</span><span class='suffix'> p.K.</span>
 
@@ -494,7 +494,7 @@ de:
     # Bubbles (Rollovers and Notifications)
     bubbles:
       rollover:
-        show_introduction: Einführung in GED VIZ
+        show_introduction: Neu hier? So funktioniert dieses Tool.
 
         # Do not translate these titles, they should always be
         # in the target language
@@ -624,45 +624,22 @@ de:
       cancel_button: Abbrechen
       close_dialog: Schließen
 
-    # Main Editor Navigation
-    navigation:
-      home:
-        name: Home
-        description: Global Economic Dynamics
-        href: http://www.ged-project.de/de/home/
-      shorts:
-        name: Shorts
-        description: Hintergründe, Videos, Bilder
-        href: http://www.ged-project.de/de/artikel/
-      studies:
-        name: Studies
-        description: Übersichten und Downloads
-        href: http://www.ged-project.de/de/studien/
-      viz:
-        name: VIZ
-        description: Visualisierungen erstellen
-        href: http://www.ged-project.de/de/viz/
-      about:
-        name: Über GED
-        description: ""
-        href: http://www.ged-project.de/de/about/
-
     # Editor introduction dialog
     introduction_dialog:
-      introduction: Introduction
+      introduction: Einführung
       video_id: 2gU7pFoSslc
       welcome_heading: Willkommen bei GED VIZ
       welcome_p1: Mit GED VIZ lassen sich Visualisierungen globaler Wirtschaftsbeziehungen erzeugen und teilen – zum Einsatz in Forschung und Lehre oder zur Unterstützung beim Storytelling.
       welcome_p2: Das Video zeigt, wie das funktioniert. Fragen oder Anregungen? Wir freuen uns über Feedback!
       watch_tutorial: Tutorial ansehen
       feedback: Feedback
-      feedback_url: http://www.ged-project.de/contact/
+      feedback_url: https://www.bertelsmann-stiftung.de/de/ueber-uns/wer-wir-sind/ansprechpartner/mitarbeiter/cid/jan-arpe/
       start_tool: Loslegen
       what_is_it_heading: Das GED-Projekt
       what_is_it_body: <p>GED VIZ ist Teil des Projekts <a href="http://www.ged-project.de" target="_blank">Global Economic Dynamics (GED)</a>. Ziel des Projekts ist es, zu einem besseren Verständnis der wachsenden Komplexität ökonomischer Entwicklungen beizutragen. Hierzu stellt es Analysen, Visualisierungen, politische Handlungsempfehlungen und Werkzeuge zur Verfügung. Dabei stehen Beziehungen, Austausch und Abhängigkeiten zwischen Ländern im Vordergrund.</p>
       in_action_heading: Weitere Materialien
-      in_action_body: <p>Mehr Informationen einschließlich Videos, Presselinks, Beispielartikeln und Pressematerial unter <a href="http://www.ged-project.de/viz/" target="_blank">www.ged-project.de/viz/</a>.</p>
-      version_history_heading: Versoinsverlauf
+      in_action_body: <p>Mehr Informationen einschließlich Videos, Presselinks, Beispielartikeln und Pressematerial unter <a href="http://ged-project.de/category/viz/" target="_blank">ged-project.de</a>.</p>
+      version_history_heading: Versionsverlauf
       version_history_body: <p>Wir aktualisieren die Daten, die den Visualisierungen zugrunde liegen, regelmäßig. <a href="/versions" target="_blank">Auflistung aller Änderungen</a>.</p>
       partners_heading: Partner
       partners_body: "<p>Softwareentwicklung: 9elements<br>Visualisierungskonzept & UI-Design: Raureif and Prof. Boris Müller<br>Datenrecherche: Prognos</p><p>Für Entwickler: GED VIZ ist Open Source und verfügbar auf <a href='https://github.com/bertelsmannstift/GED-VIZ' target='_blank'>GitHub</a>.</p>"
@@ -732,7 +709,7 @@ de:
       one_to_one_others: andere
 
     version_history:
-      title: "GED VIZ: Versiongeschichte der Daten"
+      title: "GED VIZ: Versionsgeschichte der Daten"
       version: "Version:"
       published: "Veröffentlicht am:"
       description: "Beschreibung:"

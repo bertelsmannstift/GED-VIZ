@@ -1,9 +1,8 @@
-define [
-  'controllers/base/controller'
-  'models/presentation'
-  'views/player_view'
-], (Controller, Presentation, PlayerView) ->
+define (require) ->
   'use strict'
+  Controller = require 'controllers/base/controller'
+  Presentation = require 'models/presentation'
+  PlayerView = require 'views/player_view'
 
   class PlayerController extends Controller
 

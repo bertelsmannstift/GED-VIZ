@@ -1,11 +1,10 @@
-define [
-  'jquery'
-  'configuration'
-  'lib/utils'
-  'lib/i18n'
-  'views/modal_dialog_view'
-], ($, configuration, utils, I18n, ModalDialogView) ->
+define (require) ->
   'use strict'
+  $ = require 'jquery'
+  configuration = require 'configuration'
+  utils = require 'lib/utils'
+  I18n = require 'lib/i18n'
+  ModalDialogView = require 'views/modal_dialog_view'
 
   class ExportView extends ModalDialogView
 

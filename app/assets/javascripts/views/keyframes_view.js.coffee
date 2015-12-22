@@ -1,14 +1,13 @@
-define [
-  'raphael'
-  'underscore'
-  'models/bubble'
-  'views/base/view'
-  'views/keyframe_view'
-  'views/new_keyframe_view'
-  'views/bubble_view'
-  'jquery.sortable'
-], (Raphael, _, Bubble, View, KeyframeView, NewKeyframeView, BubbleView) ->
+define (require) ->
   'use strict'
+  Raphael = require 'raphael'
+  _ = require 'underscore'
+  Bubble = require 'models/bubble'
+  View = require 'views/base/view'
+  KeyframeView = require 'views/keyframe_view'
+  NewKeyframeView = require 'views/new_keyframe_view'
+  BubbleView = require 'views/bubble_view'
+  require 'jquery.sortable'
 
   ARROW_WIDTH = 15
 

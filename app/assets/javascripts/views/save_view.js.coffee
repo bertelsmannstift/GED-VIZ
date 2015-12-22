@@ -1,7 +1,6 @@
-define [
-  'views/modal_dialog_view'
-], (ModalDialogView) ->
+define (require) ->
   'use strict'
+  ModalDialogView = require 'views/modal_dialog_view'
 
   class SaveView extends ModalDialogView
 

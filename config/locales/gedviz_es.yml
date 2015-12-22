@@ -15,6 +15,7 @@ es:
     # Separators in a enumeration. Example: “France, USA and Italy”.
     enum_separator: ", "
     enum_separator_last: " y "
+    value_in_unit: "en %{unit}"
 
     currencies:
       usd: Dólar Americano
@@ -217,7 +218,7 @@ es:
       sources: Fuentes
       legend: Etiqueta
       about_heading: Hecho con GED VIZ
-      about_body: <p>Esta presentación ha sido generada con <a href="https://viz.ged-project.de/" target="_blank">GED VIZ</a>, una herramienta web para visualizar <a href="http://www.ged-project.de/" target="_blank">la Dinámica Económica Global (GED)</a>. Para más información sobre la herramienta, incluyendo tutoriales, preguntas frecuentes, material de prensa y contacto, por favor visite <a href="http://www.ged-project.de/viz" target="_blank">www.ged-project.de/viz</a>.</p>
+      about_body: <p>Esta presentación ha sido generada con <a href="https://viz.ged-project.de/" target="_blank">GED VIZ</a>, una herramienta web para visualizar <a href="http://www.ged-project.de/" target="_blank">la Dinámica Económica Global (GED)</a>. Para más información sobre la herramienta, incluyendo tutoriales, preguntas frecuentes, material de prensa y contacto, por favor visite <a href="http://ged-project.de/category/viz/" target="_blank">ged-project.de</a>.</p>
       partners_heading: Creditos
       partners_body: "<p>Desarollo de software: 9elements<br>Concepto de visualización y diseño de interfaz de usuario: Raureif y el Profesor Boris Müller<br>Soporte de datos: Prognos</p><p>For Desarolladores: GED VIZ es de codigo abierto y <a href='https://github.com/bertelsmannstift/GED-VIZ' target='_blank'>disponible en GitHub</a>.</p>"
       outdated_data_heading: Actualización de datos disponible
@@ -247,14 +248,12 @@ es:
         absolute: Tamaño de burbuja relativo al indicador más grande.
         # Relative values (e.g. percent) are visualized using a ring / pie chart.
         percent: El tamaño del segmento del anillo indica porcentaje.
-        # Ranking values (e.g. rank 5) are visualized using a circle with a number in it.
-        ranking: La burbuja muestra el rango entre todos de los países del mundo
       # Tendency arrows up, right, down
       tendency: "Las flechas de tendencia indican el cambio al valor del año anterior (i) para valores absolutos: cambio relativo; (ii) Para valores percentiles: diferencia en puntos porcentuales."
       maximum_size: Tamaño máximo
       # Currency exchange rate us Dollar / Euro
       exchange_rate: Tipo de cambio
-      eur_currency: "Datos originales en dólares americanos. Tipo de cambio promedio en el %{year}: $1 = €%{usd_in_eur_current}. Para precios constantes (para el 2005): $1 = €%{usd_in_eur_constant}."
+      eur_currency: "Datos originales en dólares americanos. Tipo de cambio promedio en el %{year}: $1 = €%{usd_in_eur_current}. Para precios constantes (para el 2010): $1 = €%{usd_in_eur_constant}."
 
     # The sources consist of a name and a link / URL,
     # separated by a semicolon “;”
@@ -377,12 +376,12 @@ es:
         with_value_html: <span class='unit'>$</span><span class='value'>%{number}</span><span class='suffix'>m</span>
       bln_real_dollars:
         short: billones de $
-        full: billones de US-$ (precios constantes, para el 2005)
+        full: billones de US-$ (precios constantes, para el 2010)
         with_value: $ %{number}bn
         with_value_html: <span class='unit'>$</span><span class='value'>%{number}</span><span class='suffix'>bn</span>
       real_dollars_per_capita:
         short: $ p.c.
-        full: US-$ per capita (precios constantes, para el 2005)
+        full: US-$ per capita (precios constantes, para el 2010)
         with_value: "$ %{number} p.c."
         with_value_html: <span class='unit'>$</span><span class='value'>%{number}</span><span class='suffix'> p.c.</span>
 
@@ -398,12 +397,12 @@ es:
         with_value_html: <span class='unit'>€</span><span class='value'>%{number}</span><span class='suffix'>m</span>
       bln_real_euros:
         short: billones de €
-        full: billones de EUR (precios constantes, para el 2005)
+        full: billones de EUR (precios constantes, para el 2010)
         with_value: € %{number}bn
         with_value_html: <span class='unit'>€</span><span class='value'>%{number}</span><span class='suffix'>bn</span>
       real_euros_per_capita:
         short: € p.c.
-        full: EUR per capita (precios constantes, para el 2005)
+        full: EUR per capita (precios constantes, para el 2010)
         with_value: "€ %{number} p.c."
         with_value_html: <span class='unit'>€</span><span class='value'>%{number}</span><span class='suffix'> p.c.</span>
 
@@ -498,7 +497,7 @@ es:
         capture: De click para agregar la visualización actual a la presentación.
         rename_slide: De click en el titulo para renombrar la diapositiva actual.
         # Indicator tooltip
-        # Example: GDP / Gross Domestic Product / in billion US-$ (constant prices, base 2005)
+        # Example: GDP / Gross Domestic Product / in billion US-$ (constant prices, base 2010)
         indicator_exp: <span class='bubble-acronym'>%{acronym}</span><span class='bubble-description'>%{description}</span><span class='bubble-unit'>en %{unit}</span>
         # Country list actions. ${name} refers to the country name.
         # Example: “Click to select France, drag and drop to reorder.”
@@ -633,29 +632,6 @@ es:
       cancel_button: Cancelar
       close_dialog: Cerrar
 
-    # Main editor navigation at the top
-    navigation:
-      home:
-        name: Página principal
-        description: Dinámica Económica Global
-        href: http://www.ged-project.de/
-      shorts:
-        name: Cortos
-        description: Historias, videos, visualizaciones
-        href: http://www.ged-project.de/shorts/
-      studies:
-        name: Estudios
-        description: Resumenes y descargas
-        href: http://www.ged-project.de/studies/
-      viz:
-        name: VIZ
-        description: Creando visualizaciones
-        href: http://www.ged-project.de/viz/
-      about:
-        name: Sobre GED
-        description: ""
-        href: http://www.ged-project.de/about/
-
     # Editor introduction dialog
     # This dialog is shown when the user clicks on the (I) info button
     # in the main navigation.
@@ -667,12 +643,12 @@ es:
       welcome_p2: Mira el video para entender cómo funciona. ¿Preguntas o sugerencias? ¡Envíanos tu retroalimentación!
       watch_tutorial: Ver el tutorial
       feedback: Retroalimentación
-      feedback_url: http://www.ged-project.de/contact/
+      feedback_url: https://www.bertelsmann-stiftung.de/de/ueber-uns/wer-wir-sind/ansprechpartner/mitarbeiter/cid/jan-arpe/
       start_tool: Iniciar la herramienta
       what_is_it_heading: El proyecto GED
       what_is_it_body: <p>GED VIZ es parte del <a href="http://www.ged-project.de/" target="_blank">proyecto Dinámica Económica Global (GED) project</a>. El proyecto aspira a contribuir a un mejor entendimiento de la creciente complejidad del desarrollo económico a través de analisis, visualizaciones, políticas, recomendaciones y herramientas. Se enfoca en las relaciones, comercio y dependencias entre países.</p>
       in_action_heading: Material adicional
-      in_action_body: <p>Encuentre más información, incluyendo videos, enlaces de prensa, artículos ejemplo y material de prensa en <a href="http://www.ged-project.de/viz/" target="_blank">www.ged-project.de/viz/</a>.</p>
+      in_action_body: <p>Encuentre más información, incluyendo videos, enlaces de prensa, artículos ejemplo y material de prensa en <a href="http://ged-project.de/category/viz/" target="_blank">ged-project.de</a>.</p>
       version_history_heading: Historial de cambios
       version_history_body: <p>Actualizamos los datos que alimentan a las visualizaciones regularmente. <a href="/versions" target="_blank">Lea el historial de versión de datos</a>.</p>
       partners_heading: Creditos

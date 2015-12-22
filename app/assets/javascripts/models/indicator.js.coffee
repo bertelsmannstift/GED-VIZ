@@ -1,8 +1,7 @@
-define [
-  'underscore'
-  'lib/type_data'
-], (_, TypeData) ->
+define (require) ->
   'use strict'
+  _ = require 'underscore'
+  TypeData = require 'lib/type_data'
 
   # This class is mere data container, it stores the data
   # in a usable format for the display object of the same name
@@ -27,7 +26,6 @@ define [
     # representation: Number
     #   0: ABSOLUTE
     #   1: PROPORTIONAL
-    #   2: RANKING
 
     # The percent scale of the value relative to
     # the maximum value in the whole chart

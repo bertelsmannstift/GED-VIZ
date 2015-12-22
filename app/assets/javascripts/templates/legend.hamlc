@@ -108,12 +108,6 @@
               %p= @t 'legend', 'indicator-icon', 'percent'
               = describeIndicators.call this, @indicators.percent
 
-        - if @indicators.ranking
-          %tr
-            %td.icon
-              %img(src='/assets/legend-indicator-ranking.png' width='20' height='20' alt='')
-            %td= @t 'legend', 'indicator-icon', 'ranking'
-
         -# Indicator tendency arrows
         - if @indicator_types_with_unit.length > 0
           %tr

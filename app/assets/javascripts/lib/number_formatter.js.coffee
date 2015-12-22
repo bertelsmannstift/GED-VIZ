@@ -1,7 +1,6 @@
-define [
-  'lib/i18n'
-], (I18n) ->
+define (require) ->
   'use strict'
+  I18n = require 'lib/i18n'
 
   # Constants
   # ---------

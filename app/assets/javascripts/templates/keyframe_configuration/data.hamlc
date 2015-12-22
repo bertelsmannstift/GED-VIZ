@@ -1,4 +1,6 @@
-%h2= @t 'editor', 'relations'
+%header
+  %h2= @t 'editor', 'relations'
+
 .main-types
   - for key, data_type of @dataTypes.root
     - for unit in data_type.units

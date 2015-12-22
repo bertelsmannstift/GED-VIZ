@@ -1,27 +1,21 @@
-define [
-  'underscore'
-  'raphael'
-  'lib/support'
-  'views/base/view'
-  'views/editor_header_view'
-  'views/keyframe_configuration_view'
-  'views/keyframes_view'
-  'views/sharing_view'
-  'views/keyframe_currency_view'
-  'views/keyframe_year_view'
-  'views/contextbox_view'
-  'views/loading_indicator_view'
-  'views/legend_view'
-  'views/outdated_data_view'
-  'views/outdated_browser_view'
-  'display_objects/chart'
-], (
-  _, Raphael, support, View, EditorHeaderView, KeyframeConfigurationView,
-  KeyframesView, SharingView, KeyframeCurrencyView, KeyframeYearView,
-  ContextboxView, LoadingIndicatorView, LegendView, OutdatedDataView,
-  OutdatedBrowserView, Chart
-) ->
+define (require) ->
   'use strict'
+  _ = require 'underscore'
+  Raphael = require 'raphael'
+  support = require 'lib/support'
+  View = require 'views/base/view'
+  EditorHeaderView = require 'views/editor_header_view'
+  KeyframeConfigurationView = require 'views/keyframe_configuration_view'
+  KeyframesView = require 'views/keyframes_view'
+  SharingView = require 'views/sharing_view'
+  KeyframeCurrencyView = require 'views/keyframe_currency_view'
+  KeyframeYearView = require 'views/keyframe_year_view'
+  ContextboxView = require 'views/contextbox_view'
+  LoadingIndicatorView = require 'views/loading_indicator_view'
+  LegendView = require 'views/legend_view'
+  OutdatedDataView = require 'views/outdated_data_view'
+  OutdatedBrowserView = require 'views/outdated_browser_view'
+  Chart = require 'display_objects/chart'
 
   class EditorView extends View
 

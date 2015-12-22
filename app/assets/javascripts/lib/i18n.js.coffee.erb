@@ -43,6 +43,19 @@ define [
       else
         return null
 
+  # Returns the raw object found at the given key path (array of strings),
+  # does not look for a primitive.
+  translateObject = (keys) ->
+    tree = translations[configuration.locale]
+    lastKey = _.last keys
+    for key in keys
+      tree = tree[key]
+      if key is lastKey
+        return tree
+      else
+        return null
+    return null
+
   translateCascade = (keys, fallback) ->
     translation = translate keys
 
@@ -100,8 +113,9 @@ define [
   # Public interface of I18n
 
   {
-    t: t
-    translateWithFallback: translateWithFallback
-    template: template
-    joinList: joinList
+    t
+    translateObject
+    translateWithFallback
+    template
+    joinList
   }

@@ -1,13 +1,12 @@
-define [
-  'jquery'
-  'raphael'
-  'display_objects/display_object'
-  'display_objects/indicator'
-  'display_objects/indicator_visualization'
-  'lib/scale'
-  'lib/utils'
-], ($, Raphael, DisplayObject, Indicator, IndicatorVisualization, scale, utils) ->
+define (require) ->
   'use strict'
+  $ = require 'jquery'
+  Raphael = require 'raphael'
+  DisplayObject = require 'display_objects/display_object'
+  Indicator = require 'display_objects/indicator'
+  IndicatorVisualization = require 'display_objects/indicator_visualization'
+  scale = require 'lib/scale'
+  utils = require 'lib/utils'
 
   # Shortcuts
   # ---------

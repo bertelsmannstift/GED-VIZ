@@ -1,10 +1,9 @@
-define [
-  'jquery'
-  'views/base/view'
-  'lib/i18n'
-  'lib/type_text_helper'
-], ($, View, I18n, TypeTextHelper) ->
+define (require) ->
   'use strict'
+  $ = require 'jquery'
+  View = require 'views/base/view'
+  I18n = require 'lib/i18n'
+  TypeTextHelper = require 'lib/type_text_helper'
 
   class SortCountriesView extends View
 

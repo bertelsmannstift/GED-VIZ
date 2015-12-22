@@ -103,7 +103,7 @@
 %clearfix
   +clearfix
 
-@mixin off-left()
+@mixin off-left
   position: absolute
   left: -10000px
   top: 0
@@ -120,6 +120,21 @@
   -moz-box-sizing: border-box
   box-sizing: border-box
 
+// Single-line text shortening with ellipsis
+// Make sure to limit the height
+@mixin ellipsis
+  overflow: hidden
+  white-space: nowrap
+  text-overflow: ellipsis
+
+@mixin no-ellipsis
+  height: auto
+  overflow: visible
+  white-space: normal
+
+%ellipsis
+  +ellipsis
+
 // Content abstract classes
 
 %dark-background-gradient
@@ -135,10 +150,12 @@
   +screen-xs-sm
     font-size: 15px
 
-%underlined-heading
-  @extend %heading
+%underlined-header
   border-bottom: 1px solid $heading-color
   padding-bottom: 4px
+
+%underlined-header-heading
+  @extend %heading
   text-shadow: $text-shadow
 
 %dialog
@@ -200,11 +217,9 @@
   +screen-xs-height
     height: 45px
 
-  hgroup
-    width: 120px
-
   h2
-    @extend %underlined-heading
+    @extend %underlined-header
+    @extend %underlined-header-heading
     margin: 4px 0
 
     +screen-xs-height

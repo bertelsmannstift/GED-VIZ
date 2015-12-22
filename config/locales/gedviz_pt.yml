@@ -317,7 +317,7 @@ pt:
       sources: Fontes
       legend: Legenda
       about_heading: Criado com GED VIZ
-      about_body: <p> Esta apresentação de slides foi criada com <a href="https://viz.ged-project.de/" target="_blank">GED VIZ</a>, uma ferramenta virtual para visualizar <a href="http://www.ged-project.de/" target="_blank">Dinâmicas Econômicas Globais (GED)</a>. Para mais informações sobre a ferramenta, incluindo tutorial, FAQ, contato e material para a imprensa, por favor acesse <a href="http://www.ged-project.de/viz" target="_blank">www.ged-project.de/viz</a>.</p>
+      about_body: <p> Esta apresentação de slides foi criada com <a href="https://viz.ged-project.de/" target="_blank">GED VIZ</a>, uma ferramenta virtual para visualizar <a href="http://www.ged-project.de/" target="_blank">Dinâmicas Econômicas Globais (GED)</a>. Para mais informações sobre a ferramenta, incluindo tutorial, FAQ, contato e material para a imprensa, por favor acesse <a href="http://ged-project.de/category/viz/" target="_blank">ged-project.de</a>.</p>
       partners_heading: Créditos
       partners_body: "<p>Desenvolvimento do Software: 9elements<br>Conceito da visualização e design da interface de usuário: Raureif and Prof. Boris Müller<br>Suporte de dados: Prognos</p><p>Para desenvolvedores: GED VIZ é um código aberto e <a href='https://github.com/bertelsmannstift/GED-VIZ' target='_blank'>disponível em GitHub</a>.</p>"
       outdated_data_heading: Atualização de dados disponível
@@ -347,14 +347,12 @@ pt:
         absolute: Tamanho do círculo proporcional ao valor do respectivo indicador.
         # Relative values (e.g. percent) are visualized using a ring / pie chart.
         percent: Parte do círculo em negrito indica um valor porcentual.
-        # Ranking values (e.g. rank 5) are visualized using a circle with a number in it.
-        ranking: Círculo indica posição no ranking entre todos os países do mundo.
       # Tendency arrows up, right, down
       tendency: "Setas indicam mudança em relação a valores do ano anterior (i) para valores absolutos: elas exprimem uma mudança relativa; (ii) para valores porcentuais: eas indicam diferença em porcentuais."
       maximum_size: tamanho max.
       # Currency exchange rate us Dollar / Euro
       exchange_rate: Taxa de câmbio
-      eur_currency: "Dados originais em dólares americanos. Taxa média de câmbio em %{year}: $1 = €%{usd_in_eur_current}. Para preços constantes (ano-base 2005): $1 = €%{usd_in_eur_constant}."
+      eur_currency: "Dados originais em dólares americanos. Taxa média de câmbio em %{year}: $1 = €%{usd_in_eur_current}. Para preços constantes (ano-base 2010): $1 = €%{usd_in_eur_constant}."
 
     # The sources consist of a name and a link / URL,
     # separated by a semicolon “;”
@@ -477,12 +475,12 @@ pt:
         with_value_html: <span class='unit'>$</span><span class='value'>%{number}</span><span class='suffix'>m</span>
       bln_real_dollars:
         short: bilhão(ões) $
-        full: bilhão(ões) de dólares (preços constantes, ano-base 2005)
+        full: bilhão(ões) de dólares (preços constantes, ano-base 2010)
         with_value: $ %{number}bi
         with_value_html: <span class='unit'>$</span><span class='value'>%{number}</span><span class='suffix'>bn</span>
       real_dollars_per_capita:
         short: $ p.c.
-        full: US-$ per capita (preços constantes, ano-base 2005)
+        full: US-$ per capita (preços constantes, ano-base 2010)
         with_value: "$ %{number} p.c."
         with_value_html: <span class='unit'>$</span><span class='value'>%{number}</span><span class='suffix'> p.c.</span>
 
@@ -498,12 +496,12 @@ pt:
         with_value_html: <span class='unit'>€</span><span class='value'>%{number}</span><span class='suffix'>m</span>
       bln_real_euros:
         short: bilhão(ões) €
-        full: bilhão(ões) de euros (preços constantes, ano-base 2005)
+        full: bilhão(ões) de euros (preços constantes, ano-base 2010)
         with_value: € %{number}bi
         with_value_html: <span class='unit'>€</span><span class='value'>%{number}</span><span class='suffix'>bn</span>
       real_euros_per_capita:
         short: € p.c.
-        full: EUR per capita (preços constantes, ano-base 2005)
+        full: EUR per capita (preços constantes, ano-base 2010)
         with_value: "€ %{number} p.c."
         with_value_html: <span class='unit'>€</span><span class='value'>%{number}</span><span class='suffix'> p.c.</span>
 
@@ -598,7 +596,7 @@ pt:
         capture: Clique para adicionar a tela atual à apresentação de slides.
         rename_slide: Clique no título para renomear o slide atual.
         # Indicator tooltip
-        # Example: GDP / Gross Domestic Product / in billion US-$ (constant prices, base 2005)
+        # Example: GDP / Gross Domestic Product / in billion US-$ (constant prices, base 2010)
         indicator_exp: <span class='bubble-acronym'>%{acronym}</span><span class='bubble-description'>%{description}</span><span class='bubble-unit'>em %{unit}</span>
         # Country list actions. ${name} refers to the country name.
         # Example: “Click to select France, drag and drop to reorder.”
@@ -733,29 +731,6 @@ pt:
       cancel_button: Cancelar
       close_dialog: Fechar
 
-    # Main editor navigation at the top
-    navigation:
-      home:
-        name: Página Inicial
-        description: Dinâmicas Econômicas Globais
-        href: http://www.ged-project.de/
-      shorts:
-        name: Shorts
-        description: Histórias, vídeos, visualizações
-        href: http://www.ged-project.de/shorts/
-      studies:
-        name: Estudos
-        description: Panoramas e downloads
-        href: http://www.ged-project.de/studies/
-      viz:
-        name: VIZ
-        description: Crie visualizações
-        href: http://www.ged-project.de/viz/
-      about:
-        name: Sobre o GED
-        description: ""
-        href: http://www.ged-project.de/about/
-
     # Editor introduction dialog
     # This dialog is shown when the user clicks on the (I) info button
     # in the main navigation.
@@ -767,12 +742,12 @@ pt:
       welcome_p2: Assista ao vídeo para ver como funciona. Dúvidas ou comentários? Nos envie seu feedback!
       watch_tutorial: Assistir tutorial
       feedback: Feedback
-      feedback_url: http://www.ged-project.de/contact/
+      feedback_url: https://www.bertelsmann-stiftung.de/de/ueber-uns/wer-wir-sind/ansprechpartner/mitarbeiter/cid/jan-arpe/
       start_tool: Iniciar a ferramenta
       what_is_it_heading: O projeto GED
       what_is_it_body: <p>GED VIZ é parte do <a href="http://www.ged-project.de/" target="_blank"> projeto Dinâmicas Econômicas Globais (GED) </a>. O projeto visa contribuir para um melhor entendimento da crescente complexidade dos desenvolvimentos econômicos por meio de análises, visualizações, ferramentas e recomendações de políticas. O projeto foca nas relações, intercâmbios e dependências entre países. </p>
       in_action_heading: Material complementar
-      in_action_body: <p>Encontre mais informações, incluindo vídeos, artigos e material para a imprensa no endereço <a href="http://www.ged-project.de/viz/" target="_blank">www.ged-project.de/viz/</a>.</p>
+      in_action_body: <p>Encontre mais informações, incluindo vídeos, artigos e material para a imprensa no endereço <a href="http://ged-project.de/category/viz/" target="_blank">ged-project.de</a>.</p>
       version_history_heading: Mudar histórico
       version_history_body: <p>Atualizamos regularmente os dados que subsidiam as visualições. <a href="/versions" target="_blank"> Acesse o histórico das atualizações dos dados </a>.</p>
       partners_heading: Créditos

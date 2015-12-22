@@ -1,14 +1,13 @@
-define [
-  'underscore'
-  'models/bubble'
-  'views/base/view'
-  'views/bubble_view'
-  'lib/currency'
-  'lib/i18n'
-  'lib/type_data'
-  'jquery.sortable'
-], (_, Bubble, View, BubbleView, Currency, I18n, TypeData) ->
+define (require) ->
   'use strict'
+  _ = require 'underscore'
+  Bubble = require 'models/bubble'
+  View = require 'views/base/view'
+  BubbleView = require 'views/bubble_view'
+  Currency = require 'lib/currency'
+  I18n = require 'lib/i18n'
+  TypeData = require 'lib/type_data'
+  require 'jquery.sortable'
 
   class UsedIndicatorView extends View
     templateName: 'keyframe_configuration/used_indicator'

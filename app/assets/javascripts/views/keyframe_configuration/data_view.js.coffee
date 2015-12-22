@@ -1,12 +1,11 @@
-define [
-  'underscore'
-  'jquery'
-  'views/base/view'
-  'lib/currency'
-  'lib/i18n'
-  'lib/type_data'
-], (_, $, View, Currency, I18n, TypeData) ->
+define (require) ->
   'use strict'
+  _ = require 'underscore'
+  $ = require 'jquery'
+  View = require 'views/base/view'
+  Currency = require 'lib/currency'
+  I18n = require 'lib/i18n'
+  TypeData = require 'lib/type_data'
 
   class DataView extends View
 

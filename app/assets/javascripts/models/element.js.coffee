@@ -1,8 +1,7 @@
-define [
-  'underscore'
-  'models/indicator'
-], (_, Indicator) ->
+define (require) ->
   'use strict'
+  _ = require 'underscore'
+  Indicator = require 'models/indicator'
 
   # This class is mere data container, it stores the data
   # in a usable format for the display object of the same name

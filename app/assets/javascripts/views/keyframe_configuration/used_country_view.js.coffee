@@ -1,11 +1,10 @@
-define [
-  'underscore'
-  'models/bubble'
-  'views/base/view'
-  'views/bubble_view'
-  'lib/i18n'
-], (_, Bubble, View, BubbleView, I18n) ->
+define (require) ->
   'use strict'
+  _ = require 'underscore'
+  Bubble = require 'models/bubble'
+  View = require 'views/base/view'
+  BubbleView = require 'views/bubble_view'
+  I18n = require 'lib/i18n'
 
   class UsedCountryView extends View
 

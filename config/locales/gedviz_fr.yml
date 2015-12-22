@@ -1,7 +1,7 @@
 # Please refer to gedviz_en.yml for a documentation of the format
 fr:
   gedviz:
-    language_name: English
+    language_name: Français
 
     site_title: GED VIZ – Visualizing Global Economic Relations
     site_description: Avec GED VIZ, créez des visuels interactifs pour illustrer les flux économiques qui relient nations et entités.
@@ -250,7 +250,7 @@ fr:
       sources: Sources
       legend: Légende
       about_heading: Créé par GED VIZ
-      about_body: <p>Ce diaporama a été généré par <a href="https://viz.ged-project.de/" target="_blank">GED VIZ</a>, un outil virtuel vous permettant de visualiser <a href="http://www.ged-project.de/" target="_blank">les dynamiques économiques internationales </a>. Pour plus d’informations concernant cet outil (dossier de presse, FAQ et contacs) ainsi qu’un tutoriel, veuillez consulter <a href="http://www.ged-project.de/viz" target="_blank">www.ged-project.de/viz</a>.</p>
+      about_body: <p>Ce diaporama a été généré par <a href="https://viz.ged-project.de/" target="_blank">GED VIZ</a>, un outil virtuel vous permettant de visualiser <a href="http://www.ged-project.de/" target="_blank">les dynamiques économiques internationales </a>. Pour plus d’informations concernant cet outil (dossier de presse, FAQ et contacs) ainsi qu’un tutoriel, veuillez consulter <a href="http://ged-project.de/category/viz/" target="_blank">ged-project.de</a>.</p>
       partners_heading: Crédits
       partners_body: "<p>Developpeur du logiciel: 9elements<br>Concept de la visualisation et design de l'IU: Raureif and Prof. Boris Müller<br>Support de données: Prognos</p><p>Aux développeurs: GED VIZ est un logiciel open source et <a href='https://github.com/bertelsmannstift/GED-VIZ' target='_blank'>disponible sur GitHub</a>.</p>"
       outdated_data_heading: Une mise à jour des données est désormais disponible
@@ -281,7 +281,7 @@ fr:
       tendency: "Les flèches renseignent sur les changements de valeur d’une année sur l’autre (i) dans le cas de valeurs absolues, elles expriment une évolution relative (ii) dans le cas de pourcentages, les flèches donnent une différence en point de pourcentage."
       maximum_size: taille max.
       exchange_rate: Taux de change
-      eur_currency: "Donnée d’origine en US-$. Taux de change moyen en %{year}: $1 = €%{usd_in_eur_current}. Pour des prix constants (base 2005): $1 = €%{usd_in_eur_constant}."
+      eur_currency: "Donnée d’origine en US-$. Taux de change moyen en %{year}: $1 = €%{usd_in_eur_current}. Pour des prix constants (base 2010): $1 = €%{usd_in_eur_constant}."
 
     sources:
       # Bilateral data
@@ -397,12 +397,12 @@ fr:
         with_value_html: <span class='unit'>$</span><span class='value'>%{number}</span><span class='suffix'> M</span>
       bln_real_dollars:
         short: milliard(s) $
-        full: milliard(s) US-$ (prix courants, base 2005)
+        full: milliard(s) US-$ (prix courants, base 2010)
         with_value: "%{number} Mrd $"
         with_value_html: <span class='unit'>$</span><span class='value'>%{number}</span><span class='suffix'> Mrd</span>
       real_dollars_per_capita:
         short: $ p.h.
-        full: US-$ par habitant (prix constants, base 2005)
+        full: US-$ par habitant (prix constants, base 2010)
         with_value: "$ %{number} p.h."
         with_value_html: <span class='unit'>$</span><span class='value'>%{number}</span><span class='suffix'> p.h.</span>
 
@@ -418,12 +418,12 @@ fr:
         with_value_html: <span class='unit'>€</span><span class='value'>%{number}</span><span class='suffix'> M</span>
       bln_real_euros:
         short: milliard(s) €
-        full: milliard(s) EUR (prix constants, base 2005)
+        full: milliard(s) EUR (prix constants, base 2010)
         with_value: € %{number} Mrd
         with_value_html: <span class='unit'>€</span><span class='value'>%{number}</span><span class='suffix'> Mrd</span>
       real_euros_per_capita:
         short: € p.h.
-        full: EUR par habitant (prix constants, base 2005)
+        full: EUR par habitant (prix constants, base 2010)
         with_value: € %{number} p.h.
         with_value_html: <span class='unit'>€</span><span class='value'>%{number}</span><span class='suffix'> p.h.</span>
 
@@ -620,29 +620,6 @@ fr:
       cancel_button: Annuler
       close_dialog: Fermer
 
-    # Main Editor Navigation
-    navigation:
-      home:
-        name: Accueil
-        description: Global Economic Dynamics
-        href: http://www.ged-project.de/
-      shorts:
-        name: Shorts
-        description: Stories, videos, visualisations
-        href: http://www.ged-project.de/shorts/
-      studies:
-        name: Etudes
-        description: Aperçus et documents à télécharger
-        href: http://www.ged-project.de/studies/
-      viz:
-        name: VIZ
-        description: Create visualizations
-        href: http://www.ged-project.de/viz/
-      about:
-        name: A propos du GED
-        description: ""
-        href: http://www.ged-project.de/about/
-
     # Editor introduction dialog
     introduction_dialog:
       introduction: Introduction
@@ -652,12 +629,12 @@ fr:
       welcome_p2: Regardez la vidéo pour profiter d’un tutoriel. Des remarques ? Une question ? Donnez-nous votre avis !
       watch_tutorial: Regarder le tutoriel
       feedback: Donnez-nous votre avis
-      feedback_url: http://www.ged-project.de/contact/
+      feedback_url: https://www.bertelsmann-stiftung.de/de/ueber-uns/wer-wir-sind/ansprechpartner/mitarbeiter/cid/jan-arpe/
       start_tool: Commencer à utilizer GED VIZ
       what_is_it_heading: "GED: le projet"
       what_is_it_body: <p>GED VIZ fait partie du <a href="http://www.ged-project.de/" target="_blank">projet Global Economic Dynamics (GED)</a>. Ce projet a pour but de contribuer à une meilleure compréhension d’un univers économique aux mécanismes de plus en plus complexes, et ce à travers des analyses, des visuels ou encore des recommandations adressées aux décideurs. Le projet se concentre sur les relations, échanges et dépendances qui lient et relient les pays autour du globe.</p>
       in_action_heading: Documentation supplémentaire
-      in_action_body: <p>Vous trouverez des informations supplémentaires (vidéos, dossiers / communiqués de presse et démonstrations) à l’adresse <a href="http://www.ged-project.de/viz/" target="_blank">www.ged-project.de/viz/</a>.</p>
+      in_action_body: <p>Vous trouverez des informations supplémentaires (vidéos, dossiers / communiqués de presse et démonstrations) à l’adresse <a href="http://ged-project.de/category/viz/" target="_blank">ged-project.de</a>.</p>
       version_history_heading: Changer l’historique
       version_history_body: <p>Nous mettons régulièrement à jour les bases de données permettant de générer les visuels de GED VIZ. <a href="/versions" target="_blank">Consulter l'historique des versions</a>.</p>
       partners_heading: Crédits

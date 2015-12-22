@@ -1,9 +1,8 @@
-define [
-  'underscore'
-  'jquery'
-  'models/country_factory'
-], (_, $, CountryFactory) ->
+define (require) ->
   'use strict'
+  _ = require 'underscore'
+  $ = require 'jquery'
+  CountryFactory = require 'models/country_factory'
 
   # Send request and return a Promise
   send: (options) ->

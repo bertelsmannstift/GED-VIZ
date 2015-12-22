@@ -40,7 +40,12 @@ class CountryImporter < Importer
 
 GROUPNAMES = %w(OECD EU Eurozone BRIC)
 
-# x means that the country is part of the groups above
+# Prognos country codes (Prognos -> ISO 3166 Alpha-3):
+# South Africa: ZFA -> ZAF
+# China CHI -> CHN
+# Romania ROM -> ROU
+
+  # x means that the country is part of the groups above
 COUNTRY_CSV = CSV.parse(<<-CSV, col_sep: "\t")
 Australia	AUS	x
 Austria	AUT	x	x	x

@@ -1,13 +1,15 @@
-define [
-  'underscore'
-  'lib/utils'
-  'lib/i18n'
-  'lib/type_data'
-], (_, utils, I18n, TypeData) ->
+define (require) ->
   'use strict'
+  _ = require 'underscore'
+  utils = require 'lib/utils'
+  I18n = require 'lib/i18n'
+  TypeData = require 'lib/type_data'
 
   t = I18n.t
   dataTypes = TypeData.data_types
+  tType = _.partial t, 'data_type'
+  tShort = _.partial t, 'data_type_short'
+  tAdditional = _.partial t, 'data_type_additional'
 
   {
     # Returns the translated type with it’s sub-type, if applicable
@@ -16,16 +18,16 @@ define [
       parentKey = dataTypes[key].parent
       if parentKey?
         # Has parent
-        "#{t('data_type', parentKey)} (#{t('data_type_short', key)})"
+        "#{tType(parentKey)} (#{tShort(key)})"
       else if _.some(dataTypes, (e) -> e.parent is key)
         # Is parent
-        "#{t('data_type', key)} (#{t('data_type_short', key)})"
+        "#{tType(key)} (#{tShort(key)})"
       else
-        "#{t('data_type_short', key)}"
+        "#{tShort(key)}"
 
     shortOptionalType: (key) ->
       if dataTypes[key].parent?
-        " (#{t('data_type_short', key)})"
+        " (#{tShort(key)})"
       else
         ''
 
@@ -35,16 +37,16 @@ define [
       parentKey = dataTypes[key].parent
       if parentKey?
         # Has parent
-        "#{t('data_type', parentKey)} (#{t('data_type_additional', key)})"
+        "#{tType(parentKey)} (#{tAdditional(key)})"
       else if _.some(dataTypes, (e) -> e.parent is key)
         # Is parent
-        "#{t('data_type', key)} (#{t('data_type_additional', key)})"
+        "#{tType(key)} (#{tAdditional(key)})"
       else
-        "#{t('data_type_short', key)}"
+        "#{tShort(key)}"
 
     additionalOptionalType: (key) ->
       if dataTypes[key].parent?
-        " (#{t('data_type_additional', key)})"
+        " (#{tAdditional(key)})"
       else
         ''
   }

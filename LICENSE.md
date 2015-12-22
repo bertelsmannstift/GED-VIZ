@@ -48,15 +48,17 @@ the GED VIZ software. You must not publish or redistribute these files.
 
 “Bertelsmann Stiftung” and “GED VIZ” as well as the logos are trademarks of
 the Bertelsmann Stiftung. If you install this software on an Internet or
-Intranet web server, you have to replace these trademarks and logo in the user
+Intranet web server, please replace these trademarks and logos in the user
 interface.
 
 To replace the trademarks in the source code, search for the strings
 “Bertelsmann Stiftung” and “GED VIZ” in `*.haml`, `*.hamlc` and `*.yml` files.
 Also replace these logos:
 
-- `app/assets/images/bertelsmann-foundation-logo*.*`
-- `app/assets/images/ged-logo*.*`
+- `app/assets/images/bertelsmann-foundation-logo*.svg`
+- `app/assets/images/bertelsmann-foundation-logo*.png`
+- `app/assets/images/ged-logo*.svg`
+- `app/assets/images/ged-logo*.png`
 
 # Fonts
 

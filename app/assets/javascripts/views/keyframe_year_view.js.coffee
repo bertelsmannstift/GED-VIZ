@@ -1,13 +1,12 @@
-define [
-  'underscore'
-  'jquery'
-  'models/bubble'
-  'views/base/view'
-  'views/bubble_view'
-  'lib/i18n'
-  'lib/number_formatter'
-], (_, $, Bubble, View, BubbleView, I18n, numberFormatter) ->
+define (require) ->
   'use strict'
+  _ = require 'underscore'
+  $ = require 'jquery'
+  Bubble = require 'models/bubble'
+  View = require 'views/base/view'
+  BubbleView = require 'views/bubble_view'
+  I18n = require 'lib/i18n'
+  numberFormatter = require 'lib/number_formatter'
 
   class KeyframeYearView extends View
 

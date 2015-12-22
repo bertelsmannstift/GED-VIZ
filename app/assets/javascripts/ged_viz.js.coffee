@@ -1,16 +1,12 @@
-define [
-  'jquery'
-  'chaplin'
-  'routes'
-  # Require base controllers manually because
-  # they aren’t compiled individually
-  'controllers/editor_controller'
-  'controllers/player_controller'
-  'controllers/static_controller'
-  # Require dummy console
-  'lib/dummy_console'
-], ($, Chaplin, routes) ->
+define (require) ->
   'use strict'
+  $ = require 'jquery'
+  Chaplin = require 'chaplin'
+  routes = require 'routes'
+  require 'controllers/editor_controller'
+  require 'controllers/player_controller'
+  require 'controllers/static_controller'
+  require 'lib/dummy_console'
 
   # The application object
   class GedViz extends Chaplin.Application

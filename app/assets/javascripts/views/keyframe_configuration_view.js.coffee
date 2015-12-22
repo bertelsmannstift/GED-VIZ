@@ -1,10 +1,9 @@
-define [
-  'views/base/view'
-  'views/keyframe_configuration/data_view'
-  'views/keyframe_configuration/indicators_view'
-  'views/keyframe_configuration/countries_view'
-], (View, DataView, IndicatorsView, CountriesView) ->
+define (require) ->
   'use strict'
+  View = require 'views/base/view'
+  DataView = require 'views/keyframe_configuration/data_view'
+  IndicatorsView = require 'views/keyframe_configuration/indicators_view'
+  CountriesView = require 'views/keyframe_configuration/countries_view'
 
   class KeyframeConfigurationView extends View
 

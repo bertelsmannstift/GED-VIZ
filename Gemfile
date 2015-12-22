@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 source 'https://rubygems.org'
 
-gem 'rails', '~> 3.2.21'
+gem 'rails', '~> 3.2.22'
 gem 'haml'
-gem 'mysql2'
+gem 'mysql2', '0.3.10'
 
 # Needs to be outside of assets group because it’s needed in production
 # Use a patched version with an updated r.js file
@@ -19,7 +19,7 @@ group :assets do
   gem 'sass-rails'
   # Lock old version because of several bugs
   # e.g. https://github.com/netzpirat/haml_coffee_assets/issues/121
-  gem 'haml_coffee_assets', '1.13.2'
+  gem 'haml_coffee_assets', path: 'vendor/gems/haml_coffee_assets-1.13.2'
   # Explicitly lock tilt to avoid clashes with Rails
   # see https://github.com/netzpirat/haml_coffee_assets/issues/118
   gem 'tilt', '~> 1.3.3'
@@ -36,9 +36,6 @@ group :development do
   #gem 'ruby-debug'
   #gem 'ruby-debug-ide'
   gem 'byebug'
-  gem 'guard'
-  gem 'guard-coffeescript'
-  gem 'guard-livereload'
   gem 'rb-fsevent'
   gem 'capistrano', '~> 2.15.5'
 end

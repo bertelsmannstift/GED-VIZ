@@ -1,14 +1,13 @@
-define [
-  'underscore'
-  'jquery'
-  'configuration'
-  'chaplin/lib/sync_machine'
-  'models/base/model'
-  'models/keyframe'
-  'models/keyframes'
-  'lib/local_storage'
-], (_, $, configuration, SyncMachine, Model, Keyframe, Keyframes, LocalStorage) ->
+define (require) ->
   'use strict'
+  _ = require 'underscore'
+  $ = require 'jquery'
+  configuration = require 'configuration'
+  SyncMachine = require 'chaplin/lib/sync_machine'
+  Model = require 'models/base/model'
+  Keyframe = require 'models/keyframe'
+  Keyframes = require 'models/keyframes'
+  LocalStorage = require 'lib/local_storage'
 
   class Presentation extends Model
 

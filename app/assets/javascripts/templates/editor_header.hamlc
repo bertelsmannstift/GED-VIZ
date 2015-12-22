@@ -1,19 +1,16 @@
-%h1(title='Global Economic Dynamics (GED) Visualizer')
+%h1.logo.ged-logo(title='Global Economic Dynamics (GED) Visualizer')
   Global Economic Dynamics (GED) Visualizer
 
-%h2(title='Bertelsmann Stiftung')
-  Bertelsmann Stiftung
+%p.bertelsmann-foundation-logo-container
+  %a.logo.bertelsmann-foundation-logo(href='http://www.bertelsmann-stiftung.de/' target='_blank' title='Bertelsmann Stiftung')
+    Bertelsmann Stiftung
 
 %nav
 
-  %ul.navigation
-    - for item in @items
-      %li{ class: (if item.selected then 'selected' else false) }
-        - href = @t('navigation', item.key, 'href') or false
-        %a{ href: href, class: (if item.prefix then 'prefixed' else null) }
-          - if item.prefix
-            %span.prefix GED
-          %span.main= @t 'navigation', item.key, 'name'
+  %p.open-introduction
+    %a(href='')
+      %span.help-icon ?
+      = @t 'introduction_dialog', 'introduction'
 
   %ul.language-switch
     - for locale in @locales
@@ -23,6 +20,3 @@
         - else
           %a{ href: "?lang=#{locale}", class: 'noscript', data: { locale: locale } }<
             = locale
-
-  %p.open-introduction
-    %a(href='') ?

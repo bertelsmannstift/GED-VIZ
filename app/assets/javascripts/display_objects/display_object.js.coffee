@@ -1,9 +1,8 @@
-define [
-  'underscore'
-  'backbone'
-  'lib/states'
-], (_, Backbone, States) ->
+define (require) ->
   'use strict'
+  _ = require 'underscore'
+  Backbone = require 'backbone'
+  States = require 'lib/states'
 
   # Shortcuts
   # ---------

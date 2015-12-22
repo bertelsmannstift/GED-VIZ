@@ -1,19 +1,15 @@
-define [
-  'underscore'
-  'jquery'
-  'raphael'
-  'display_objects/display_object'
-  'display_objects/indicator_visualization'
-  'lib/colors'
-  'lib/i18n'
-  'lib/number_formatter'
-  'lib/scale'
-  'lib/type_data'
-], (
-  _, $, Raphael, DisplayObject, IndicatorVisualization,
-  Colors, I18n, numberFormatter, scale, TypeData
-) ->
+define (require) ->
   'use strict'
+  _ = require 'underscore'
+  $ = require 'jquery'
+  Raphael = require 'raphael'
+  DisplayObject = require 'display_objects/display_object'
+  IndicatorVisualization = require 'display_objects/indicator_visualization'
+  Colors = require 'lib/colors'
+  I18n = require 'lib/i18n'
+  numberFormatter = require 'lib/number_formatter'
+  scale = require 'lib/scale'
+  TypeData = require 'lib/type_data'
 
   {t, template} = I18n
 

@@ -1,22 +1,16 @@
-define [
-  'models/base/collection'
-  'models/country_group'
-  'models/bubble'
-  'views/base/view'
-  'views/bubble_view'
-  'views/keyframe_configuration/available_country_groups_view'
-  'views/keyframe_configuration/available_countries_view'
-  'views/keyframe_configuration/sort_countries_view'
-  'lib/i18n'
-  'lib/sort_countries_request'
-  'lib/type_data'
-], (
-  Collection, CountryGroup, Bubble,
-  View, BubbleView, AvailableCountryGroupsView, AvailableCountriesView,
-  SortCountriesView,
-  I18n, SortCountriesRequest, TypeData
-) ->
+define (require) ->
   'use strict'
+  Collection = require 'models/base/collection'
+  CountryGroup = require 'models/country_group'
+  Bubble = require 'models/bubble'
+  View = require 'views/base/view'
+  BubbleView = require 'views/bubble_view'
+  AvailableCountryGroupsView = require 'views/keyframe_configuration/available_country_groups_view'
+  AvailableCountriesView = require 'views/keyframe_configuration/available_countries_view'
+  SortCountriesView = require 'views/keyframe_configuration/sort_countries_view'
+  I18n = require 'lib/i18n'
+  SortCountriesRequest = require 'lib/sort_countries_request'
+  TypeData = require 'lib/type_data'
 
   class CountryPickerView extends View
 

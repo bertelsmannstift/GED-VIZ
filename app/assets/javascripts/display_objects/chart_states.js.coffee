@@ -1,8 +1,7 @@
-define [
-  'underscore'
-  'chaplin/mediator'
-], (_, mediator) ->
+define (require) ->
   'use strict'
+  _ = require 'underscore'
+  mediator = require 'chaplin/mediator'
 
   # These methods are mixed into Chart
   # ----------------------------------

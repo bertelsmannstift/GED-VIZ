@@ -1,8 +1,7 @@
-define [
-  'views/base/view'
-  'lib/support'
-], (View, support) ->
+define (require) ->
   'use strict'
+  View = require 'views/base/view'
+  support = require 'lib/support'
 
   class LoadingIndicatorView extends View
     autoRender: true

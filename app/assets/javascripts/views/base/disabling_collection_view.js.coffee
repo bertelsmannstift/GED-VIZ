@@ -1,7 +1,6 @@
-define [
-  'views/base/collection_view'
-], (CollectionView) ->
+define (require) ->
   'use strict'
+  CollectionView = require 'views/base/collection_view'
 
   # A collection view that adds an enabled/disabled class
   # to item views depending on their filter status.

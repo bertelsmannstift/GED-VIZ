@@ -1,11 +1,10 @@
-define [
-  'underscore'
-  'views/base/view'
-  'lib/i18n'
-  'lib/utils'
-  'lib/number_formatter'
-], (_, View, I18n, utils, numberFormatter) ->
+define (require) ->
   'use strict'
+  _ = require 'underscore'
+  View = require 'views/base/view'
+  I18n = require 'lib/i18n'
+  utils = require 'lib/utils'
+  numberFormatter = require 'lib/number_formatter'
 
   {t, template, joinList} = I18n
 

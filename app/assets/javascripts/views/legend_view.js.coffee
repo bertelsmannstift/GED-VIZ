@@ -1,16 +1,14 @@
-define [
-  'underscore'
-  'configuration'
-  'views/base/view'
-  'lib/colors'
-  'lib/magnet_colors'
-  'lib/currency'
-  'lib/i18n'
-  'lib/number_formatter'
-  'lib/type_data'
-], (_, configuration, View, Colors, magnetColors, Currency, I18n, numberFormatter,
-    TypeData) ->
+define (require) ->
   'use strict'
+  _ = require 'underscore'
+  configuration = require 'configuration'
+  View = require 'views/base/view'
+  Colors = require 'lib/colors'
+  magnetColors = require 'lib/magnet_colors'
+  Currency = require 'lib/currency'
+  I18n = require 'lib/i18n'
+  numberFormatter = require 'lib/number_formatter'
+  TypeData = require 'lib/type_data'
 
   t = I18n.t
 
@@ -18,7 +16,6 @@ define [
   REPRESENTATIONS = [
     'absolute'
     'percent'
-    'ranking'
   ]
 
   # Constants

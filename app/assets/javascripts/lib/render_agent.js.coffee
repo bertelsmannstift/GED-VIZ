@@ -1,9 +1,9 @@
-define [
-  'display_objects/chart'
-  'views/legend_view'
-  'lib/i18n'
-  'lib/utils'
-], (Chart, LegendView, I18n, utils) ->
+define (require) ->
+  'use strict'
+  Chart = require 'display_objects/chart'
+  LegendView = require 'views/legend_view'
+  I18n = require 'lib/i18n'
+  utils = require 'lib/utils'
 
   # Manages communication between Phantom.js and the chart
   class RenderAgent

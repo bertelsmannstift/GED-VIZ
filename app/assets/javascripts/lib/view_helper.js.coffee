@@ -1,10 +1,9 @@
-define [
-  'underscore'
-  'lib/utils'
-  'lib/i18n'
-  'lib/type_text_helper'
-], (_, utils, I18n, TypeTextHelper) ->
+define (require) ->
   'use strict'
+  _ = require 'underscore'
+  utils = require 'lib/utils'
+  I18n = require 'lib/i18n'
+  TypeTextHelper = require 'lib/type_text_helper'
 
   # View helpers
   # ------------

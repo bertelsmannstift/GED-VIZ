@@ -1,7 +1,6 @@
 class Unit < ActiveRecord::Base
   ABSOLUTE     = 0
   PROPORTIONAL = 1
-  RANKING      = 2
 
   has_and_belongs_to_many :data_types, uniq: true
   has_and_belongs_to_many :indicator_types, uniq: true

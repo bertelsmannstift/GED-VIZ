@@ -49,10 +49,12 @@ conversions:
 
   # Exchange rates from USA to EUR
   # Yearly average
+  # From the Dataset: Exchange Rates and PPPs by Country, Indicator and Year
+  # Indicator: Exchange Rate, NCU per US$
   # Source: UNECE Statistical Database, compiled from national and
-  # international (EUROSTAT and IMF) official sources.
-  # http://w3.unece.org/pxweb/dialog/varval.asp?ma=30_MECCExchPPPsNEWY_r&path=../database/STAT/20-ME/6-MEER/&lang=1&ti=Exchange+Rates+and+PPPs+by+Country%2C+Indicator+and+Year
-  # Also available in the Prognos_out_unilateral_*.csv file.
+  # international (CIS, EUROSTAT, IMF, OECD, World Bank) official sources.
+  # http://w3.unece.org/PXWeb2015/sq/8449ee86-d30f-44d7-a31b-68ec414837c3
+  # http://w3.unece.org/PXWeb2015/pxweb/en/STAT/STAT__20-ME__6-MEER/30_en_MECCExchPPPsNEWY_r.px/table/tableViewLayout1/
   - rule:
     from:
       - bln_current_dollars
@@ -75,3 +77,4 @@ conversions:
       2011: 0.7184
       2012: 0.7783
       2013: 0.7530
+      2014: 0.7527

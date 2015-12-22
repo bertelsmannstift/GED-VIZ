@@ -1,0 +1,21 @@
+language: ruby
+rvm:
+  - 1.9.2
+  - 1.9.3
+  - 2.0.0
+  - ruby-head
+  - jruby-19mode
+  - jruby-head
+  - rbx-19mode
+matrix:
+  allow_failures:
+    - rvm: ruby-head
+    - rvm: jruby-head
+    - rvm: rbx-19mode
+branches:
+  only:
+    - master
+script: 'rake spec && bundle exec guard-jasmine'
+notifications:
+  recipients:
+    - michi@netzpiraten.ch

@@ -1,7 +1,6 @@
-define [
-  'lib/utils'
-], (utils) ->
+define (require) ->
   'use strict'
+  utils = require 'lib/utils'
 
   # Simple state management
   # -----------------------

@@ -25,11 +25,12 @@
     border-top-right-radius: 3px
     padding: 0 10px
     cursor: pointer
-    color: black
+    color: white
+
     &:hover
-      background-color: #999
+      background-color: $highlight-color-dark-bg
 
   li.active label
-    color: black
     font-weight: 600
+    color: black
     +bg-gradient(white, $dialog-background-color)

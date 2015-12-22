@@ -1,9 +1,8 @@
-define [
-  'underscore'
-  'chaplin'
-  'lib/utils'
-], (_, Chaplin, utils) ->
+define (require) ->
   'use strict'
+  _ = require 'underscore'
+  Chaplin = require 'chaplin'
+  utils = require 'lib/utils'
 
   # Application-specific feature detection
   # --------------------------------------

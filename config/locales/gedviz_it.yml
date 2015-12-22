@@ -242,7 +242,7 @@ it:
       vegetables: Prodotti ortofrutticoli
 
     data_type_short:
-      import: Commercio dei beni
+      import: Tutti
       migration: Migrazioni
       claims: Crediti bancari
       beer: Birra
@@ -315,7 +315,7 @@ it:
       sources: Fonti
       legend: Legenda
       about_heading: Realizzata con GED VIZ
-      about_body: <p>Questa slideshow è stata generata con <a href="https://viz.ged-project.de/" target="_blank">GED VIZ</a>, uno strumento virtuale che permette di visualizzare <a href="http://www.ged-project.de/" target="_blank">le Dinamiche Economiche Globali (GED)</a>. Per maggiori informazioni su tale strumento, inclusi il tutorial, la sezione FAQ, il materiale di stampa e i contatti, si prega di consultare il sito <a href="http://www.ged-project.de/viz" target="_blank">www.ged-project.de/viz</a>.</p>
+      about_body: <p>Questa slideshow è stata generata con <a href="https://viz.ged-project.de/" target="_blank">GED VIZ</a>, uno strumento virtuale che permette di visualizzare <a href="http://www.ged-project.de/" target="_blank">le Dinamiche Economiche Globali (GED)</a>. Per maggiori informazioni su tale strumento, inclusi il tutorial, la sezione FAQ, il materiale di stampa e i contatti, si prega di consultare il sito <a href="http://ged-project.de/category/viz/" target="_blank">ged-project.de</a>.</p>
       partners_heading: Crediti
       partners_body: "<p>Sviluppo del software: 9elements<br>Concetto di visualizzazione e design dell'interfaccia utente: Raureif e Prof. Boris Müller<br>Supporto dati: Prognos</p><p>Per gli sviluppatori: GED VIZ è un software open source <a href='https://github.com/bertelsmannstift/GED-VIZ' target='_blank'>disponibile su GitHub</a>.</p>"
       outdated_data_heading: Aggiornamento dei dati disponibile
@@ -345,14 +345,12 @@ it:
         absolute: Il diametro di ogni bolla è proporzionale al valore dell'indicatore per un dato paese, rispetto al valore che lo stesso indicatore assume negli altri paesi visualizzati.
         # Relative values (e.g. percent) are visualized using a ring / pie chart.
         percent: La parte del cerchio in grassetto indica un valore percentuale.
-        # Ranking values (e.g. rank 5) are visualized using a circle with a number in it.
-        ranking: La bolla stabilisce una gerarchia tra tutti i paesi del mondo.
       # Tendency arrows up, right, down
       tendency: "Le frecce indicano i cambiamenti rispetto al valore dell'anno precedente (i) nel caso di valori assoluti esse esprimono un cambiamento relativo (ii) in caso di valori percentuali, esse esprimono una differenza in punti percentuali."
       maximum_size: dimensione massima
       # Currency exchange rate us Dollar / Euro
       exchange_rate: Tasso di cambio
-      eur_currency: "Dati originali in US-$. Tasso di cambio medio nel %{year}: $1 = €%{usd_in_eur_current}. Per prezzi costanti (base 2005): $1 = €%{usd_in_eur_constant}."
+      eur_currency: "Dati originali in US-$. Tasso di cambio medio nel %{year}: $1 = €%{usd_in_eur_current}. Per prezzi costanti (base 2010): $1 = €%{usd_in_eur_constant}."
 
     # The sources consist of a name and a link / URL,
     # separated by a semicolon “;”
@@ -475,12 +473,12 @@ it:
         with_value_html: <span class='unit'>$</span><span class='value'>%{number}</span><span class='suffix'>Mio</span>
       bln_real_dollars:
         short: miliardo (i) $
-        full: miliardo (i) US-$ (prezzi costanti, base 2005)
+        full: miliardo (i) US-$ (prezzi costanti, base 2010)
         with_value: $ %{number}Mrd
         with_value_html: <span class='unit'>$</span><span class='value'>%{number}</span><span class='suffix'>Mrd</span>
       real_dollars_per_capita:
         short: $ p.c.
-        full: US-$ pro capite (prezzi costanti, base 2005)
+        full: US-$ pro capite (prezzi costanti, base 2010)
         with_value: "$ %{number} p.c."
         with_value_html: <span class='unit'>$</span><span class='value'>%{number}</span><span class='suffix'> p.c.</span>
 
@@ -496,12 +494,12 @@ it:
         with_value_html: <span class='unit'>€</span><span class='value'>%{number}</span><span class='suffix'>Mio</span>
       bln_real_euros:
         short: miliardo (i) €
-        full: miliardo (i) EUR (prezzi costanti, base 2005)
+        full: miliardo (i) EUR (prezzi costanti, base 2010)
         with_value: € %{number}Mrd
         with_value_html: <span class='unit'>€</span><span class='value'>%{number}</span><span class='suffix'>Mrd</span>
       real_euros_per_capita:
         short: € p.c.
-        full: EUR pro capite (prezzi costanti, base 2005)
+        full: EUR pro capite (prezzi costanti, base 2010)
         with_value: "€ %{number} p.c."
         with_value_html: <span class='unit'>€</span><span class='value'>%{number}</span><span class='suffix'> p.c.</span>
 
@@ -596,7 +594,7 @@ it:
         capture: Cliccare per aggiungere questa rappresentazione grafica alla slideshow.
         rename_slide: Cliccare sul titolo per rinominare la diapositiva corrente.
         # Indicator tooltip
-        # Example: GDP / Gross Domestic Product / in billion US-$ (constant prices, base 2005)
+        # Example: GDP / Gross Domestic Product / in billion US-$ (constant prices, base 2010)
         indicator_exp: <span class='bubble-acronym'>%{acronym}</span><span class='bubble-description'>%{description}</span><span class='bubble-unit'>in %{unit}</span>
         # Country list actions. ${name} refers to the country name.
         # Example: “Click to select France, drag and drop to reorder.”
@@ -731,29 +729,6 @@ it:
       cancel_button: Cancella
       close_dialog: Chiudi
 
-    # Main editor navigation at the top
-    navigation:
-      home:
-        name: Home
-        description: Global Economic Dynamics
-        href: http://www.ged-project.de/
-      shorts:
-        name: Shorts
-        description: Storie, video, visualizzazioni
-        href: http://www.ged-project.de/shorts/
-      studies:
-        name: Studi
-        description: Sintesi e documenti da scaricare
-        href: http://www.ged-project.de/studies/
-      viz:
-        name: VIZ
-        description: Crea rappresentazioni grafiche
-        href: http://www.ged-project.de/viz/
-      about:
-        name: Info su GED
-        description: ""
-        href: http://www.ged-project.de/about/
-
     # Editor introduction dialog
     # This dialog is shown when the user clicks on the (I) info button
     # in the main navigation.
@@ -765,12 +740,12 @@ it:
       welcome_p2: Guarda il video per vedere il suo funzionamento. Domande o osservazioni? Inviaci i tuoi commenti!
       watch_tutorial: Guarda il tutorial
       feedback: Commenti
-      feedback_url: http://www.ged-project.de/contact/
+      feedback_url: https://www.bertelsmann-stiftung.de/de/ueber-uns/wer-wir-sind/ansprechpartner/mitarbeiter/cid/jan-arpe/
       start_tool: Avvia GED VIZ
       what_is_it_heading: Il progetto GED
       what_is_it_body: <p>GED VIZ fa parte di un <a href="http://www.ged-project.de/" target="_blank">progetto Global Economic Dynamics (GED)</a>. Lo scopo del progetto è di contribuire ad una migliore comprensione di un universo economico caratterizzato da meccanismi sempre più complessi attraverso analisi, rappresentazioni grafiche o raccomandazioni rivolte agli organismi dotati di potere decisionale. Il progetto si concentra sulle relazioni, gli scambi e i rapporti di dipendenza tra i paesi del mondo.</p>
       in_action_heading: Materiale aggiuntivo
-      in_action_body: <p>Per ulteriori informazioni, compresi video, link, articoli e comunicati stampa consultare il sito web <a href="http://www.ged-project.de/viz/" target="_blank">www.ged-project.de/viz/</a>.</p>
+      in_action_body: <p>Per ulteriori informazioni, compresi video, link, articoli e comunicati stampa consultare il sito web <a href="http://ged-project.de/category/viz/" target="_blank">ged-project.de</a>.</p>
       version_history_heading: Modificare la cronologia
       version_history_body: <p>I dati che permettono di generare le rappresentazioni grafiche sono aggiornati regolarmente. <a href="/versions" target="_blank">Consultare la cronologia delle versioni dei dati</a>.</p>
       partners_heading: Crediti

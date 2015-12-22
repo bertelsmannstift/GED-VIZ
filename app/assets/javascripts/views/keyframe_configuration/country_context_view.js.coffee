@@ -1,14 +1,13 @@
-define [
-  'jquery'
-  'models/base/model'
-  'models/bubble'
-  'views/base/view'
-  'views/bubble_view'
-  'views/prompt_view'
-  'lib/i18n'
-  'lib/type_data'
-], ($, Model, Bubble, View, BubbleView, PromptView, I18n, TypeData) ->
+define (require) ->
   'use strict'
+  $ = require 'jquery'
+  Model = require 'models/base/model'
+  Bubble = require 'models/bubble'
+  View = require 'views/base/view'
+  BubbleView = require 'views/bubble_view'
+  PromptView = require 'views/prompt_view'
+  I18n = require 'lib/i18n'
+  TypeData = require 'lib/type_data'
 
   class CountryContextView extends View
 
@@ -78,8 +77,9 @@ define [
       @$('.options').show()
 
     # Enable/disable buttons according to the used and selected countries
-    update: (@selectedCountries, usedCountries) ->
+    update: (selectedCountries, usedCountries) ->
       countriesUsed = usedCountries.length > 0
+      @selectedCountries = selectedCountries
       countriesSelected = selectedCountries.length > 0
       multipleSelected = selectedCountries.length > 1
       allSelected = selectedCountries.length is usedCountries.length

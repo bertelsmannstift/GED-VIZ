@@ -3,7 +3,10 @@ require 'currency_converter'
 class DataValueImporter < Importer
 
   # The main import files
-  INPUT_FILENAMES = ['Prognos_out_bilateral-2014-06-11.csv', 'comtrade_bilateral_2014-06-11.csv']
+  INPUT_FILENAMES = [
+    'Prognos_out_bilateral_2015-10-28.csv',
+    'Prognos_out_trade_bilateral_2015-10-28.csv'
+  ]
 
   attr_reader :country_id_by_iso3,
               :type_id_by_name, :type_key_by_id,
@@ -11,7 +14,7 @@ class DataValueImporter < Importer
 
   def setup
     @country_id_by_iso3 ||= Hash.new do |hash, iso3|
-      hash[iso3] = Country.find_by_iso3!(iso3).id
+      hash[iso3] = Country.find_by_iso3(iso3).try(:id)
     end
 
     @type_id_by_name ||= Hash.new do |hash, name|
@@ -45,52 +48,57 @@ class DataValueImporter < Importer
 
     INPUT_FILENAMES.each do |input_filename|
       puts "process CSV: #{input_filename}"
-      last_type_name = ''
       file = folder.join(input_filename)
       CSV.foreach(file, headers: true, return_headers: false, col_sep: ';') do |row|
-        # Land;Partner;Variable;Einheit;Jahr;Wert;
-        # ARG;World;Import;Mrd. US-$;2000;25.3;
-        break unless row[0] and row[1]
-
-        to_iso3 = row[0].downcase
-        from_iso3 = row[1].downcase
-        next if from_iso3 == '' || to_iso3 == ''
-
-        # Ignore empty sums
-        next if from_iso3 == 'world' || from_iso3 == 'total'
-
-        type_name = row[2]
-        unit_name = row[3]
-
-        year = row[4]
-        value = row[5].gsub(',', '.').to_f
-
-        record = {
-          year:            year,
-          data_type_id:    type_id_by_name[type_name],
-          unit_id:         unit_id_by_name[unit_name],
-          country_from_id: country_id_by_iso3[from_iso3],
-          country_to_id:   country_id_by_iso3[to_iso3],
-          value:           value
-        }
-
-        begin
-          import_value(record)
-        rescue => e
-          puts "Error importing #{row.inspect}"
-          raise e
-        end
-
-        if type_name != last_type_name
-          last_type_name = type_name
-          puts "Importing data type: #{type_name}"
-        end
-
+        result = import_row(row)
+        puts "skipping #{row}" unless result
       end
     end
   end
 
   private
+
+  def import_row(row)
+    # Land;Partner;Variable;Einheit;Jahr;Wert;
+    # ARG;World;Import;Mrd. US-$;2000;25.3;
+    return false unless row[0] and row[1]
+
+    to_iso3 = row[0].downcase
+    from_iso3 = row[1].downcase
+    return false if from_iso3 == '' || to_iso3 == ''
+
+    # Ignore empty sums
+    return false if from_iso3 == 'world' || from_iso3 == 'total'
+
+    type_name = row[2]
+    unit_name = row[3]
+
+    year = row[4]
+    value = row[5].gsub(',', '.').to_f
+
+    country_from_id = country_id_by_iso3[from_iso3]
+    country_to_id = country_id_by_iso3[to_iso3]
+
+    # Ignore unknown countries
+    return false if country_from_id.nil? || country_to_id.nil?
+
+    record = {
+      year:            year,
+      data_type_id:    type_id_by_name[type_name],
+      unit_id:         unit_id_by_name[unit_name],
+      country_from_id: country_from_id,
+      country_to_id:   country_to_id,
+      value:           value
+    }
+
+    begin
+      import_value(record)
+    rescue => e
+      puts "Error importing:\n#{row.inspect}\n#{record.inspect}"
+      raise e
+    end
+    true
+  end
 
   def import_value(record)
     record = convert_value(record)
@@ -118,7 +126,6 @@ class DataValueImporter < Importer
       # Convert from thousand persons to persons
       record[:unit_id] = unit_id_by_name['Persons']
       record[:value] = record[:value] * 1000
-      #puts "migration record #{record.inspect}"
     end
 
     record

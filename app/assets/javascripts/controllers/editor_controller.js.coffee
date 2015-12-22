@@ -1,9 +1,8 @@
-define [
-  'controllers/base/controller'
-  'models/editor'
-  'views/editor_view'
-], (Controller, Editor, EditorView) ->
+define (require) ->
   'use strict'
+  Controller = require 'controllers/base/controller'
+  Editor = require 'models/editor'
+  EditorView = require 'views/editor_view'
 
   class EditorController extends Controller
 

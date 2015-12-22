@@ -1,10 +1,9 @@
-define [
-  'jquery'
-  'views/modal_dialog_view'
-  'lib/utils'
-  'lib/support'
-], ($, ModalDialogView, utils, support) ->
+define (require) ->
   'use strict'
+  $ = require 'jquery'
+  ModalDialogView = require 'views/modal_dialog_view'
+  utils = require 'lib/utils'
+  support = require 'lib/support'
 
   class EditorIntroductionView extends ModalDialogView
 

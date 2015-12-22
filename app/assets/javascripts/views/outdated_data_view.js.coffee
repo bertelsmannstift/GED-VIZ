@@ -1,8 +1,7 @@
-define [
-  'configuration'
-  'views/modal_dialog_view'
-], (configuration, ModalDialogView) ->
+define (require) ->
   'use strict'
+  configuration = require 'configuration'
+  ModalDialogView = require 'views/modal_dialog_view'
 
   class OutdatedDataView extends ModalDialogView
 

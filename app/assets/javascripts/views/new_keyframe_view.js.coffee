@@ -1,7 +1,6 @@
-define [
-  'views/base/view'
-], (View) ->
+define (require) ->
   'use strict'
+  View = require 'views/base/view'
 
   class NewKeyframeView extends View
 

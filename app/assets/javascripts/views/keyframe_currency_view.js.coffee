@@ -1,11 +1,10 @@
-define [
-  'underscore'
-  'views/base/view'
-  'lib/currency'
-  'models/bubble'
-  'views/bubble_view'
-], (_, View, Currency, Bubble, BubbleView) ->
+define (require) ->
   'use strict'
+  _ = require 'underscore'
+  View = require 'views/base/view'
+  Currency = require 'lib/currency'
+  Bubble = require 'models/bubble'
+  BubbleView = require 'views/bubble_view'
 
   class KeyframeCurrencyView extends View
 

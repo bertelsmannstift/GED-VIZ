@@ -19,12 +19,17 @@
     float: left
     width: 33.333%
 
-    h2
-      @extend %underlined-heading
-      margin: 0 0 10px
+  header
+    @extend %clearfix
+    @extend %underlined-header
+    margin: 0 0 10px
 
-    label
-      display: block
+  h2
+    @extend %underlined-header-heading
+    float: left
+
+  label
+    display: block
 
   // First and second column
   // ---------------------
@@ -61,7 +66,7 @@
       cursor: pointer
 
       &:hover, &:focus
-        background-color: #999
+        background-color: $highlight-color-dark-bg
 
       &.active
         color: black
@@ -126,14 +131,17 @@
     position: relative
     padding: 0 10px
 
+    header
+      padding-bottom: 0
+
   // Add indicator button
   // --------------------
 
   .add-indicator
     @extend %add-button
-    position: absolute
+    float: right
+    position: relative
     top: -1px
-    right: 10px
 
     span
       @extend %off-left
@@ -240,29 +248,32 @@
       position: relative
       display: block
       border-radius: 3px
-      min-width: 230px
-      height: $used-indicator-height
+      min-height: $used-indicator-height
       padding: 1px 20px 0 5px
-      background-color: #999
+      background-color: $highlight-color-dark-bg
       line-height: $used-indicator-height - 2px
       cursor: move
       color: white
 
+    .indicator-inner
+      @extend %clearfix
+
     .abbreviation-and-description
+      @extend %border-box
+      @extend %ellipsis
       float: left
       width: 55%
       text-shadow: $text-shadow
-      white-space: nowrap
-      text-overflow: ellipsis
-      overflow: hidden
 
     .abbreviation
       font-weight: 600
 
     .unit-label
+      @extend %border-box
       @extend %button-base
+      @extend %ellipsis
       float: right
-      width: 30%
+      width: 40%
       position: relative
       box-shadow: 1px 1px 1px #6f6f6f
       margin-top: 1px
@@ -270,9 +281,6 @@
       padding: 0 20px 0 6px
       line-height: 15px
       background-color: #ccc
-      white-space: nowrap
-      text-overflow: ellipsis
-      overflow: hidden
       color: #131313
 
     .only-unit
@@ -305,8 +313,7 @@
       right: 0
       top: 0
       display: block
-      width: 19px
-      padding-right: 1px
+      width: 20px
       color: #666
       font-size: 16px
       line-height: 1.2
@@ -357,15 +364,18 @@
       width: 48%
       padding: 0 1%
 
+    header
+      padding-bottom: 0
+
   .countries-controls
-    position: absolute
+    float: right
+    position: relative
     top: -1px
-    right: 20px
 
     > li
       display: inline-block
       position: relative
-      margin-left: 15px
+      margin-left: 10px
 
       &:first-child
         margin-left: 0

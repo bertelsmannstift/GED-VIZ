@@ -1,10 +1,9 @@
-define [
-  'underscore'
-  'lib/i18n'
-  'models/base/model'
-  'models/country'
-], (_, I18n, Model, Country) ->
+define (require) ->
   'use strict'
+  _ = require 'underscore'
+  I18n = require 'lib/i18n'
+  Model = require 'models/base/model'
+  Country = require 'models/country'
 
   class CountryGroup extends Model
 

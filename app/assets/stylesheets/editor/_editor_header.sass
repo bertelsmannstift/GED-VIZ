@@ -1,16 +1,13 @@
 $editor-header-color: #444
-$navigation-item-margin: 4px
-$navigation-item-height: $editor-header-height - $navigation-item-margin
 
 .editor .header-and-keyframe-configuration
   position: relative
   z-index: 202
   background-color: white
 
-.editor header
+.editor-header
   @extend %clearfix
-  height: $editor-header-height
-  font-weight: 400
+  min-height: $editor-header-height
   color: $editor-header-color
 
   a
@@ -19,61 +16,59 @@ $navigation-item-height: $editor-header-height - $navigation-item-margin
   // Logos
   // -----
 
-  h1, h2
+  .logo
+    display: block
     height: $editor-header-height
     +background-size(contain)
     background-repeat: no-repeat
     +hide-text
 
-  h1
+  .ged-logo
     float: left
     margin-left: 20px
     width: 150px
     +svg-bg-with-fallback('ged-logo')
     background-position: left center
 
-  h2
+  .bertelsmann-foundation-logo-container
     float: right
     margin-right: 20px
+
+  .bertelsmann-foundation-logo
     width: 160px
     +svg-bg-with-fallback('bertelsmann-foundation-logo')
     background-position: right center
 
-// Main navigation
-// ---------------
+// Introduction bubble / dialog
+// ----------------------------
 
-.editor .navigation
+.open-introduction
   float: left
-  padding-left: 25px
-
-  li
-    margin: $navigation-item-margin $navigation-item-margin 0 0
-    float: left
+  margin-left: 25px
+  margin-top: 5px
+  font-weight: 300
 
   a
-    @extend %border-box
-    display: block
-    border-radius: 5px 5px 0 0
-    height: $navigation-item-height
-    padding: 0 10px
-    background-color: #e6e6e6
-    font-size: 14px
-    line-height: $navigation-item-height + 1px
-    text-transform: uppercase
+    @extend %blue-button
     font-weight: 300
+    background-color: #e6e6e6
+    background-color: #0065b0
+    font-size: 14px
+    text-transform: uppercase
+
+  .help-icon
+    display: inline-block
+    // vertical-align: middle
+    border-radius: 50%
+    width: 16px
+    height: 16px
+    background-color: white
+    line-height: 20px
+    font-family: $monospace-font-stack
+    font-weight: bold
+    text-align: center
+    text-shadow: none
     color: black
-
-  .prefixed .main
-    color: #003082
-    font-weight: 400
-
-  // The selected navigation item
-  .selected
-    a
-      background-color: lighten($dark-background-gradient-color, 7%)
-    .main, .prefix
-      color: white
-      font-weight: 300
 
 // Language switch
 // ---------------
@@ -102,22 +97,3 @@ $navigation-item-height: $editor-header-height - $navigation-item-margin
 
   a:link, a:visited
     color: $editor-header-color
-
-// Introduction bubble / dialog
-// ----------------------------
-
-.open-introduction
-  float: left
-  margin-left: 10px
-  margin-top: 8px
-  border-radius: 50%
-  width: 18px
-  height: 18px
-  background-color: #0065b0
-  font-family: $monospace-font-stack
-  font-size: 14px
-  line-height: 22px
-  text-align: center
-
-  a:link, a:visited
-    color: white

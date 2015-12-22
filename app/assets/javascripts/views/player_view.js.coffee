@@ -1,25 +1,20 @@
-define [
-  'underscore'
-  'jquery'
-  'views/base/view'
-  'views/sharing_view'
-  'views/keyframe_configuration_view'
-  'views/keyframes_view'
-  'views/keyframe_year_view'
-  'views/contextbox_view'
-  'display_objects/chart'
-  'display_objects/static_chart'
-  'views/legend_view'
-  'lib/fullscreen'
-  'lib/i18n'
-  'lib/scale'
-  'lib/support'
-], (
-  _, $, View, SharingView, KeyframeConfigurationView, KeyframesView,
-  KeyframeYearView, ContextboxView, Chart, StaticChart, LegendView,
-  fullscreen, I18n, scale, support
-) ->
+define (require) ->
   'use strict'
+  _ = require 'underscore'
+  $ = require 'jquery'
+  View = require 'views/base/view'
+  SharingView = require 'views/sharing_view'
+  KeyframeConfigurationView = require 'views/keyframe_configuration_view'
+  KeyframesView = require 'views/keyframes_view'
+  KeyframeYearView = require 'views/keyframe_year_view'
+  ContextboxView = require 'views/contextbox_view'
+  Chart = require 'display_objects/chart'
+  StaticChart = require 'display_objects/static_chart'
+  LegendView = require 'views/legend_view'
+  fullscreen = require 'lib/fullscreen'
+  I18n = require 'lib/i18n'
+  scale = require 'lib/scale'
+  support = require 'lib/support'
 
   class PlayerView extends View
 

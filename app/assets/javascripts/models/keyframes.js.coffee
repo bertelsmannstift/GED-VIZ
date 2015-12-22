@@ -1,8 +1,7 @@
-define [
-  'models/base/collection'
-  'models/keyframe'
-], (Collection, Keyframe) ->
+define (require) ->
   'use strict'
+  Collection = require 'models/base/collection'
+  Keyframe = require 'models/keyframe'
 
   class Keyframes extends Collection
 

@@ -210,7 +210,7 @@ module IndicatorTypes
     # VR
     {
       prognos_name: 'vr210',
-      description: 'Capital Stock, Total Economy in US-$, real (Base Year=2005)',
+      description: 'Capital Stock, Total Economy in US-$, real (Base Year=2010)',
       group: 'capital',
       type: 'capital_stock_total',
       unit: 'bln_real_dollars',
@@ -218,7 +218,7 @@ module IndicatorTypes
     },
     {
       prognos_name: 'vr311',
-      description: 'Private Consumption in US-$, real (Base Year=2005)',
+      description: 'Private Consumption in US-$, real (Base Year=2010)',
       group: 'consumption',
       type: 'cons_pvt',
       unit: 'bln_real_dollars',
@@ -226,7 +226,7 @@ module IndicatorTypes
     },
     {
       prognos_name: 'vr312',
-      description: 'Consumption Total Government in US-$, real (Base Year=2005)',
+      description: 'Consumption Total Government in US-$, real (Base Year=2010)',
       group: 'consumption',
       type: 'cons_gvt',
       unit: 'bln_real_dollars',
@@ -234,14 +234,14 @@ module IndicatorTypes
     },
     {
       prognos_name: 'vr300',
-      description: 'Gross Domestic Product in US-$, real (Base Year=2005)',
+      description: 'Gross Domestic Product in US-$, real (Base Year=2010)',
       type: 'gdp',
       unit: 'bln_real_dollars',
       position: 0
     },
     {
       prognos_name: 'vr320',
-      description: 'Gross Fixed Capital Formation in US-$, real (Base Year=2005)',
+      description: 'Gross Fixed Capital Formation in US-$, real (Base Year=2010)',
       group: 'capital',
       type: 'cap_form',
       unit: 'bln_real_dollars',
@@ -249,7 +249,7 @@ module IndicatorTypes
     },
     {
       prognos_name: 'vr340',
-      description: 'Total Export in US-$, real (Base Year=2005)',
+      description: 'Total Export in US-$, real (Base Year=2010)',
       group: 'trade',
       type: 'export',
       unit: 'bln_real_dollars',
@@ -257,7 +257,7 @@ module IndicatorTypes
     },
     {
       prognos_name: 'vr350',
-      description: 'Total Import in US-$, real (Base Year=2005)',
+      description: 'Total Import in US-$, real (Base Year=2010)',
       group: 'trade',
       type: 'import',
       unit: 'bln_real_dollars',
@@ -530,7 +530,7 @@ module IndicatorTypes
     # ------------------------
 
     {
-      description: 'GDP in US-$ (real, Base Year=2005) per capita',
+      description: 'GDP in US-$ (real, Base Year=2010) per capita',
       type: 'gdp',
       unit: 'real_dollars_per_capita',
       formula: 'gdp(bln_real_dollars)/population_src(tsd_persons)',
@@ -539,7 +539,7 @@ module IndicatorTypes
     },
 
     {
-      description: 'Private Consumption in US-$ real (Base Year=2005) per capita',
+      description: 'Private Consumption in US-$ real (Base Year=2010) per capita',
       group: 'consumption',
       type: 'cons_pvt',
       unit: 'real_dollars_per_capita',
@@ -549,7 +549,7 @@ module IndicatorTypes
     },
 
     {
-      description: 'Consumption Total Government in US-$ real (Base Year=2005) per capita',
+      description: 'Consumption Total Government in US-$ real (Base Year=2010) per capita',
       group: 'consumption',
       type: 'cons_gvt',
       unit: 'real_dollars_per_capita',
@@ -559,7 +559,7 @@ module IndicatorTypes
     },
 
     {
-      description: 'Capital Stock, Total Economy in US-$ real (Base Year=2005) per capita',
+      description: 'Capital Stock, Total Economy in US-$ real (Base Year=2010) per capita',
       group: 'capital',
       type: 'capital_stock_total',
       unit: 'real_dollars_per_capita',
@@ -569,7 +569,7 @@ module IndicatorTypes
     },
 
     {
-      description: 'Gross Fixed Capital Formation in US-$, real (Base Year=2005) per capita',
+      description: 'Gross Fixed Capital Formation in US-$, real (Base Year=2010) per capita',
       group: 'capital',
       type: 'cap_form',
       unit: 'real_dollars_per_capita',
@@ -579,7 +579,7 @@ module IndicatorTypes
     },
 
     {
-      description: 'Total Import in US-$, real (Base Year=2005) per capita',
+      description: 'Total Import in US-$, real (Base Year=2010) per capita',
       group: 'trade',
       type: 'import',
       unit: 'real_dollars_per_capita',
@@ -589,7 +589,7 @@ module IndicatorTypes
     },
 
     {
-      description: 'Total Export in US-$, real (Base Year=2005) per capita',
+      description: 'Total Export in US-$, real (Base Year=2010) per capita',
       group: 'trade',
       type: 'export',
       unit: 'real_dollars_per_capita',

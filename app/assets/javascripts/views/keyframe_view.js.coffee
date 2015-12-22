@@ -1,11 +1,10 @@
-define [
-  'underscore'
-  'lib/i18n'
-  'models/bubble'
-  'views/base/view'
-  'views/bubble_view'
-], (_, I18n, Bubble, View, BubbleView) ->
+define (require) ->
   'use strict'
+  _ = require 'underscore'
+  I18n = require 'lib/i18n'
+  Bubble = require 'models/bubble'
+  View = require 'views/base/view'
+  BubbleView = require 'views/bubble_view'
 
   class KeyframeView extends View
 

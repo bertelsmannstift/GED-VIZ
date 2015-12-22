@@ -1,8 +1,7 @@
-define [
-  'underscore'
-  'display_objects/element'
-], (_, Element) ->
+define (require) ->
   'use strict'
+  _ = require 'underscore'
+  Element = require 'display_objects/element'
 
   # These methods are mixed into Chart
   # ----------------------------------

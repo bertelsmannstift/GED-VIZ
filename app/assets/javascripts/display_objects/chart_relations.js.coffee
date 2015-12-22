@@ -1,9 +1,8 @@
-define [
-  'underscore'
-  'display_objects/relation'
-  'lib/utils'
-], (_, Relation, utils) ->
+define (require) ->
   'use strict'
+  _ = require 'underscore'
+  Relation = require 'display_objects/relation'
+  utils = require 'lib/utils'
 
   # These methods are mixed into Chart
   # ----------------------------------

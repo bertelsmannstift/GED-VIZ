@@ -1,19 +1,13 @@
-define [
-  'underscore'
-  'raphael'
-  'display_objects/display_object'
-  'display_objects/chart_states'
-  'display_objects/chart_drawing'
-  'display_objects/chart_elements'
-  'display_objects/chart_relations'
-  'lib/utils'
-], (
-  _, Raphael, DisplayObject,
-  # Submodules
-  ChartStates, ChartDrawing, ChartElements, ChartRelations,
-  utils
-) ->
+define (require) ->
   'use strict'
+  _ = require 'underscore'
+  Raphael = require 'raphael'
+  DisplayObject = require 'display_objects/display_object'
+  ChartStates = require 'display_objects/chart_states'
+  ChartDrawing = require 'display_objects/chart_drawing'
+  ChartElements = require 'display_objects/chart_elements'
+  ChartRelations = require 'display_objects/chart_relations'
+  utils = require 'lib/utils'
 
   Raphael.easing_formulas.chartEaseOut = (n) -> Math.pow(n, 0.1)
 

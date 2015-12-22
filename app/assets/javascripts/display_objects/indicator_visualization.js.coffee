@@ -1,12 +1,11 @@
-define [
-  'underscore'
-  'jquery'
-  'raphael'
-  'display_objects/display_object'
-  'lib/colors'
-  'lib/type_data'
-], (_, $, Raphael, DisplayObject, Colors, TypeData) ->
+define (require) ->
   'use strict'
+  _ = require 'underscore'
+  $ = require 'jquery'
+  Raphael = require 'raphael'
+  DisplayObject = require 'display_objects/display_object'
+  Colors = require 'lib/colors'
+  TypeData = require 'lib/type_data'
 
   # Shortcuts
   # ---------
@@ -27,7 +26,6 @@ define [
     # percentCircle: Raphael.Element
     # percentArc: Raphael.Element
     # percentOverlay: Raphael.Element
-    # rankingLabel: Raphael.Element
     #
     # Drawing variables which are passed in:
     #
@@ -46,7 +44,6 @@ define [
       func = switch @data.representation
         when TypeData.UNIT_ABSOLUTE then @drawCircle
         when TypeData.UNIT_PROPORTIONAL then @drawPercent
-        # when utils.UNIT_RANKING then @drawRanking
       func.apply this
 
       @addMouseHandlers()

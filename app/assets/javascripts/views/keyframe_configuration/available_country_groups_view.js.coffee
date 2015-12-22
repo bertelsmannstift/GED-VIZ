@@ -1,8 +1,7 @@
-define [
-  'views/base/collection_view'
-  'views/keyframe_configuration/available_country_group_view'
-], (CollectionView, AvailableCountryGroupView) ->
+define (require) ->
   'use strict'
+  CollectionView = require 'views/base/collection_view'
+  AvailableCountryGroupView = require 'views/keyframe_configuration/available_country_group_view'
 
   class AvailableCountryGroupsView extends CollectionView
 

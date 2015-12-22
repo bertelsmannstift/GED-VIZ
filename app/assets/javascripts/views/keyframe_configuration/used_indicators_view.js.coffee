@@ -1,13 +1,12 @@
-define [
-  'underscore'
-  'lib/type_data'
-  'models/base/collection'
-  'views/base/view'
-  'views/base/collection_view'
-  'views/keyframe_configuration/used_indicator_view'
-  'jquery.sortable'
-], (_, TypeData, Collection, View, CollectionView, UsedIndicatorView) ->
+define (require) ->
   'use strict'
+  _ = require 'underscore'
+  TypeData = require 'lib/type_data'
+  Collection = require 'models/base/collection'
+  View = require 'views/base/view'
+  CollectionView = require 'views/base/collection_view'
+  UsedIndicatorView = require 'views/keyframe_configuration/used_indicator_view'
+  require 'jquery.sortable'
 
   class UsedIndicatorsView extends CollectionView
 

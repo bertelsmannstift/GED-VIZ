@@ -1,22 +1,16 @@
-define [
-  'jquery'
-  'models/base/collection'
-  'models/bubble'
-  'views/base/view'
-  'views/keyframe_configuration/country_context_view'
-  'views/keyframe_configuration/sort_countries_view'
-  'views/keyframe_configuration/country_picker_view'
-  'views/keyframe_configuration/used_countries_view'
-  'views/bubble_view'
-  'lib/sort_countries_request'
-  'lib/related_countries_request'
-], (
-  $, Collection, Bubble,
-  View, CountryContextView, SortCountriesView, CountryPickerView,
-  UsedCountriesView, BubbleView,
-  SortCountriesRequest, RelatedCountriesRequest
-) ->
+define (require) ->
   'use strict'
+  $ = require 'jquery'
+  Collection = require 'models/base/collection'
+  Bubble = require 'models/bubble'
+  View = require 'views/base/view'
+  CountryContextView = require 'views/keyframe_configuration/country_context_view'
+  SortCountriesView = require 'views/keyframe_configuration/sort_countries_view'
+  CountryPickerView = require 'views/keyframe_configuration/country_picker_view'
+  UsedCountriesView = require 'views/keyframe_configuration/used_countries_view'
+  BubbleView = require 'views/bubble_view'
+  SortCountriesRequest = require 'lib/sort_countries_request'
+  RelatedCountriesRequest = require 'lib/related_countries_request'
 
   class CountriesView extends View
 

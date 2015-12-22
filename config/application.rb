@@ -58,7 +58,7 @@ module GedViz
     #config.active_record.whitelist_attributes = true
 
     # Uglify HAML templates
-    if defined? ::HamlCoffeeAssets
+    if config.respond_to?(:hamlcoffee)
       config.hamlcoffee.uglify = true
     end
 

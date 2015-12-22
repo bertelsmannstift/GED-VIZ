@@ -1,8 +1,7 @@
-define [
-  'underscore'
-  'lib/currency_rules'
-], (_, currencyRules)->
+define (require) ->
   'use strict'
+  _ = require 'underscore'
+  currencyRules = require 'lib/currency_rules'
 
   getExchangeRate: (unit, year) ->
     for rule in currencyRules.conversions

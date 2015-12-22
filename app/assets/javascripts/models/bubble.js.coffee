@@ -1,7 +1,6 @@
-define [
-  'models/base/model'
-], (Model) ->
+define (require) ->
   'use strict'
+  Model = require 'models/base/model'
 
   class Bubble extends Model
 

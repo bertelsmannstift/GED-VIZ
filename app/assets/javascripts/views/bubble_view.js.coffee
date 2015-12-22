@@ -1,12 +1,11 @@
-define [
-  'underscore'
-  'jquery'
-  'views/base/view'
-  'lib/utils'
-  'lib/i18n'
-  'lib/support'
-], (_, $, View, utils, I18n, support) ->
+define (require) ->
   'use strict'
+  _ = require 'underscore'
+  $ = require 'jquery'
+  View = require 'views/base/view'
+  utils = require 'lib/utils'
+  I18n = require 'lib/i18n'
+  support = require 'lib/support'
 
   class BubbleView extends View
 

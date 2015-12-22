@@ -1,16 +1,15 @@
-define [
-  'jquery'
-  'chaplin/mediator'
-  'display_objects/display_object'
-  'lib/type_data'
-  'lib/colors'
-  'lib/magnet_colors'
-  'lib/i18n'
-  'lib/number_formatter'
-  'lib/scale'
-  'lib/utils'
-], ($, mediator, DisplayObject, TypeData, Colors, magnetColors, I18n, numberFormatter, scale, utils) ->
+define (require) ->
   'use strict'
+  $ = require 'jquery'
+  mediator = require 'chaplin/mediator'
+  DisplayObject = require 'display_objects/display_object'
+  TypeData = require 'lib/type_data'
+  Colors = require 'lib/colors'
+  magnetColors = require 'lib/magnet_colors'
+  I18n = require 'lib/i18n'
+  numberFormatter = require 'lib/number_formatter'
+  scale = require 'lib/scale'
+  utils = require 'lib/utils'
 
   # Shortcuts
   # ---------

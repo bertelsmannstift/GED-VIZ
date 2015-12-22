@@ -65,7 +65,7 @@ en:
     # Separators in a enumeration. Example: “France, USA and Italy”.
     enum_separator: ", "
     enum_separator_last: " and "
-    # Unit with a preposition, e.g. “in billion US-$ (constant prices, base 2005)”
+    # Unit with a preposition, e.g. “in billion US-$ (constant prices, base 2010)”
     value_in_unit: "in %{unit}"
 
     currencies:
@@ -317,7 +317,7 @@ en:
       sources: Sources
       legend: Legend
       about_heading: Made with GED VIZ
-      about_body: <p>This slideshow has been generated with <a href="https://viz.ged-project.de/" target="_blank">GED VIZ</a>, a web-tool for visualizing <a href="http://www.ged-project.de/" target="_blank">Global Economic Dynamics (GED)</a>. For more information on the tool including tutorial, FAQ, press material and contact, please visit <a href="http://www.ged-project.de/viz" target="_blank">www.ged-project.de/viz</a>.</p>
+      about_body: <p>This slideshow has been generated with <a href="https://viz.ged-project.de/" target="_blank">GED VIZ</a>, a web-tool for visualizing <a href="http://www.ged-project.de/" target="_blank">Global Economic Dynamics (GED)</a>. For more information on the tool including tutorial, FAQ, press material and contact, please visit <a href="http://ged-project.de/category/viz/" target="_blank">ged-project.de</a>.</p>
       partners_heading: Credits
       partners_body: "<p>Software development: 9elements<br>Visualization concept & UI design: Raureif and Prof. Boris Müller<br>Data support: Prognos</p><p>For developers: GED VIZ is open source and <a href='https://github.com/bertelsmannstift/GED-VIZ' target='_blank'>available on GitHub</a>.</p>"
       outdated_data_heading: Data update available
@@ -347,14 +347,12 @@ en:
         absolute: Bubble size relative to largest indicator value.
         # Relative values (e.g. percent) are visualized using a ring / pie chart.
         percent: Ring segment indicates percentage.
-        # Ranking values (e.g. rank 5) are visualized using a circle with a number in it.
-        ranking: Bubble shows ranking among all countries in the world
       # Tendency arrows up, right, down
       tendency: "Tendency arrows indicate change to previous year's value (i) for absolute values: relative change; (ii) for percentage values: difference in percent points."
       maximum_size: max. size
       # Currency exchange rate us Dollar / Euro
       exchange_rate: Exchange rate
-      eur_currency: "Original data in US-$. Average exchange rate in %{year}: $1 = €%{usd_in_eur_current}. For constant prices (base 2005): $1 = €%{usd_in_eur_constant}."
+      eur_currency: "Original data in US-$. Average exchange rate in %{year}: $1 = €%{usd_in_eur_current}. For constant prices (base 2010): $1 = €%{usd_in_eur_constant}."
 
     # The sources consist of a name and a link / URL,
     # separated by a semicolon “;”
@@ -477,12 +475,12 @@ en:
         with_value_html: <span class='unit'>$</span><span class='value'>%{number}</span><span class='suffix'>m</span>
       bln_real_dollars:
         short: billion $
-        full: billion US-$ (constant prices, base 2005)
+        full: billion US-$ (constant prices, base 2010)
         with_value: $ %{number}bn
         with_value_html: <span class='unit'>$</span><span class='value'>%{number}</span><span class='suffix'>bn</span>
       real_dollars_per_capita:
         short: $ p.c.
-        full: US-$ per capita (constant prices, base 2005)
+        full: US-$ per capita (constant prices, base 2010)
         with_value: "$ %{number} p.c."
         with_value_html: <span class='unit'>$</span><span class='value'>%{number}</span><span class='suffix'> p.c.</span>
 
@@ -498,12 +496,12 @@ en:
         with_value_html: <span class='unit'>€</span><span class='value'>%{number}</span><span class='suffix'>m</span>
       bln_real_euros:
         short: billion €
-        full: billion EUR (constant prices, base 2005)
+        full: billion EUR (constant prices, base 2010)
         with_value: € %{number}bn
         with_value_html: <span class='unit'>€</span><span class='value'>%{number}</span><span class='suffix'>bn</span>
       real_euros_per_capita:
         short: € p.c.
-        full: EUR per capita (constant prices, base 2005)
+        full: EUR per capita (constant prices, base 2010)
         with_value: "€ %{number} p.c."
         with_value_html: <span class='unit'>€</span><span class='value'>%{number}</span><span class='suffix'> p.c.</span>
 
@@ -598,7 +596,7 @@ en:
         capture: Click to add the current visualization to the slideshow.
         rename_slide: Click title to rename the current slide.
         # Indicator tooltip
-        # Example: GDP / Gross Domestic Product / in billion US-$ (constant prices, base 2005)
+        # Example: GDP / Gross Domestic Product / in billion US-$ (constant prices, base 2010)
         indicator_exp: <span class='bubble-acronym'>%{acronym}</span><span class='bubble-description'>%{description}</span><span class='bubble-unit'>in %{unit}</span>
         # Country list actions. ${name} refers to the country name.
         # Example: “Click to select France, drag and drop to reorder.”
@@ -733,29 +731,6 @@ en:
       cancel_button: Cancel
       close_dialog: Close
 
-    # Main editor navigation at the top
-    navigation:
-      home:
-        name: Home
-        description: Global Economic Dynamics
-        href: http://www.ged-project.de/
-      shorts:
-        name: Shorts
-        description: Stories, videos, visualizations
-        href: http://www.ged-project.de/shorts/
-      studies:
-        name: Studies
-        description: Overviews and downloads
-        href: http://www.ged-project.de/studies/
-      viz:
-        name: VIZ
-        description: Create visualizations
-        href: http://www.ged-project.de/viz/
-      about:
-        name: About GED
-        description: ""
-        href: http://www.ged-project.de/about/
-
     # Editor introduction dialog
     # This dialog is shown when the user clicks on the (I) info button
     # in the main navigation.
@@ -767,12 +742,12 @@ en:
       welcome_p2: Watch the video to see how it works. Questions or remarks? Send us your feedback!
       watch_tutorial: Watch tutorial
       feedback: Feedback
-      feedback_url: http://www.ged-project.de/contact/
+      feedback_url: https://www.bertelsmann-stiftung.de/de/ueber-uns/wer-wir-sind/ansprechpartner/mitarbeiter/cid/jan-arpe/
       start_tool: Start the tool
       what_is_it_heading: The GED project
       what_is_it_body: <p>GED VIZ is part of the <a href="http://www.ged-project.de/" target="_blank">Global Economic Dynamics (GED) project</a>. The project aims at contributing to a better understanding of the growing complexity of economic developments through analyses, visualizations, policy recommendations and tools. It focuses on relations, exchange and dependencies between countries.</p>
       in_action_heading: Additional material
-      in_action_body: <p>Find more information including videos, press links, example articles and press material at <a href="http://www.ged-project.de/viz/" target="_blank">www.ged-project.de/viz/</a>.</p>
+      in_action_body: <p>Find more information including videos, press links, example articles and press material at <a href="http://ged-project.de/category/viz/" target="_blank">ged-project.de</a>.</p>
       version_history_heading: Change history
       version_history_body: <p>We update the data that power the visualizations regularly. <a href="/versions" target="_blank">Read the data version history</a>.</p>
       partners_heading: Credits

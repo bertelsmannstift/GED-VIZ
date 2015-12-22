@@ -1,7 +1,8 @@
-%h2= @t 'editor', 'country_indicators'
+%header
+  %h2= @t 'editor', 'country_indicators'
 
-%a.add-indicator{ href: '', title: @t('editor', 'add_indicator') }
-  %span= @t 'editor', 'add_indicator'
+  %a.add-indicator{ href: '', title: @t('editor', 'add_indicator') }
+    %span= @t 'editor', 'add_indicator'
 
 .add-indicator-menu
   - indicatorItem = (indicator) ->

@@ -3,7 +3,7 @@ require 'currency_converter'
 class IndicatorValueImporter < Importer
 
   # The main input file
-  INPUT_FILENAME = 'Prognos_out_unilateral_2014-06-06.csv'
+  INPUT_FILENAME = 'Prognos_out_unilateral_2015-10-28.csv'
 
   attr_reader :all_country_ids, :country_id_by_iso3, :type_id_by_key, :unit_id_by_key
 
@@ -166,9 +166,9 @@ class IndicatorValueImporter < Importer
     end
 
     if dividend.nil? || divisor.nil?
-      puts "\tCould not find sources for quotient type #{twu},\n"
+      puts "\tCould not find sources for quotient type #{twu},"
       puts "\t\tdividend: #{dividend_twu}, divisor: #{divisor_twu}"
-      puts "\t\tcountry: #{country_id}, year: #{year}\n"
+      puts "\t\tcountry: #{country_id}, year: #{year}"
       return
     end
 
@@ -180,7 +180,14 @@ class IndicatorValueImporter < Importer
 
     # Calculate quotient
     value = dividend / divisor
-    #puts "\t#{year}: #{value}"
+
+    #puts "\t#{year}: #{dividend} / #{divisor} = #{value}"
+
+    unless value.finite?
+      puts "\tquotient is not finite:"
+      puts "\t\t#{dividend.class} #{dividend} / #{divisor.class} #{divisor} = #{value.class} #{value}"
+      return
+    end
 
     IndicatorValue.create!(
       indicator_type_id: twu.type.id,

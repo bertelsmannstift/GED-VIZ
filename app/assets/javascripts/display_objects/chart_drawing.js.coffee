@@ -1,10 +1,9 @@
-define [
-  'raphael'
-  'lib/i18n'
-  'lib/scale'
-  'lib/utils'
-], (Raphael, I18n, scale, utils) ->
+define (require) ->
   'use strict'
+  Raphael = require 'raphael'
+  I18n = require 'lib/i18n'
+  scale = require 'lib/scale'
+  utils = require 'lib/utils'
 
   # Shortcuts
   # ---------

@@ -1,9 +1,8 @@
-define [
-  'underscore'
-  'models/base/model'
-  'models/presentation'
-], (_, Model, Presentation) ->
+define (require) ->
   'use strict'
+  _ = require 'underscore'
+  Model = require 'models/base/model'
+  Presentation = require 'models/presentation'
 
   class Editor extends Model
 

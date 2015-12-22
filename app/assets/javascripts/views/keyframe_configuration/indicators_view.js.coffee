@@ -1,19 +1,15 @@
-define [
-  'underscore'
-  'models/base/collection'
-  'models/bubble'
-  'views/base/view'
-  'views/base/collection_view'
-  'views/keyframe_configuration/used_indicators_view'
-  'views/bubble_view'
-  'lib/currency'
-  'lib/type_data'
-  'jquery.sortable'
-], (
-  _, Collection, Bubble, View, CollectionView, UsedIndicatorsView, BubbleView,
-  Currency, TypeData
-) ->
+define (require) ->
   'use strict'
+  _ = require 'underscore'
+  Collection = require 'models/base/collection'
+  Bubble = require 'models/bubble'
+  View = require 'views/base/view'
+  CollectionView = require 'views/base/collection_view'
+  UsedIndicatorsView = require 'views/keyframe_configuration/used_indicators_view'
+  BubbleView = require 'views/bubble_view'
+  Currency = require 'lib/currency'
+  TypeData = require 'lib/type_data'
+  require 'jquery.sortable'
 
   class IndicatorsView extends View
 

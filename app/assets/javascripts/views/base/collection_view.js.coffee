@@ -1,8 +1,7 @@
-define [
-  'chaplin',
-  'views/base/view'
-], (Chaplin, View) ->
+define (require) ->
   'use strict'
+  Chaplin = require 'chaplin'
+  View = require 'views/base/view'
 
   class CollectionView extends Chaplin.CollectionView
 

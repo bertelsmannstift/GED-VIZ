@@ -1,18 +1,14 @@
-define [
-  'underscore'
-  'chaplin/lib/sync_machine'
-  'models/base/model'
-  'models/country_group'
-  'models/element'
-  'models/country_factory'
-  'lib/i18n'
-  'lib/type_data'
-  'lib/type_text_helper'
-], (
-  _, SyncMachine, Model, CountryGroup, Element, CountryFactory,
-  I18n, TypeData, TypeTextHelper
-) ->
+define (require) ->
   'use strict'
+  _ = require 'underscore'
+  SyncMachine = require 'chaplin/lib/sync_machine'
+  Model = require 'models/base/model'
+  CountryGroup = require 'models/country_group'
+  Element = require 'models/element'
+  CountryFactory = require 'models/country_factory'
+  I18n = require 'lib/i18n'
+  TypeData = require 'lib/type_data'
+  TypeTextHelper = require 'lib/type_text_helper'
 
   class Keyframe extends Model
 

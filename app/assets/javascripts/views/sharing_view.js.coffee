@@ -1,14 +1,13 @@
-define [
-  'jquery'
-  'raphael'
-  'views/base/view'
-  'views/save_view'
-  'views/embed_view'
-  'views/export_view'
-  'lib/colors'
-  'lib/i18n'
-], ($, Raphael, View, SaveView, EmbedView, ExportView, Colors, I18n) ->
+define (require) ->
   'use strict'
+  $ = require 'jquery'
+  Raphael = require 'raphael'
+  View = require 'views/base/view'
+  SaveView = require 'views/save_view'
+  EmbedView = require 'views/embed_view'
+  ExportView = require 'views/export_view'
+  Colors = require 'lib/colors'
+  I18n = require 'lib/i18n'
 
   class SharingView extends View
 

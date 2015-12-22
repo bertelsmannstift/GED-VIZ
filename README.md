@@ -3,17 +3,11 @@
 GED VIZ lets you create and share visualizations of global economic relations -
 for research, teaching and storytelling.
 
-The online version:
+[The online version: viz.ged-project.de](http://viz.ged-project.de)
 
-http://viz.ged-project.de
+[Watch the video to see how it works](https://www.youtube.com/watch?v=FNUT-KwKd58).
 
-Watch the video to see how it works:
-
-https://www.youtube.com/watch?v=FNUT-KwKd58
-
-Questions or remarks? Send us your feedback!
-
-http://www.ged-project.de/contact/
+Questions or remarks? [Send us your feedback!](https://www.bertelsmann-stiftung.de/de/ueber-uns/wer-wir-sind/ansprechpartner/mitarbeiter/cid/jan-arpe/)
 
 ## Implementation
 
@@ -48,9 +42,10 @@ directory and enter these commands:
 - Start the local development server:<br>
   `rails server`
 
-If you deploy the software on an Internet or Intranet server, please replace
-the term “GED VIZ” and trademarked logos which aren’t covered by the MIT
-license. See [LICENSE.md](https://github.com/bertelsmannstift/GED-VIZ/blob/master/LICENSE.md)
+This software is open source, but the trademark “GED VIZ” and the logos
+are *not* covered by the MIT license. If you deploy the software on an Internet
+or Intranet server, please replace these terms and logos with your own.
+See [LICENSE.md](https://github.com/bertelsmannstift/GED-VIZ/blob/master/LICENSE.md)
 for further instructions.
 
 ## About
@@ -59,9 +54,7 @@ The “Global Economic Dynamics” (GED) project of the
 [Bertelsmann Foundation](http://www.bertelsmann-stiftung.de/) aims to
 contribute to a better understanding of the growing complexity of economic developments.
 
-Project manager: [Dr. Jan Arpe](http://www.ged-project.de/our-team/)
-
-[Contact to the GED team](http://www.ged-project.de/contact/)
+Project manager: [Dr. Jan Arpe](https://www.bertelsmann-stiftung.de/de/ueber-uns/wer-wir-sind/ansprechpartner/mitarbeiter/cid/jan-arpe/)
 
 Software Development: [9elements](http://9elements.com)
 

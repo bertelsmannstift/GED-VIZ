@@ -1,8 +1,7 @@
-define [
-  'jquery'
-  'views/base/view'
-], ($, View) ->
+define (require) ->
   'use strict'
+  $ = require 'jquery'
+  View = require 'views/base/view'
 
   class ModalDialogView extends View
 

@@ -1,8 +1,7 @@
-define [
-  'underscore'
-  'jquery'
-], (_, $) ->
+define (require) ->
   'use strict'
+  _ = require 'underscore'
+  $ = require 'jquery'
 
   # The static chart is just an image gallery that just shows the keyframes
   # as static PNGs. It’s a fallback for browser that don’t support VML/SVG.

@@ -1,12 +1,11 @@
-define [
-  'models/bubble'
-  'views/base/collection_view'
-  'views/keyframe_configuration/used_country_view'
-  'views/keyframe_configuration/country_context_view'
-  'views/bubble_view'
-  'jquery.sortable'
-], (Bubble, CollectionView, UsedCountryView, CountryContextView, BubbleView) ->
+define (require) ->
   'use strict'
+  Bubble = require 'models/bubble'
+  CollectionView = require 'views/base/collection_view'
+  UsedCountryView = require 'views/keyframe_configuration/used_country_view'
+  CountryContextView = require 'views/keyframe_configuration/country_context_view'
+  BubbleView = require 'views/bubble_view'
+  require 'jquery.sortable'
 
   class UsedCountriesView extends CollectionView
 

@@ -1,9 +1,7 @@
-define [
-  'chaplin'
-  # Just load the view helpers, no return value
-  'lib/view_helper'
-], (Chaplin) ->
+define (require) ->
   'use strict'
+  Chaplin = require 'chaplin'
+  require 'lib/view_helper'
 
   class View extends Chaplin.View
 

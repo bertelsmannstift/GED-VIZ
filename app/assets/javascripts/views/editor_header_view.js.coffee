@@ -1,17 +1,18 @@
-define [
-  'views/base/view'
-  'views/editor_introduction_view'
-  'configuration'
-  'models/bubble'
-  'views/bubble_view'
-], (View, EditorIntroductionView, configuration, Bubble, BubbleView) ->
+define (require) ->
   'use strict'
+  I18n = require 'lib/i18n'
+  View = require 'views/base/view'
+  EditorIntroductionView = require 'views/editor_introduction_view'
+  configuration = require 'configuration'
+  Bubble = require 'models/bubble'
+  BubbleView = require 'views/bubble_view'
 
   class EditorHeaderView extends View
 
     templateName: 'editor_header'
 
     tagName: 'header'
+    className: 'editor-header'
 
     events:
       'click .open-introduction': 'openIntroduction'
@@ -56,13 +57,7 @@ define [
 
     getTemplateData: ->
       data = super
-      data.items = [
-        { key: 'home', prefix: true }
-        { key: 'shorts', prefix: true }
-        { key: 'studies', prefix: true }
-        { key: 'viz', prefix: true, selected: true }
-        { key: 'about' }
-      ]
+      data.items = I18n.translateObject ['navigation']
       data.locales = configuration.available_locales
       data.locale = configuration.locale
       data

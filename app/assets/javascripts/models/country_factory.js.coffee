@@ -1,8 +1,7 @@
-define [
-  'models/country'
-  'models/country_group'
-], (Country, CountryGroup) ->
+define (require) ->
   'use strict'
+  Country = require 'models/country'
+  CountryGroup = require 'models/country_group'
 
   build: (attributes) ->
     if attributes.type is 'Country'

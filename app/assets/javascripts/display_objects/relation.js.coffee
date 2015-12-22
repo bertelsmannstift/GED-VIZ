@@ -1,20 +1,16 @@
-define [
-  'jquery'
-  'underscore'
-  'raphael'
-  'chaplin/mediator'
-  'display_objects/display_object'
-  'lib/type_data'
-  'lib/colors'
-  'lib/magnet_colors'
-  'lib/i18n'
-  'lib/number_formatter'
-  'lib/utils'
-], (
-  $, _, Raphael, mediator, DisplayObject,
-  TypeData, Colors, magnetColors, I18n, numberFormatter, utils
-) ->
+define (require) ->
   'use strict'
+  $ = require 'jquery'
+  _ = require 'underscore'
+  Raphael = require 'raphael'
+  mediator = require 'chaplin/mediator'
+  DisplayObject = require 'display_objects/display_object'
+  TypeData = require 'lib/type_data'
+  Colors = require 'lib/colors'
+  magnetColors = require 'lib/magnet_colors'
+  I18n = require 'lib/i18n'
+  numberFormatter = require 'lib/number_formatter'
+  utils = require 'lib/utils'
 
   # Shortcuts
   # ---------
@@ -79,7 +75,7 @@ define [
       @stackedAmountTo, @missingRelations, @$container) ->
       super
 
-      @id = "#{fromId}>#{toId}"
+      @id = "#{@fromId}>#{@toId}"
 
       @initStates
         states:

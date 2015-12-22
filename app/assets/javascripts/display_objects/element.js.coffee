@@ -1,11 +1,10 @@
-define [
-  'underscore'
-  'display_objects/display_object'
-  'display_objects/magnet'
-  'display_objects/indicators'
-  'lib/utils'
-], (_, DisplayObject, Magnet, Indicators, utils) ->
+define (require) ->
   'use strict'
+  _ = require 'underscore'
+  DisplayObject = require 'display_objects/display_object'
+  Magnet = require 'display_objects/magnet'
+  Indicators = require 'display_objects/indicators'
+  utils = require 'lib/utils'
 
   # Shortcuts
   # ---------
