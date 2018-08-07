@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 source 'https://rubygems.org'
 
-gem 'rails', '~> 3.2.22'
+gem 'rails', '3.2.22'
 gem 'haml'
-gem 'mysql2', '0.3.10'
+gem 'mysql2', '~> 0.3.10'
 
+gem 'test-unit', '~> 3.0'
 # Needs to be outside of assets group because it’s needed in production
 # Use a patched version with an updated r.js file
 gem 'requirejs-rails', '0.9.1', path: 'vendor/gems/requirejs-rails-0.9.1'
 gem 'memcache-client'
 gem 'rubyzip'
-gem 'exception_notification'
 gem 'http_accept_language'
 gem 'diffy'
 
@@ -23,8 +23,8 @@ group :assets do
   # Explicitly lock tilt to avoid clashes with Rails
   # see https://github.com/netzpirat/haml_coffee_assets/issues/118
   gem 'tilt', '~> 1.3.3'
-  gem 'therubyracer', '~> 0.12.0', platform: :ruby
-  gem 'libv8', '~> 3.16.14.3', platform: :ruby
+  gem 'therubyracer', platform: :ruby
+  gem 'libv8', platform: :ruby
   gem 'uglifier'
 end
 
@@ -35,12 +35,11 @@ group :development do
   gem 'quiet_assets'
   #gem 'ruby-debug'
   #gem 'ruby-debug-ide'
-  gem 'byebug'
+  gem 'pry-byebug'
   gem 'rb-fsevent'
-  gem 'capistrano', '~> 2.15.5'
 end
 
-#group :test do
+group :test do
   #gem 'jasmine'
   #gem 'guard-jasmine'
   #gem 'jasminerice'
@@ -56,4 +55,4 @@ end
   #gem 'shoulda'
   #gem 'spork'
   #gem 'webmock'
-#end
+end
