@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.22'
+gem 'rails', '3.2.22.5'
 gem 'haml'
 gem 'mysql2', '~> 0.3.10'
 
@@ -32,7 +32,6 @@ group :development do
   gem 'pry'
   gem 'better_errors'
   gem 'thin'
-  gem 'quiet_assets'
   #gem 'ruby-debug'
   #gem 'ruby-debug-ide'
   gem 'pry-byebug'
