@@ -626,10 +626,8 @@ fr:
       video_id: FNUT-KwKd58
       welcome_heading: Bienvenu sur GED VIZ
       welcome_p1: GED VIZ vous permet de créer puis partager des visuels faisant apparaitre les interactions, flux et liens qui structurent l’économie mondiale. Cet outil vous permettra d’illustrer facilement vos analyses, que ce soit dans le cadre d’une recherche, ou dans un but didactique.
-      welcome_p2: Regardez la vidéo pour profiter d’un tutoriel. Des remarques ? Une question ? Donnez-nous votre avis !
+      welcome_p2: Regardez la vidéo pour profiter d’un tutoriel.
       watch_tutorial: Regarder le tutoriel
-      feedback: Donnez-nous votre avis
-      feedback_url: https://www.bertelsmann-stiftung.de/de/ueber-uns/wer-wir-sind/ansprechpartner/mitarbeiter/cid/jan-arpe/
       start_tool: Commencer à utilizer GED VIZ
       what_is_it_heading: "GED: le projet"
       what_is_it_body: <p>GED VIZ fait partie du <a href="http://www.ged-project.de/" target="_blank">projet Global Economic Dynamics (GED)</a>. Ce projet a pour but de contribuer à une meilleure compréhension d’un univers économique aux mécanismes de plus en plus complexes, et ce à travers des analyses, des visuels ou encore des recommandations adressées aux décideurs. Le projet se concentre sur les relations, échanges et dépendances qui lient et relient les pays autour du globe.</p>

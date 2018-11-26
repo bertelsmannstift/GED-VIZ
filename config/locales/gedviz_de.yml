@@ -227,7 +227,7 @@ de:
 
     relation:
       import: exportierte %{from_with_article} nach %{to_with_article}
-      import_derived: '%{data_type} exportiert<br>von %{from_with_article} nach %{to_with_article}'
+      import_derived: "%{data_type} exportiert<br>von %{from_with_article} nach %{to_with_article}"
       claims: schuldete %{to_with_article} an %{from_with_article}
       migration: migrierten von %{from_with_article} nach %{to_with_article}
 
@@ -253,7 +253,7 @@ de:
       sources: Quellen
       legend: Legende
       about_heading: Erzeugt mit GED VIZ
-      about_body: <p>Diese Slideshow wurde mit <a href="https://viz.ged-project.de/" target="_blank">GED VIZ</a> erzeugt, einem Webtool zur Visualisierung weltwirtschaftlicher Dynamiken aus dem Projekt <a href="http://www.ged-project.de/">Global Economic Dynamics (GED)</a>. Mehr Materialien zum Tool einschließlich Tutorial, FAQ, Pressematerial und Kontaktinformation sind unter <a href="http://ged-project.de/category/viz/" target="_blank">ged-project.de</a> verfügbar.</p>
+      about_body: <p>Diese Slideshow wurde mit <a href="https://viz.ged-project.de/" target="_blank">GED VIZ</a> erzeugt, einem Webtool zur Visualisierung weltwirtschaftlicher Dynamiken aus dem Projekt <a href="http://ged-project.de/">Global Economic Dynamics (GED)</a>. Mehr Materialien zum Tool einschließlich Tutorial, FAQ, Pressematerial und Kontaktinformation sind unter <a href="http://ged-project.de/category/viz/" target="_blank">ged-project.de</a> verfügbar.</p>
       partners_heading: Partner
       partners_body: "<p>Softwareentwicklung: 9elements<br>Visualisierungskonzept & UI-Design: Raureif and Prof. Boris Müller<br>Datenrecherche: Prognos</p><p>Für Entwickler: GED VIZ ist Open Source und verfügbar auf <a href='https://github.com/bertelsmannstift/GED-VIZ' target='_blank'>GitHub</a>.</p>"
       outdated_data_heading: Aktualisierter Datensatz verfügbar
@@ -527,8 +527,8 @@ de:
           migration: "Summe aller Migrationsströme der angezeigten Länder in %{year}:<br>%{number}"
           claims: "Summe aller ausländischen Bankforderungen der angezeigten Länder in %{year}:<br>%{number}"
         currencies:
-           usd: US-Dollar
-           eur: Euro
+          usd: US-Dollar
+          eur: Euro
       notification:
         default: Infoblase
         capture_slide_1: Halte eine erste Slide fest, um eine Slideshow zum teilen, einbetten und exportieren zu erzeugen.
@@ -549,7 +549,6 @@ de:
 
     # Editor
     editor:
-
       loading_indicator: Daten werden geladen, bitte einen Moment gedulden…
       element_count_error: Füge ein Land oder eine Ländergruppe hinzu.
 
@@ -630,17 +629,15 @@ de:
       video_id: 2gU7pFoSslc
       welcome_heading: Willkommen bei GED VIZ
       welcome_p1: Mit GED VIZ lassen sich Visualisierungen globaler Wirtschaftsbeziehungen erzeugen und teilen – zum Einsatz in Forschung und Lehre oder zur Unterstützung beim Storytelling.
-      welcome_p2: Das Video zeigt, wie das funktioniert. Fragen oder Anregungen? Wir freuen uns über Feedback!
+      welcome_p2: Das Video zeigt, wie das funktioniert.
       watch_tutorial: Tutorial ansehen
-      feedback: Feedback
-      feedback_url: https://www.bertelsmann-stiftung.de/de/ueber-uns/wer-wir-sind/ansprechpartner/mitarbeiter/cid/jan-arpe/
       start_tool: Loslegen
       what_is_it_heading: Das GED-Projekt
-      what_is_it_body: <p>GED VIZ ist Teil des Projekts <a href="http://www.ged-project.de" target="_blank">Global Economic Dynamics (GED)</a>. Ziel des Projekts ist es, zu einem besseren Verständnis der wachsenden Komplexität ökonomischer Entwicklungen beizutragen. Hierzu stellt es Analysen, Visualisierungen, politische Handlungsempfehlungen und Werkzeuge zur Verfügung. Dabei stehen Beziehungen, Austausch und Abhängigkeiten zwischen Ländern im Vordergrund.</p>
+      what_is_it_body: <p>GED VIZ war ein Modul des Projekts <a href="http://ged-project.de" target="_blank">Global Economic Dynamics (GED)</a>. Ziel des Projekts ist es, zu einem besseren Verständnis der wachsenden Komplexität ökonomischer Entwicklungen beizutragen. Hierzu stellt es Analysen, Visualisierungen, politische Handlungsempfehlungen und Werkzeuge zur Verfügung. Dabei stehen Beziehungen, Austausch und Abhängigkeiten zwischen Ländern im Vordergrund.</p>
       in_action_heading: Weitere Materialien
       in_action_body: <p>Mehr Informationen einschließlich Videos, Presselinks, Beispielartikeln und Pressematerial unter <a href="http://ged-project.de/category/viz/" target="_blank">ged-project.de</a>.</p>
       version_history_heading: Versionsverlauf
-      version_history_body: <p>Wir aktualisieren die Daten, die den Visualisierungen zugrunde liegen, regelmäßig. <a href="/versions" target="_blank">Auflistung aller Änderungen</a>.</p>
+      version_history_body: <p>Die Daten, die den Visualisierungen zugrunde liegen, werden nicht mehr aktualisiert. <a href="/versions" target="_blank">Auflistung aller Änderungen</a>.</p>
       partners_heading: Partner
       partners_body: "<p>Softwareentwicklung: 9elements<br>Visualisierungskonzept & UI-Design: Raureif and Prof. Boris Müller<br>Datenrecherche: Prognos</p><p>Für Entwickler: GED VIZ ist Open Source und verfügbar auf <a href='https://github.com/bertelsmannstift/GED-VIZ' target='_blank'>GitHub</a>.</p>"
 

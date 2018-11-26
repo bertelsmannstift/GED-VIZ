@@ -18,10 +18,6 @@
           %li
             %a.tutorial(href='')= @t 'introduction_dialog', 'watch_tutorial'
           %li
-            - href = @t 'introduction_dialog', 'feedback_url'
-            %a.feedback(href=href target='_blank')
-              = @t 'introduction_dialog', 'feedback'
-          %li
             %a.start(href='')= @t 'introduction_dialog', 'start_tool'
 
     .about

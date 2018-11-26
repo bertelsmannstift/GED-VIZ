@@ -739,10 +739,8 @@ en:
       video_id: FNUT-KwKd58
       welcome_heading: Welcome to GED VIZ
       welcome_p1: GED VIZ lets you create and share visualizations of global economic relations – for research, teaching and storytelling.
-      welcome_p2: Watch the video to see how it works. Questions or remarks? Send us your feedback!
+      welcome_p2: Watch the video to see how it works.
       watch_tutorial: Watch tutorial
-      feedback: Feedback
-      feedback_url: https://www.bertelsmann-stiftung.de/de/ueber-uns/wer-wir-sind/ansprechpartner/mitarbeiter/cid/jan-arpe/
       start_tool: Start the tool
       what_is_it_heading: The GED project
       what_is_it_body: <p>GED VIZ is part of the <a href="http://www.ged-project.de/" target="_blank">Global Economic Dynamics (GED) project</a>. The project aims at contributing to a better understanding of the growing complexity of economic developments through analyses, visualizations, policy recommendations and tools. It focuses on relations, exchange and dependencies between countries.</p>
