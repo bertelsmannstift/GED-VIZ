@@ -319,7 +319,7 @@ en:
       about_heading: Made with GED VIZ
       about_body: <p>This slideshow has been generated with <a href="https://viz.ged-project.de/" target="_blank">GED VIZ</a>, a web-tool for visualizing <a href="http://www.ged-project.de/" target="_blank">Global Economic Dynamics (GED)</a>. For more information on the tool including tutorial, FAQ, press material and contact, please visit <a href="http://ged-project.de/category/viz/" target="_blank">ged-project.de</a>.</p>
       partners_heading: Credits
-      partners_body: "<p>Software development: 9elements<br>Visualization concept & UI design: Raureif and Prof. Boris Müller<br>Data support: Prognos</p><p>For developers: GED VIZ is open source and <a href='https://github.com/bertelsmannstift/GED-VIZ' target='_blank'>available on GitHub</a>.</p>"
+      partners_body: "<p>Former project manager: Dr. Jan Arpe<br>Software development: 9elements<br>Visualization concept & UI design: Raureif and Prof. Boris Müller<br>Data support: Prognos</p><p>For developers: <a href='https://github.com/bertelsmannstift/GED-VIZ' target='_blank'>GED VIZ is open source and available on GitHub</a>.</p>"
       outdated_data_heading: Data update available
       outdated_data_body: "The dataset used for this slideshow has been updated. Please refer to the <a href='/versions' target='_blank'>data change log</a> for details or <a href='/edit/%{id}' target='_blank'>visit the GED VIZ editor</a> to view the latest data. (old: %{data_version} / new: %{latest_data_version})"
       toggle_open: more

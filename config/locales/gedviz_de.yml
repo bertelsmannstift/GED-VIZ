@@ -639,7 +639,7 @@ de:
       version_history_heading: Versionsverlauf
       version_history_body: <p>Die Daten, die den Visualisierungen zugrunde liegen, werden nicht mehr aktualisiert. <a href="/versions" target="_blank">Auflistung aller Änderungen</a>.</p>
       partners_heading: Partner
-      partners_body: "<p>Softwareentwicklung: 9elements<br>Visualisierungskonzept & UI-Design: Raureif and Prof. Boris Müller<br>Datenrecherche: Prognos</p><p>Für Entwickler: GED VIZ ist Open Source und verfügbar auf <a href='https://github.com/bertelsmannstift/GED-VIZ' target='_blank'>GitHub</a>.</p>"
+      partners_body: "<p>Ehemaliger Projektmanager: Dr. Jan Arpe<br>Softwareentwicklung: 9elements<br>Visualisierungskonzept & UI-Design: Raureif and Prof. Boris Müller<br>Datenrecherche: Prognos</p><p>Für Entwickler: <a href='https://github.com/bertelsmannstift/GED-VIZ' target='_blank'>GED VIZ ist Open Source und verfügbar auf GitHub</a>.</p>"
 
     # Keyframe year list
     year_list:
