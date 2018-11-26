@@ -4,11 +4,6 @@ class PresentationsController < ApplicationController
     after_filter :cache_page_with_locale, only: [:show, :edit]
   end
 
-  if Rails.env.staging?
-    http_basic_authenticate_with name: 'staging', password: 'stocksnflows',
-      only: [:new, :edit]
-  end
-
   def new
     render_presentation(ExamplePresentation.cached_instance)
   end
