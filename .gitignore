@@ -24,3 +24,5 @@
 public/assets
 public/system/static
 public/page_cache
+
+config/database.yml
