@@ -54,10 +54,14 @@ The “Global Economic Dynamics” (GED) project of the
 [Bertelsmann Foundation](http://www.bertelsmann-stiftung.de/) aims to
 contribute to a better understanding of the growing complexity of economic developments.
 
-Project manager: [Dr. Jan Arpe](https://www.bertelsmann-stiftung.de/de/ueber-uns/wer-wir-sind/ansprechpartner/mitarbeiter/cid/jan-arpe/)
+Project manager: [Dr. Jan Arpe](https://jan-arpe.com/)
+
+Visualization concept & UI design: [Raureif](https://raureif.net/) and [Prof. Boris Müller](https://esono.com/)
+
+Data support: [Prognos](https://www.prognos.com/)
 
 Software Development: [9elements](http://9elements.com)
 
 Technical and security contact: Mathias Schäfer,
 [mathias.schaefer@9elements.com](mailto:mathias.schaefer@9elements.com),
-[github.com/molily](https://github.com/molily)
+[@molily](https://github.com/molily)
